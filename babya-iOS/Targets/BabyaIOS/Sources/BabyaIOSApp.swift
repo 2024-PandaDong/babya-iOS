@@ -1,14 +1,8 @@
-//
-//  BabyaApp.swift
-//  Babya
-//
-//  Created by dgsw8th61 on 3/5/24.
-//
-
 import SwiftUI
+import BabyaIOSUI
 
 @main
-struct BabyaApp: App {
+struct BabyaIOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
