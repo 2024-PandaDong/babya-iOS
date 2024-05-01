@@ -11,7 +11,7 @@ import SwiftUI
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
-            Text("애기야")
+            ContentView()
         }
     }
 }
