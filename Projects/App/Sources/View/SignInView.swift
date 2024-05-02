@@ -14,9 +14,9 @@ struct SignInView : View {
     
     var body: some View {
         ZStack{
-            Color(UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)).ignoresSafeArea()
+            Color.gray0.ignoresSafeArea()
             circle()
-                .fill(.gray)
+                .fill(Color.yellow)
                 .ignoresSafeArea()
             
             VStack{
@@ -25,16 +25,20 @@ struct SignInView : View {
                         Text("애기야에 오신걸")
                             .bold()
                             .font(.system(size: 32))
+                            .foregroundColor(.white)
                         Text("환영합니다")
+                            .foregroundColor(.white)
                             .bold()
                             .font(.system(size: 32))
                         
                         Text("로그인 방식을 선택해 주세요")
                             .bold()
+                            .foregroundColor(.white)
                             .font(.system(size: 16))
                             .padding(.vertical,23)
                         
                         Text("당신의 정보를 입력해주세요.")
+                            .foregroundColor(Color.gray1)
                             .font(.system(size: 16))
                             .padding(.top,40)
                         
@@ -47,6 +51,7 @@ struct SignInView : View {
                     Text("이메일")
                         .font(.system(size: 13))
                         .padding(.top,10)
+                        .foregroundColor(Color.gray1)
                     
                     HStack {
                         TextField("", text: $text)
@@ -55,6 +60,8 @@ struct SignInView : View {
                     Text("비밀번호")
                         .font(.system(size: 13))
                         .padding(.top,10)
+                        .foregroundColor(Color.gray1)
+                    
                     HStack {
                         if showPassword {
                             TextField("",text: $securetext)
@@ -81,12 +88,13 @@ struct SignInView : View {
                     ZStack{
                         Rectangle()
                             .frame(maxWidth : .infinity,maxHeight: 54)
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color.yellow)
                             .cornerRadius(20)
                             .padding(.horizontal,40)
                             .cornerRadius(20)
                         
                         Text("로그인")
+                            .foregroundColor(.white)
                             .font(.system(size: 20))
                     }
                 }
@@ -98,12 +106,14 @@ struct SignInView : View {
                         
                     }label: {
                         Text("계정이 없으신가요?")
+                            .foregroundColor(Color.gray1)
                             .font(.system(size: 12))
                     }
                     Button{
                         
                     }label: {
                         Text("회원가입")
+                            .foregroundColor(Color.yellow1)
                             .font(.system(size: 12))
                     }
                 }
