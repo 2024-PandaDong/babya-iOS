@@ -83,7 +83,7 @@ struct SignInView : View {
                 .padding(.horizontal,40)
                 
                 Button{
-                    
+                    self.hideKeyboard()
                 }label: {
                     ZStack{
                         Rectangle()
