@@ -87,7 +87,8 @@ struct SignInView : View {
                 }label: {
                     ZStack{
                         Rectangle()
-                            .frame(maxWidth : .infinity,maxHeight: 54)
+                            .frame(maxWidth : .infinity)
+                            .frame(height: 54)
                             .foregroundColor(Color.yellow)
                             .cornerRadius(20)
                             .padding(.horizontal,40)
@@ -127,7 +128,8 @@ struct SignInView : View {
                         ZStack{
                             Rectangle()
                                 .foregroundColor(.white)
-                                .frame(maxWidth: .infinity,maxHeight: 45)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 45)
                                 .cornerRadius(30)
                             HStack(spacing : 40){
                                 Image("Google")
@@ -146,7 +148,8 @@ struct SignInView : View {
                         ZStack{
                             Rectangle()
                                 .foregroundColor(.black)
-                                .frame(maxWidth: .infinity,maxHeight: 45)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 45)
                                 .cornerRadius(30)
                             HStack(spacing : 50){
                                 Image("Apple")
