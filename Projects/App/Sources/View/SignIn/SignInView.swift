@@ -50,7 +50,7 @@ struct SignInView : View {
                 .padding([.horizontal, .top], 44)
                 
                 VStack(alignment: .leading) {
-                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "이메일을 잘못 입력하였습니다." : nil, placeholder: "이메일", isSecure: false)
+                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
                     InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
                 }
                 .padding(.top, 25)
