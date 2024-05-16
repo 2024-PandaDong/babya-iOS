@@ -11,5 +11,11 @@ import Foundation
 struct Response<T:Decodable> : Decodable {
     let status : Int
     let message : String
-    let data : [T]
+    let data : T?
+}
+
+struct ErrorResponse: Decodable {
+    let status: Int
+    let code: String
+    let message: String
 }

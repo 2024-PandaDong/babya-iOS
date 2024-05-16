@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct SignInView : View {
-    @State var text = ""
-    @State var securetext = ""
-    @State private var showPassword = false
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var showPassword: Bool = false
+
+    @StateObject var vm : SignInViewModel
     
     var body: some View {
         ZStack{
@@ -47,43 +49,20 @@ struct SignInView : View {
                 }
                 .padding([.horizontal, .top], 44)
                 
-                VStack(alignment : .leading){
-                    Text("이메일")
-                        .font(.system(size: 13))
-                        .padding(.top,10)
-                        .foregroundColor(Color.gray1)
-                    
-                    HStack {
-                        TextField("", text: $text)
-                    }.underlineTextField()
-                    
-                    Text("비밀번호")
-                        .font(.system(size: 13))
-                        .padding(.top,10)
-                        .foregroundColor(Color.gray1)
-                    
-                    HStack {
-                        if showPassword {
-                            TextField("",text: $securetext)
-                        } else {
-                            SecureField("", text: $securetext)
-                        }
-                        Button{
-                            self.showPassword.toggle()
-                            
-                        }label: {
-                            Image(systemName: "eye")
-                                .resizable()
-                                .frame(width: 15,height: 10)
-                                .foregroundColor(.secondary)
-                        }
-                    }.underlineTextField()
+                VStack(alignment: .leading) {
+                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "이메일을 잘못 입력하였습니다." : nil, placeholder: "이메일", isSecure: false)
+                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
                 }
-                .padding(.top,25)
-                .padding(.horizontal,40)
+                .padding(.top, 25)
+                .padding(.horizontal, 40)
                 
                 Button{
                     self.hideKeyboard()
+                    vm.is401Error = false
+                    vm.is404Error = false
+                    Task{
+                        try await vm.performLogin(email: email,password:password)
+                    }
                 }label: {
                     ZStack{
                         Rectangle()
@@ -121,51 +100,29 @@ struct SignInView : View {
                 .padding(.top,2)
                 .padding(.horizontal,40)
                 
-                VStack(spacing : 5){
-                    Button{
-                        
-                    }label: {
-                        ZStack{
-                            Rectangle()
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 45)
-                                .cornerRadius(30)
-                            HStack(spacing : 40){
-                                Image("Google")
-                                    .resizable()
-                                    .frame(width: 27,height: 23)
-                                Text("Google 계정으로 로그인하기")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.black)
-                            }
+                VStack(spacing: 5) {
+                    SocialLoginButton(
+                        imageName: "Google",
+                        title: "Google 계정으로 로그인하기",
+                        backgroundColor: .white,
+                        textColor: .black,
+                        action: {
+                            
                         }
-                    }
-                    .padding(.vertical,6)
-                    Button{
-                        
-                    }label: {
-                        ZStack{
-                            Rectangle()
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 45)
-                                .cornerRadius(30)
-                            HStack(spacing : 50){
-                                Image("Apple")
-                                    .resizable()
-                                    .frame(width: 28,height: 28)
-                                Text("Apple 계정으로 로그인하기")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.white)
-                            }
-                        }
-                    }
-                    .padding(.vertical,6)
+                    )
                     
+                    SocialLoginButton(
+                        imageName: "Apple",
+                        title: "Apple 계정으로 로그인하기",
+                        backgroundColor: .black,
+                        textColor: .white,
+                        action: {
+                            
+                        }
+                    )
                 }
-                .padding(.top,20)
-                .padding(.horizontal,40)
+                .padding(.top, 20)
+                .padding(.horizontal, 40)
                 
                 Spacer()
             }
@@ -198,9 +155,4 @@ struct circle : Shape {
             
         }
     }
-}
-
-
-#Preview {
-    SignInView()
 }
