@@ -11,7 +11,7 @@ import SwiftUI
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
-            SignInView()
+            SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
         }
     }
 }

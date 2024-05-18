@@ -61,7 +61,7 @@ struct SignInView : View {
                     vm.is401Error = false
                     vm.is404Error = false
                     Task{
-                        try await vm.performLogin(email: email,password:password)
+                         await vm.login(email: email,password:password)
                     }
                 }label: {
                     ZStack{

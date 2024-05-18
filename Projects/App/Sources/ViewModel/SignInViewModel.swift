@@ -14,33 +14,30 @@ import Combine
 class SignInViewModel: ObservableObject {
     @Published var is401Error: Bool = false
     @Published var is404Error: Bool = false
+    @Published var isLoggedIn: Bool = false
     
-    func performLogin(email: String, password: String) async throws -> Response<LoginResponse>{
-        let loginRequest = LoginRequest(email: email, pw: password)
-        let url = "auth/login"
-        
-        return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url, method: .post, parameters: loginRequest, encoder: JSONParameterEncoder.default)
-                .responseDecodable(of: Response<LoginResponse>.self) { response in
-                    switch response.result {
-                    case .success(let responseData):
-                        print(responseData)
-                        continuation.resume(returning: responseData)
-                        switch responseData.status{
-                        case 401:
-                            self.is401Error = true
-                            print("401 비밀번호 틀림")
-                        case 404:
-                            self.is404Error = true
-                            print("404 이메일 틀림")
-                        default:
-                            print("error")
-                        }
-                    case .failure(let error):
-                        continuation.resume(throwing: error)
-                        print(error)
-                    }
-                }
-        }
+    private let authService: AuthService
+    
+    init(authService: AuthService) {
+        self.authService = authService
     }
+    func login(email: String, password: String) async {
+            do {
+                let response = try await authService.login(email: email, password: password)
+                
+                switch response.status {
+                case 200:
+                    isLoggedIn = true
+                    print(response)
+                case 401:
+                    is401Error = true
+                case 404:
+                    is404Error = true
+                default:
+                    print("알 수 없는 오류가 발생했습니다.")
+                }
+            } catch {
+                print(error)
+            }
+        }
 }
