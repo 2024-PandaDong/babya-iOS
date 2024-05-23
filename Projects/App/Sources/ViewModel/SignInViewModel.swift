@@ -30,7 +30,7 @@ class SignInViewModel: ObservableObject {
                     isLoggedIn = true
                     LoginUserHashCache.shared.storeAccessToken(value: response.data?.accessToken ?? "")
                     LoginUserHashCache.shared.storeRefreshToken(value: response.data?.refreshToken ?? "")
-                    var test = LoginUserHashCache.shared.checkAccessToken()
+              
                     print(response)
                 case 401:
                     is401Error = true
