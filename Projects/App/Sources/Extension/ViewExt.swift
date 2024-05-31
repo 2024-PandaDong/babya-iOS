@@ -10,23 +10,13 @@ import SwiftUI
 
 extension View {
     
-    func nextButton(title: String, destination: some View, action: (() -> ())? = nil, disable: Bool = false) -> some View {
+    func customTabBar() -> some View {
         
-        NextButton(
-            title: title,
+        CustomTabBar(
             content: {
                 AnyView(self)
-            },
-            destination: {
-                AnyView(destination)
-            }, action: {
-            if let action = action  {
-                action()
             }
-            else {
-                // noaction
-            }
-        }, disable: disable)
+        )
     }
     
 }

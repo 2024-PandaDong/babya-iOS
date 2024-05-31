@@ -53,8 +53,5 @@ struct NextButton: View {
 }
 
 #Preview {
-    VStack {
-        
-    }
-    .nextButton(title: "다음", destination: SecondSignUpView())
+    NextButton(title: "", content: {AnyView(Text(""))}, destination: {AnyView(Text(""))}, action: {}, disable: false)
 }
