@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    let content: () -> AnyView
-    
     var body: some View {
         VStack {
-            
-            content()
-                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.height)
+            Spacer()
             
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
@@ -53,10 +49,5 @@ struct CustomTabBar: View {
 }
 
 #Preview {
-    NavigationView {
-        VStack {
-            Text("ddd")
-        }
-        .customTabBar()
-    }
+    CustomTabBar()
 }

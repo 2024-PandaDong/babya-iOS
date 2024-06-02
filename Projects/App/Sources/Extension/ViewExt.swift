@@ -10,13 +10,4 @@ import SwiftUI
 
 extension View {
     
-    func customTabBar() -> some View {
-        
-        CustomTabBar(
-            content: {
-                AnyView(self)
-            }
-        )
-    }
-    
 }
