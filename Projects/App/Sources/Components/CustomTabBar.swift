@@ -14,7 +14,7 @@ struct CustomTabBar: View {
             
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
-                    .frame(width: .infinity, height: 100)
+                    .frame(width: UIScreen.main.bounds.width, height: 100)
                     .foregroundStyle(Color(red: 245/255, green: 245/255, blue: 245/255))
                 .shadow(radius: 3, y: -2)
                 
@@ -37,7 +37,7 @@ struct CustomTabBar: View {
                     
                     Spacer()
                     
-                    CustomTabButton(image: "person.circle", title: "프로필", destination: Text("프로필"))
+                    CustomTabButton(image: "person.circle", title: "프로필", destination: ProfileView())
                    
                     Spacer()
                 }
