@@ -22,6 +22,21 @@ struct DiaryView : View {
                 .foregroundColor(.yellow)
                 .frame(maxWidth: .infinity)
                 .frame(height: 130)
+                .overlay {
+                    ZStack{
+                        Text("이번주 건강상태는 좋음입니다.\n오늘도 좋은하루 보내세요!")
+                            .bold()
+                            .font(.system(size: 20))
+                            .padding(.horizontal)
+                            .padding(.trailing,65)
+                            
+                        HStack(spacing: 20){
+                            Spacer()
+                            Image("character")
+                                .padding(.top,75)
+                        }
+                    }
+                }
             HStack(spacing: 20){
                 Button(action: {
                     All = true
@@ -72,5 +87,3 @@ struct DiaryView : View {
 #Preview {
     DiaryView()
 }
-
-
