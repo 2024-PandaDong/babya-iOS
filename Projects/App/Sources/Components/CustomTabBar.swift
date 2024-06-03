@@ -21,7 +21,7 @@ struct CustomTabBar: View {
                 HStack {
                     Spacer()
                     
-                    CustomTabButton(image: "map", title: "회사찾기", destination: Text("회사 찾기"))
+                    CustomTabButton(image: "map", title: "회사찾기", destination: CompanySearchView())
                     
                     Spacer()
                     
