@@ -18,17 +18,17 @@ struct CommentCeil : View {
         HStack{
             VStack(alignment: .leading){
                 HStack(spacing: 2){
-                    Image("Image")
+                    Image(ProfileImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Circle())
                         .frame(minWidth: 25,maxHeight: 25 )
-                    Text("유저이름")
+                    Text(UserName)
                         .font(.system(size: 17))
-                    Text("1일")
+                    Text(Days)
                         .font(.system(size: 11))
                 }
-                Text("댓글 내용~")
+                Text(Content)
                     .padding(.leading,25)
             }
             .padding(.horizontal,10)

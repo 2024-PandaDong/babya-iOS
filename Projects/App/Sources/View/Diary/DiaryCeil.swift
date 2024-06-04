@@ -15,15 +15,15 @@ struct DiaryCeil : View {
     var UserName : String
     var body: some View {
         VStack(alignment: .leading,spacing: 6){
-            Image("Image")
+            Image(ProfileImage)
                 .resizable()
                 .frame(width: 166,height: 103)
                 
-            Text("동바오 첫 돌")
+            Text(Title)
                 .bold()
                 .font(.system(size: 16))
             
-            Text("유저이름")
+            Text(UserName)
                 .font(.system(size: 13))
                 .foregroundColor(.gray)
 
