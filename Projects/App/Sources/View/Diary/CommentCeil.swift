@@ -10,6 +10,10 @@ import Foundation
 import SwiftUI
 
 struct CommentCeil : View {
+    var ProfileImage : String
+    var UserName : String
+    var Days : String
+    var Content : String
     var body: some View {
         HStack{
             VStack(alignment: .leading){
@@ -31,8 +35,4 @@ struct CommentCeil : View {
             Spacer()
         }
     }
-}
-
-#Preview {
-    CommentCeil()
 }

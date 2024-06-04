@@ -10,6 +10,9 @@ import Foundation
 import SwiftUI
 
 struct DiaryCeil : View {
+    var ProfileImage : String
+    var Title : String
+    var UserName : String
     var body: some View {
         VStack(alignment: .leading,spacing: 6){
             Image("Image")
@@ -28,6 +31,4 @@ struct DiaryCeil : View {
         .padding(.horizontal,35)
     }
 }
-#Preview {
-    DiaryCeil()
-}
+
