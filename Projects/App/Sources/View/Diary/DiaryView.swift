@@ -15,6 +15,7 @@ struct DiaryView : View {
     @State var All : Bool = true
     @State var myDiary : Bool = false
     @State var Diary : Bool = true
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         NavigationView{
@@ -76,43 +77,46 @@ struct DiaryView : View {
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach((0...2), id: \.self) { _ in
-                            NavigationLink(destination: DetailDiaryView(inputText: "", DiaryImage: "Image", Opinion: "아", Content: "내용", PostName: "포스트이름")) {
+                            NavigationLink(destination:
+                                            UserDetailDiaryView(PostName: "dkjas", DiaryImage: "Image"))
+                                            
+                                            /*DetailDiaryView(inputText: "", DiaryImage: "Image", Opinion: "아", Content: "내용", PostName: "포스트이름"))*/ {
                                 DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
                                     .padding(.vertical,5)
                             }
-                        }
-                    }
-                }
-            }
-            .navigationBarBackButtonHidden()
-            .navigationTitle("산모일기")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar{
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button {
-                        //
-                    } label: {
-                        Image("home")
-                            .resizable()
-                            .frame(width: 18,height: 18)
-                    }
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        //
-                    } label: {
-                        Image("arrow")
-                            .resizable()
-                            .frame(width: 18,height: 18)
-                    }
-                    
-                
-                }
-            }
-        }
-    }
-}
-
-#Preview {
-    DiaryView()
-}
+                                           }
+                                           }
+                                           }
+                                           }
+                                .navigationBarBackButtonHidden()
+                                .navigationTitle("산모일기")
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbar{
+                                    ToolbarItem(placement: .navigationBarTrailing){
+                                        Button {
+                                            //
+                                        } label: {
+                                            Image("home")
+                                                .resizable()
+                                                .frame(width: 18,height: 18)
+                                        }
+                                    }
+                                    ToolbarItem(placement: .navigationBarLeading) {
+                                        Button {
+                                            //
+                                        } label: {
+                                            Image("arrow")
+                                                .resizable()
+                                                .frame(width: 18,height: 18)
+                                        }
+                                        
+                                        
+                                    }
+                                }
+                                           }
+                                           }
+                                           }
+                                           
+                                           #Preview {
+                                DiaryView()
+                            }
