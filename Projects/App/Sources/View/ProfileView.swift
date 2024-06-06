@@ -102,7 +102,7 @@ struct ProfileView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: Text("즐겨찾기 목록")) {
+                    NavigationLink(destination: FavoritesView()) {
                         Image(systemName: "arrow.right")
                             .foregroundStyle(.black)
                     }
@@ -115,9 +115,9 @@ struct ProfileView: View {
                     .foregroundStyle(.white)
                     .overlay {
                         HStack(alignment: .firstTextBaseline) {
-                            FavoritesCell()
-                            FavoritesCell()
-                            FavoritesCell()
+                            FavoritesPreviewCell()
+                            FavoritesPreviewCell()
+                            FavoritesPreviewCell()
                         }
                     }
                 
