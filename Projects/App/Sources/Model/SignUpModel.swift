@@ -19,7 +19,6 @@ struct SignUpModel: Codable {
     }
     
     var params: [String: Any] {
-        // `childList`와 `birthList`를 Dictionary로 변환
         let childListDicts = childList.map { ["name": $0.name, "isBirth": $0.isBirth] }
         let birthListDicts = birthList.map { ["name": $0.name, "isBirth": $0.isBirth] }
         
