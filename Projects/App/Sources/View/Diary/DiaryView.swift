@@ -31,10 +31,11 @@ struct DiaryView : View {
                                 .padding(.horizontal)
                                 .padding(.trailing,65)
                             
-                            HStack(spacing: 20){
+                            HStack(spacing: 10){
                                 Spacer()
                                 Image("character")
-                                    .padding(.top,75)
+                                    .padding(.top,50)
+                                    .padding(.horizontal,15)
                             }
                         }
                     }
@@ -75,12 +76,15 @@ struct DiaryView : View {
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach((0...2), id: \.self) { _ in
-                            DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
-                                .padding(.vertical,5)
+                            NavigationLink(destination: DetailDiaryView(inputText: "", DiaryImage: "Image", Opinion: "아", Content: "내용", PostName: "포스트이름")) {
+                                DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
+                                    .padding(.vertical,5)
+                            }
                         }
                     }
                 }
             }
+            .navigationBarBackButtonHidden()
             .navigationTitle("산모일기")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{

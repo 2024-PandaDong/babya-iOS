@@ -22,10 +22,11 @@ struct DiaryCeil : View {
             Text(Title)
                 .bold()
                 .font(.system(size: 16))
+                .foregroundStyle(.black)
             
             Text(UserName)
                 .font(.system(size: 13))
-                .foregroundColor(.gray)
+                .foregroundStyle(.gray)
 
         }
         .padding(.horizontal,35)
