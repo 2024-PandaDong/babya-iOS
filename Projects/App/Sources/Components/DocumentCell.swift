@@ -10,6 +10,7 @@ import SwiftUI
 struct DocumentCell: View {
     let image: String
     let title: String
+    @State var isPresent: Bool = false
     
     init(image: String, title: String) {
         self.image = image
@@ -29,6 +30,12 @@ struct DocumentCell: View {
                         .font(.system(size: 12))
                 }
             }
+            .onTapGesture {
+                isPresent.toggle()
+            }
+            .sheet(isPresented: $isPresent, content: {
+                Text("\(title)")
+            })
     }
 }
 
