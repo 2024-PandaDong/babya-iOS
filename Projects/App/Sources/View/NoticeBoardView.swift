@@ -78,6 +78,7 @@ struct NoticeBoardView: View {
             
             CustomTabBar()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

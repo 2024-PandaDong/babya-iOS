@@ -25,7 +25,7 @@ struct CustomTabBar: View {
                     
                     Spacer()
                     
-                    CustomTabButton(image: "doc.on.clipboard", title: "게시판", destination: Text("게시판"))
+                    CustomTabButton(image: "doc.on.clipboard", title: "게시판", destination: NoticeBoardView())
                     
                     Spacer()
                     
