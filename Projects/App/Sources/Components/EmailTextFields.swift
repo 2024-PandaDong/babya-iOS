@@ -39,14 +39,8 @@ struct EmailTextFields: View {
                             email = ""
                             isAvailable = false
                         }, label: {
-                            RoundedRectangle(cornerRadius: 5)
-                                .frame(width: 23, height: 19)
+                            Image(systemName: "delete.left")
                                 .foregroundStyle(.black)
-                                .overlay {
-                                    Image(systemName: "xmark")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 15, weight: .bold))
-                                }
                         })
                     }
                     

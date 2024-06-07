@@ -57,17 +57,6 @@ struct FirstSignUpView: View {
                 }
                 
                 VStack {
-                    
-                    Button(action: {
-                        print("이메일: \(viewModel.model.email)")
-                        print("비번: \(viewModel.model.pw)")
-                        print("이름: \(viewModel.model.nickName)")
-                        print("생일: \(viewModel.model.birthDt)")
-                        print("지역코드: \(viewModel.model.locationCode)")
-                    }, label: {
-                        Text("Button")
-                    })
-                    
                     NavigationLink {
                        SecondSignUpView()
                             .environmentObject(viewModel)

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CheckBoxCell: View {
+struct RadioCell: View {
     @StateObject var vm = SignUpViewModel()
     let title: String
     @Binding var isCheck : Bool
@@ -30,11 +30,11 @@ struct CheckBoxCell: View {
                     }
                     print("\(title) : \(isCheck)")
                 }, label: {
-                    RoundedRectangle(cornerRadius: 5)
+                    Circle()
                         .frame(width: 17, height: 17)
                         .foregroundStyle(isCheck ? .green : .white)
                         .overlay {
-                            RoundedRectangle(cornerRadius: 5).stroke(.black)
+                            Circle().stroke(.black)
                         }
                 })
                 
@@ -47,11 +47,11 @@ struct CheckBoxCell: View {
                     }
                     print("\(title) : \(isCheck)")
                 }, label: {
-                    RoundedRectangle(cornerRadius: 5)
+                    Circle()
                         .frame(width: 17, height: 17)
                         .foregroundStyle(isCheck ? .white : .red)
                         .overlay {
-                            RoundedRectangle(cornerRadius: 5).stroke(.black)
+                            Circle().stroke(.black)
                         }
                 })
             }
@@ -62,5 +62,5 @@ struct CheckBoxCell: View {
 }
 
 #Preview {
-    CheckBoxCell(title: "임신여부", isCheck: .constant(true))
+    RadioCell(title: "임신여부", isCheck: .constant(true))
 }

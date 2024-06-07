@@ -43,7 +43,7 @@ struct SecondSignUpView: View {
                     CustomDatePicker("결혼일(선택)", target: $viewModel.model.marriedDt)
                         .padding(.top, 40)
                     
-                    CheckBoxCell(title: "임신여부", isCheck: $viewModel.model.isPregnant)
+                    RadioCell(title: "임신여부", isCheck: $viewModel.model.isPregnant)
                     
                     if viewModel.model.isPregnant {
                         CustomDatePicker("임신일", target: $viewModel.model.pregnancyDt)
@@ -51,7 +51,7 @@ struct SecondSignUpView: View {
                         NameList(title: "태명", placeholder: "태명을 입력 해주세요.", target: $viewModel.model.childList, isBirth: false)
                     }
                     
-                    CheckBoxCell(title: "자녀여부", isCheck: $viewModel.model.hasChild)
+                    RadioCell(title: "자녀여부", isCheck: $viewModel.model.hasChild)
                         .padding(.vertical)
                     
                     if viewModel.model.hasChild {
