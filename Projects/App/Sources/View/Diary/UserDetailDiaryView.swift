@@ -44,7 +44,7 @@ struct UserDetailDiaryView : View {
                                     
                                     Text("임신주수:")
                                         .font(.system(size: 13))
-                                    LineTextField(text: $weight, TextFieldWidth: 30)
+                                    LineTextField(text: $weeks, TextFieldWidth: 30)
                                     Text("주")
                                         .font(.system(size: 13))
                                 }
@@ -144,16 +144,16 @@ struct UserDetailDiaryView : View {
             }
             
             ToolbarItem(placement:.navigationBarTrailing) {
-                Button(action: {
-                    //
-                }, label: {
+                NavigationLink {
+                    DiaryWritingView(title: "",PostName: "dsa",DiaryImage: "Image")
+                } label: {
                     Text("수정")
                         .foregroundColor(.white)
                         .padding(.horizontal,16)
                         .padding(.vertical,10)
                         .background(Color.yellow)
                         .cornerRadius(10)
-                })
+                }
             }
         }
     }
