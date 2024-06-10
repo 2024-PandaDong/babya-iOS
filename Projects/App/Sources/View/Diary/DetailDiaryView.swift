@@ -12,44 +12,41 @@ struct DetailDiaryView : View {
     @State var inputText : String
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var DiaryImage : String
-    var Opinion : String
     var Content : String
     var PostName : String
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
-                Image(DiaryImage)
-                    .resizable()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .cornerRadius(10)
-                    .padding(.horizontal,15)
-                
-                TextTitleStyle(Title: Text("태아소견"))
-                    .padding(.top,15)
-                
-                TextContentStyle(content: Text(Opinion))
-                    .padding(.bottom,10)
-                
-                TextTitleStyle(Title: Text("내용"))
-                
-                TextContentStyle(content:  Text(Content))
-                HStack{
-                    Spacer()
-                    Text("2024/01/23")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray)
-                        .padding(15)
+                ScrollView(showsIndicators: false){
+                    VStack(alignment: .leading){
+                        Image(DiaryImage)
+                            .resizable()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                            .cornerRadius(10)
+                            .padding(.horizontal,15)
+
+                        
+                        TextTitleStyle(Title: Text("본문"))
+                            .padding(.vertical,7)
+                        
+                        TextContentStyle(content: Text(Content))
+                        HStack{
+                            Spacer()
+                            Text("2024/01/23")
+                                .font(.system(size: 11))
+                                .foregroundStyle(.gray)
+                                .padding(15)
+                        }
+                        Divider()
+                            .padding(.horizontal,15)
+                        
+                        CommentCeil(ProfileImage: "Image", UserName: "유저이름", Days: "1일", Content: "내용내용")
+                            .padding(.vertical,5)
+                    }
+                    
                 }
-                Divider()
-                    .padding(.horizontal,15)
-                
-                CommentCeil(ProfileImage: "Image", UserName: "유저이름", Days: "1일", Content: "내용내용")
-                    .padding(.vertical,5)
-                
                 ZStack{
-                    VStack{
-                        Spacer()
                         HStack(spacing: 1){
                             Image("Image")
                                 .resizable()
@@ -60,7 +57,6 @@ struct DetailDiaryView : View {
                             TextField("댓글달기", text: $inputText)
                                 .textFieldStyle(TextfieldStyle())
                         }
-                    }
                 }
             }
         }
@@ -77,11 +73,21 @@ struct DetailDiaryView : View {
                         .frame(width: 18,height: 18)
                 }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    
+                }, label: {
+                    Image("dots")
+                        .resizable()
+                        .frame(width: 18)
+                        
+                })
+            }
         }
     }
 }
 #Preview {
-    DetailDiaryView(inputText: "", DiaryImage: "Image",Opinion: "잘 크고 있다.", Content: "내용내용",PostName: "게시물이름")
+    DetailDiaryView(inputText: "", DiaryImage: "Image", Content: "내용내용",PostName: "게시물이름")
 }
 
 extension View{
