@@ -24,15 +24,30 @@ struct CommentCeil : View {
                         .clipShape(Circle())
                         .frame(minWidth: 25,maxHeight: 25 )
                     Text(UserName)
-                        .font(.system(size: 17))
+                        .font(.system(size: 13))
                     Text(Days)
                         .font(.system(size: 11))
                 }
                 Text(Content)
                     .padding(.leading,25)
+                
+                Button {
+                    // 댓글 쓰기
+                } label: {
+                    Text("댓글쓰기")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.gray)
+                        .padding(.vertical,1)
+                        .padding(.leading,25)
+                }
+                Divider()
             }
             .padding(.horizontal,10)
             Spacer()
         }
     }
+}
+
+#Preview {
+    CommentCeil(ProfileImage: "Image", UserName: "dldbs", Days: "1일", Content: "집에 가고 싶다.")
 }
