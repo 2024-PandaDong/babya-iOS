@@ -42,9 +42,9 @@ struct CommentCeil : View {
                 }
                 Divider()
             }
-            .padding(.horizontal,10)
             Spacer()
         }
+        .padding(.top,3)
     }
 }
 

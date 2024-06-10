@@ -39,7 +39,7 @@ struct DetailDiaryView : View {
                                 .padding(15)
                         }
                         Divider()
-                            .padding(.horizontal,15)
+                         
                         
                         CommentCeil(ProfileImage: "Image", UserName: "유저이름", Days: "1일", Content: "내용내용")
                             .padding(.vertical,5)
