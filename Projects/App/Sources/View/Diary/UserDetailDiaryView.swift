@@ -12,12 +12,12 @@ struct UserDetailDiaryView : View {
     var PostName : String
     var DiaryImage : String
     @State var inputText : String = ""
-    @State var weight: String = ""
-    @State var weeks : String = ""
-    @State var Opinion : String = ""
-    @State var BloodPressure1 : String = ""
-    @State var BloodPressure2 : String = ""
-    @State var Content : String = ""
+    @State var weight: String = "20"
+    @State var weeks : String = "2주"
+    @State var Opinion : String = "좋습니다"
+    @State var BloodPressure1 : String = "130"
+    @State var BloodPressure2 : String = "60"
+    @State var Content : String = "일기 내용"
     @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
@@ -39,25 +39,26 @@ struct UserDetailDiaryView : View {
                                     HStack(spacing:7){
                                         Text("체중:")
                                             .font(.system(size: 13))
-                                        LineTextField(text: $weight, TextFieldWidth: 30)
+                                        TextLineStyle(text: weight)
+                          
                                         Text("kg")
                                             .font(.system(size: 13))
                                             .padding(.trailing,30)
                                         
                                         Text("임신주수:")
                                             .font(.system(size: 13))
-                                        LineTextField(text: $weeks, TextFieldWidth: 30)
+                                        TextLineStyle(text: weeks)
                                         Text("주")
                                             .font(.system(size: 13))
                                     }
                                     HStack(spacing:7){
                                         Text("혈압:")
                                             .font(.system(size: 13))
-                                        LineTextField(text: $BloodPressure1, TextFieldWidth: 30)
+                                        TextLineStyle(text: BloodPressure1)
                                         Text("/")
                                             .font(.system(size: 13))
-                                        LineTextField(text: $BloodPressure2, TextFieldWidth: 30)
-                                            .padding(.trailing,30)
+                                        TextLineStyle(text: BloodPressure2)
+                                            .padding(.trailing,14)
                                         
                                         Text("다음 진찰일:")
                                             .font(.system(size: 13))
@@ -67,9 +68,9 @@ struct UserDetailDiaryView : View {
                                 }
                                 Spacer()
                                 VStack(spacing:5){
-                                    Image("좋음 이모티콘")
-                                        .resizable()
-                                        .frame(width: 45,height: 45)
+//                                    Image("좋음 이모티콘")
+//                                        .resizable()
+//                                        .frame(width: 45,height: 45)
                                     Text("좋음")
                                         .font(.system(size: 12))
                                 }
@@ -139,12 +140,9 @@ struct UserDetailDiaryView : View {
                 NavigationLink {
                     DiaryWritingView(title: "",PostName: "dsa",DiaryImage: "Image")
                 } label: {
-                    Text("수정")
-                        .foregroundColor(.white)
-                        .padding(.horizontal,16)
-                        .padding(.vertical,10)
-                        .background(Color.yellow)
-                        .cornerRadius(10)
+                    Image("dots")
+                        .resizable()
+                        .frame(width: 18)
                 }
             }
         }

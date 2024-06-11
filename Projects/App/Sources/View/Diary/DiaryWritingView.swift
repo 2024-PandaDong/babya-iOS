@@ -12,6 +12,7 @@ struct DiaryWritingView : View {
     @State var title : String
     var PostName : String
     var DiaryImage : String
+    @State private var privateToggle : Bool = false
     @State var weight: String = ""
     @State var weeks : String = ""
     @State var Opinion : String = ""
@@ -28,165 +29,175 @@ struct DiaryWritingView : View {
             updateFormattedDate()
         }
     }
+    @State var complete : Bool = false
     @State private var showingDatePicker = false
     @State private var formattedDate = ""
     var body: some View {
         NavigationView{
-            ZStack{
-                VStack(alignment:.leading,spacing: 5){
-                    Text("제목")
-                        .font(.system(size: 20))
-                        .bold()
-                    
-                    LineTextField(text: $title, TextFieldWidth: .infinity)
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.isTextFieldFocused = true
+            ScrollView{
+                ZStack{
+                    VStack(alignment:.leading,spacing: 5){
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(.gray, lineWidth: 1.5)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                            .background(.white)
+                            .padding(.vertical,5)
+                            .overlay {
+                                Image("camera")
                             }
-                        }
-                        .overlay(alignment: .topLeading) {
-                            Text("제목")
-                                .font(.system(size: 14))
-                                .foregroundStyle(title.isEmpty ? .gray : .clear)
-                        }
-                    
-                    HStack{
-                        Text("산모의 상태")
+                        Text("제목")
                             .font(.system(size: 20))
                             .bold()
-                        Spacer()
-                        Text("공개여부")
-                            .font(.system(size: 20))
-                            .bold()
-                        Button(action: {
-                            lock.toggle()
-                        }, label: {
-                            Image(lock ? "lock" : "unlock")
-                                .resizable()
-                                .frame(width: 18,height: 20)
-                        })
-                        .padding(.horizontal,5)
-                    }
-                    .padding(.vertical,15)
-                    HStack{
-                        VStack(alignment: .leading ,spacing: 10){
-                            HStack(spacing:7){
-                                Text("체중:")
-                                    .font(.system(size: 16))
-                                LineTextField(text: $weight, TextFieldWidth: 30)
-                                Text("kg")
-                                    .font(.system(size: 16))
-                                    .padding(.trailing,30)
-                                
-                                Text("임신주수:")
-                                    .font(.system(size: 16))
-                                LineTextField(text: $weeks, TextFieldWidth: 30)
-                                Text("주")
-                                    .font(.system(size: 16))
-                            }
-                            HStack(spacing:7){
-                                Text("혈압:")
-                                    .font(.system(size: 16))
-                                LineTextField(text: $BloodPressure1, TextFieldWidth: 30)
-                                Text("/")
-                                    .font(.system(size: 16))
-                                LineTextField(text: $BloodPressure2, TextFieldWidth: 30)
-                                    .padding(.trailing,30)
-                                
-                                Text("다음 진찰일:")
-                                    .font(.system(size: 16))
-                                Button(action: {
-                                    self.showingDatePicker.toggle()
-                                    selectedDateTitle = false
-                                }) {
-                                    Image("calendar")
-                                        .resizable()
-                                        .frame(width: 18, height: 20)
-                                }
-                            }
-                            .padding(.bottom,15)
-                            
-                            Text("오눌 기분은?")
-                                .font(.system(size: 20))
-                                .bold()
-                            HStack(spacing: 30) {
-                                ForEach(Emotion.allCases, id: \.self) { emotion in
-                                    IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
-                                        selectedEmotion = selected
-                                    }
-                                }
+                        
+                        LineTextField(text: $title, TextFieldWidth: .infinity)
+                            .overlay(alignment: .topLeading) {
+                                Text("제목")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(title.isEmpty ? .gray : .clear)
                             }
                             .padding(.bottom, 15)
-                            
-                            Text("태아소견")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            LineTextField(text: $title, TextFieldWidth: .infinity)
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.isTextFieldFocused = true
+                        HStack{
+                            VStack(alignment: .leading ,spacing: 10){
+                                HStack(spacing:7){
+                                    Text("체중:")
+                                        .font(.system(size: 16))
+                                    LineTextField(text: $weight, TextFieldWidth: 30)
+                                    Text("kg")
+                                        .font(.system(size: 16))
+                                        .padding(.trailing,30)
+                                    
+                                    Text("임신주수:")
+                                        .font(.system(size: 16))
+                                    LineTextField(text: $weeks, TextFieldWidth: 30)
+                                    Text("주")
+                                        .font(.system(size: 16))
+                                }
+                                HStack(spacing:7){
+                                    Text("혈압:")
+                                        .font(.system(size: 16))
+                                    LineTextField(text: $BloodPressure1, TextFieldWidth: 30)
+                                    Text("/")
+                                        .font(.system(size: 16))
+                                    LineTextField(text: $BloodPressure2, TextFieldWidth: 30)
+                                        .padding(.trailing,30)
+                                    
+                                    Text("다음 진찰일:")
+                                        .font(.system(size: 16))
+                                    Text(formattedDate)
+                                        .font(.system(size: 13))
+                                        .foregroundStyle(.black)
+                                    Button(action: {
+                                        self.showingDatePicker.toggle()
+                                        selectedDateTitle = true
+                                    }) {
+                                        Image("calendar")
+                                            .resizable()
+                                            .frame(width: 18, height: 20)
                                     }
                                 }
-                                .overlay(alignment: .topLeading) {
-                                    Text("아이의 상태는 어떤가요?")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(title.isEmpty ? .gray : .clear)
-                                }
                                 .padding(.bottom,15)
-                            
-                            
-                            Text("내용")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            LineTextField(text: $title, TextFieldWidth: .infinity)
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        self.isTextFieldFocused = true
+                                
+                                Text("태아소견")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                LineTextField(text: $title, TextFieldWidth: .infinity)
+                                    .onAppear {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            self.isTextFieldFocused = true
+                                        }
+                                    }
+                                    .overlay(alignment: .topLeading) {
+                                        Text("아이의 상태는 어떤가요?")
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(title.isEmpty ? .gray : .clear)
+                                    }
+                                    .padding(.bottom,15)
+                                
+                                
+                                Text("본문")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                ScrollView {
+                                    TextEditor(text: $Content)
+                                        .frame(maxWidth:.infinity,minHeight: 55, maxHeight: .infinity)
+                                        .padding(.horizontal, -8)
+                                        .padding(.vertical, -10)
+                                        .font(.system(size: 14))
+                                        .focused($isTextFieldFocused)
+                                        .onAppear {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                self.isTextFieldFocused = true
+                                            }
+                                        }
+                                        .overlay(alignment: .topLeading) {
+                                            Text("오늘은 어떤일이 있으셨나요?")
+                                                .font(.system(size: 14))
+                                                .foregroundStyle(Content.isEmpty ? .gray : .clear)
+                                        }
+                                        .overlay(
+                                            GeometryReader { geometry in
+                                                Path { path in
+                                                    let width = geometry.size.width
+                                                    let height = geometry.size.height
+                                                    path.move(to: CGPoint(x: 0, y: height))
+                                                    path.addLine(to: CGPoint(x: width, y: height))
+                                                }
+                                                .stroke(Color.primary, lineWidth: 0.5)
+                                            }
+                                                .frame(height: 1), alignment: .bottom
+                                        )
+                                        .padding(.bottom,15)
+                                }
+                                Text("오눌 기분은?")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                    .padding(.bottom,10)
+                                HStack(spacing: 30) {
+                                    ForEach(Emotion.allCases, id: \.self) { emotion in
+                                        IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
+                                            selectedEmotion = selected
+                                        }
                                     }
                                 }
-                                .overlay(alignment: .topLeading) {
-                                    Text("오늘은 어떤일이 있으셨나요?")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(title.isEmpty ? .gray : .clear)
+                                .padding(.bottom, 15)
+                                
+                                Divider()
+                                HStack(spacing:10){
+                                    Image("private")
+                                        .resizable()
+                                        .frame(width: 25,height: 25)
+                                    Toggle(isOn: $privateToggle, label: {
+                                        Text("비공개 : 당신외엔 볼 수 없어요."
+                                        ).foregroundStyle(Color.yellow0)
+                                            .font(.system(size: 14))
+                                    }) .toggleStyle(SwitchToggleStyle(tint: Color.yellow))
                                 }
-                                .padding(.bottom,15)
-                            Text("사진추가")
-                                .font(.system(size: 20))
-                                .bold()
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.black, lineWidth: 1.5)
-                                .frame(width: 100, height: 100)
-                                .background(.white)
-                                .overlay {
-                                    Image("camera")
-                                }
+                                Divider()
+                            }
+                            Spacer()
                         }
                         Spacer()
                     }
-                    Spacer()
+                    .padding(.horizontal,20)
+                    if showingDatePicker {
+                        Color.black.opacity(0.4)
+                            .edgesIgnoringSafeArea(.all)
+                            .onTapGesture {
+                                self.showingDatePicker = false
+                                selectedDateTitle = false
+                                print(selectedDate)
+                                print(nextSelectedDate)
+                            }
+                        DatePicker("Select Date", selection: selectedDateTitle ? $selectedDate : $nextSelectedDate, displayedComponents: .date)
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 10)
+                    }
                 }
-                .padding(.horizontal,20)
-                if showingDatePicker {
-                    Color.black.opacity(0.4)
-                        .edgesIgnoringSafeArea(.all)
-                        .onTapGesture {
-                            self.showingDatePicker = false
-                            selectedDateTitle = false
-                            print(selectedDate)
-                            print(nextSelectedDate)
-                        }
-                    DatePicker("Select Date", selection: selectedDateTitle ? $selectedDate : $nextSelectedDate, displayedComponents: .date)
-                        .datePickerStyle(GraphicalDatePickerStyle())
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                }
-
-                
-                
             }
         }
         .navigationBarBackButtonHidden()
@@ -202,22 +213,20 @@ struct DiaryWritingView : View {
                         .frame(width: 18,height: 18)
                 }
             }
-            
             ToolbarItem(placement:.navigationBarTrailing) {
-                Button(action: {
-                    self.showingDatePicker.toggle()
-                    selectedDateTitle = true
-                }) {
-                    Image("calendar")
-                        .resizable()
-                        .frame(width: 18, height: 20)
-                }
                 Button(action: {
                     //
                 }, label: {
-                    Image("check")
-                        .resizable()
-                        .frame(width: 18,height: 18)
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 3)
+                            .stroke(complete ? Color.gray : Color.yellow0, lineWidth: 1)
+                            .frame(width: 41,height: 25)
+                            .foregroundColor(.white)
+                        
+                        Text("등록")
+                            .foregroundStyle(complete ? Color.gray : Color.yellow0)
+                            .font(.system(size: 11))
+                    }
                 })
             }
         }
@@ -238,5 +247,5 @@ struct DiaryWritingView : View {
 }
 
 #Preview {
-    DiaryWritingView(title: "",PostName: "dsa",DiaryImage: "Image")
+    DiaryWritingView(title: "v",PostName: "dsa",DiaryImage: "Image")
 }

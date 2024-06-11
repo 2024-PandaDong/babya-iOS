@@ -22,6 +22,11 @@ struct LineTextField: View {
                     self.isTextFieldFocused = true
                 }
             }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.isTextFieldFocused = true
+                }
+            }
             .overlay(
                 GeometryReader { geometry in
                     Path { path in
