@@ -40,7 +40,7 @@ struct UserDetailDiaryView : View {
                                         Text("체중:")
                                             .font(.system(size: 13))
                                         TextLineStyle(text: weight)
-                          
+                                        
                                         Text("kg")
                                             .font(.system(size: 13))
                                             .padding(.trailing,30)
@@ -68,9 +68,9 @@ struct UserDetailDiaryView : View {
                                 }
                                 Spacer()
                                 VStack(spacing:5){
-//                                    Image("좋음 이모티콘")
-//                                        .resizable()
-//                                        .frame(width: 45,height: 45)
+                                    Image("happy")
+                                        .resizable()
+                                        .frame(width: 45,height: 45)
                                     Text("좋음")
                                         .font(.system(size: 12))
                                 }

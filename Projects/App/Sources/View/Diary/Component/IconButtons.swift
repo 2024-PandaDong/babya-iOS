@@ -9,11 +9,11 @@
 import SwiftUI
 
 enum Emotion: String, CaseIterable {
-    case happy = "좋음 이모티콘"
-    case normal = "평범 이모티콘"
-    case pain = "아픔 이모티콘"
-    case tired = "피곤 이모티콘"
-    case anxious = "불안 이모티콘"
+    case happy = "happy"
+    case normal = "normal"
+    case pain = "pain"
+    case tired = "tired"
+    case anxious = "anxious"
     
     var label: String {
         switch self {
