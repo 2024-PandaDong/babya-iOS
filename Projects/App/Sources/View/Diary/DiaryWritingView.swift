@@ -16,8 +16,8 @@ struct DiaryWritingView : View {
     @State var weight: String = ""
     @State var weeks : String = ""
     @State var Opinion : String = ""
-    @State var BloodPressure1 : String = ""
-    @State var BloodPressure2 : String = ""
+    @State var systolicPressure : String = ""
+    @State var diastolicPressure : String = ""
     @State var Content : String = ""
     @State private var selectedEmotion: Emotion? = nil
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -76,10 +76,10 @@ struct DiaryWritingView : View {
                                 HStack(spacing:7){
                                     Text("혈압:")
                                         .font(.system(size: 16))
-                                    LineTextField(text: $BloodPressure1, TextFieldWidth: 30)
+                                    LineTextField(text: $systolicPressure, TextFieldWidth: 30)
                                     Text("/")
                                         .font(.system(size: 16))
-                                    LineTextField(text: $BloodPressure2, TextFieldWidth: 30)
+                                    LineTextField(text: $diastolicPressure, TextFieldWidth: 30)
                                         .padding(.trailing,30)
                                     
                                     Text("다음 진찰일:")
