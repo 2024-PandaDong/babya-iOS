@@ -10,4 +10,5 @@ import Foundation
 
 protocol AuthService {
     func login(email: String, password: String) async throws -> Response<LoginResponse>
+    func reissue(refreshToken : String) async throws -> Response<ReissueResponse>
 }
