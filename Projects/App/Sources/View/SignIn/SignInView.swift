@@ -11,7 +11,6 @@ struct SignInView : View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showPassword: Bool = false
-
     @StateObject var vm : SignInViewModel
     
     var body: some View {

@@ -17,8 +17,7 @@ struct PencilButton : View {
                     .foregroundColor(.yellow0)
                     .frame(width: 50,height: 50)
                     .overlay{
-                        Image(systemName: "pencil")
-                            .foregroundColor(.white)
+                        Image("pencil")
                     }
             })
     }

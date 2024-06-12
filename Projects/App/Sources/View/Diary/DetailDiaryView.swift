@@ -44,7 +44,6 @@ struct DetailDiaryView : View {
                         CommentCeil(ProfileImage: "Image", UserName: "유저이름", Days: "1일", Content: "내용내용")
                             .padding(.vertical,5)
                     }
-                    
                 }
                 ZStack{
                         HStack(spacing: 1){
@@ -80,7 +79,6 @@ struct DetailDiaryView : View {
                     Image("dots")
                         .resizable()
                         .frame(width: 18)
-                        
                 })
             }
         }

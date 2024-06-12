@@ -22,21 +22,25 @@ struct CommentCeil : View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Circle())
-                        .frame(minWidth: 25,maxHeight: 25 )
+                        .frame(minWidth: 25,maxHeight: 25)
                     Text(UserName)
                         .font(.system(size: 13))
+                        .foregroundStyle(.black)
                     Text(Days)
                         .font(.system(size: 11))
+                        .foregroundStyle(Color.gray2)
                 }
                 Text(Content)
                     .padding(.leading,25)
+                    .font(.system(size: 13))
+                    .foregroundStyle(.black)
                 
                 Button {
                     // 댓글 쓰기
                 } label: {
-                    Text("댓글쓰기")
+                    Text("답글달기")
                         .font(.system(size: 11))
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(Color.gray2)
                         .padding(.vertical,1)
                         .padding(.leading,25)
                 }

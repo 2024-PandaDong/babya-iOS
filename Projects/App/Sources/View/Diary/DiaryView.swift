@@ -79,9 +79,9 @@ struct DiaryView : View {
                     ScrollView {
                         LazyVGrid(columns: columns) {
                             ForEach((0...2), id: \.self) { _ in
-                                NavigationLink(destination: UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image"))
-                                {
-//                                                         DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름")) {
+                                            NavigationLink(destination:// UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image"))
+                                //                                {
+                                DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름")) {
                                     DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
                                         .padding(.vertical,5)
                                 }

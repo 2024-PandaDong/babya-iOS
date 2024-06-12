@@ -14,6 +14,7 @@ extension Color {
 
     static let gray0 = Color(hex: "#f5f5f5")
     static let gray1 = Color(hex: "#989898")
+    static let gray2 = Color(hex: "#D9D9D9")
     static let ivory = Color(hex: "f8ede3")
     static let brown = Color(hex: "897853")
     static let yellow0 = Color(hex: "#FFCB29")

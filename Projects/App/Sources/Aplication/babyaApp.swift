@@ -12,11 +12,14 @@ struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack{
-                if LoginUserHashCache.accessToken.isEmpty {
-                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-                } else {
-                    DiaryView()
-                }
+                DiaryView()
+//                SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+//                DiaryWritingView(title: "테스트", PostName: "텟그트", DiaryImage: "Image")
+//                if LoginUserHashCache.accessToken.isEmpty {
+//                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+//                } else {
+//                    DiaryView()
+//                }
             }
         }
     }

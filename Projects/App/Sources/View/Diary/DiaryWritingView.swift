@@ -32,20 +32,42 @@ struct DiaryWritingView : View {
     @State var complete : Bool = false
     @State private var showingDatePicker = false
     @State private var formattedDate = ""
+    @State private var openPhoto = false
+    @State private var image = UIImage()
     var body: some View {
         NavigationView{
             ScrollView{
                 ZStack{
                     VStack(alignment:.leading,spacing: 5){
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.gray, lineWidth: 1.5)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 200)
-                            .background(.white)
-                            .padding(.vertical,5)
-                            .overlay {
-                                Image("camera")
-                            }
+                        if openPhoto == false{
+                            Button(action: {
+                                self.openPhoto = true
+                            }, label: {
+                                ZStack{
+                                    if openPhoto == false{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.gray, lineWidth: 1.5)
+                                            .frame(maxWidth: .infinity)
+                                            .frame(height: 200)
+                                            .background(.white)
+                                            .padding(.vertical,5)
+                                            .overlay {
+                                                Image("camera")
+                                            }
+                                    }
+                                    
+                                    Image(uiImage: self.image)
+                                        .resizable()
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 200)
+                                        .cornerRadius(10)
+                                        .padding(.vertical,5)
+                                        .onAppear{
+                                            print(image)
+                                        }
+                                }
+                            })
+                        }
                         Text("제목")
                             .font(.system(size: 20))
                             .bold()
@@ -154,14 +176,14 @@ struct DiaryWritingView : View {
                                     .font(.system(size: 20))
                                     .bold()
                                     .padding(.bottom,10)
-                                HStack(spacing: 30) {
-                                    ForEach(Emotion.allCases, id: \.self) { emotion in
-                                        IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
-                                            selectedEmotion = selected
-                                        }
-                                    }
-                                }
-                                .padding(.bottom, 15)
+//                                HStack(spacing: 30) {
+//                                    ForEach(Emotion.allCases, id: \.self) { emotion in
+//                                        IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
+//                                            selectedEmotion = selected
+//                                        }
+//                                    }
+//                                }
+//                                .padding(.bottom, 15)
                                 
                                 Divider()
                                 HStack(spacing:10){
@@ -198,6 +220,9 @@ struct DiaryWritingView : View {
                             .shadow(radius: 10)
                     }
                 }
+            }
+            .sheet(isPresented: $openPhoto) {
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
             }
         }
         .navigationBarBackButtonHidden()
