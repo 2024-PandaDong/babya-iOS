@@ -9,21 +9,29 @@ import SwiftUI
 
 struct NoticeBoardView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = NoticeBoardDetailViewModel()
     
     var body: some View {
         ZStack {
                 ScrollView {
                     Rectangle()
-                        .frame(width: UIScreen.main.bounds.width, height: 110)
+                        .frame(height: 110)
+                        .foregroundStyle(Color(red: 255/255, green: 203/255, blue: 41/255))
+                        .overlay {
+                            HStack(spacing: 40) {
+                                Text("오늘도 따뜻한 가정을 위해\n애기야에서 이야기 나눠봐요")
+                                    .font(.system(size: 20, weight: .bold))
+                                
+                                Image("duck")
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .offset(x: 0, y: 15)
+                            }
+                        }
                     
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
-                    PostPreviewCell()
+                    ForEach(0..<viewModel.model.data.comments.count, id: \.self) { index in
+                        PostPreviewCell(model: viewModel.model)
+                    }
                     
                     Spacer()
                         .frame(height: 100)
@@ -71,12 +79,10 @@ struct NoticeBoardView: View {
                                     .font(.system(size: 25))
                             }
                     }
-                    .padding(.vertical, 90)
                     .padding(.horizontal, 20)
+                    .padding(.vertical, 30)
                 }
             }
-            
-            CustomTabBar()
         }
         .navigationBarBackButtonHidden()
     }

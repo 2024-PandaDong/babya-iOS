@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct PostPreviewCell: View {
-    @StateObject var viewModel = NoticeBoardViewModel()
+    let model: NoticeBoardDetailModel
     
     var body: some View {
         NavigationLink(destination: NoticeBoardDetailView()) {
             VStack(spacing: 0) {
                 Rectangle()
-                    .frame(width: UIScreen.main.bounds.width, height: 130)
+                    .frame(height: 130)
+                    .frame(maxWidth: .infinity)
                     .foregroundStyle(.white)
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text("박규민")
+                                Text(model.data.postVO.post.title)
                                     .font(.system(size: 16, weight: .bold))
                                 
                                 Spacer()
                                 
-                                Text("동동이맘")
+                                Text(model.data.postVO.post.member.nickName)
                                     .font(.system(size: 12, weight: .bold))
                                 
                                 Circle()
@@ -32,7 +33,7 @@ struct PostPreviewCell: View {
                             }
                             .padding(.horizontal, 20)
                             
-                            Text("오늘부터 4주차 동동이 엄마 입니다. \n임신한 후에 모임 가지면서 요가 같이 해봐요~")
+                            Text(model.data.postVO.post.content)
                                 .font(.system(size: 14))
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 20)
@@ -41,32 +42,36 @@ struct PostPreviewCell: View {
                             
                             HStack {
                                 Capsule()
-                                    .frame(width: 50, height: 15)
+                                    .frame(width: 50, height: 18)
                                     .foregroundStyle(.white)
                                     .overlay {
-                                        Capsule().stroke(.gray)
-                                        
-                                        HStack {
-                                            Image(systemName: "eye.fill")
-                                                .font(.system(size: 10))
+                                        ZStack {
+                                            Capsule().stroke(.gray)
                                             
-                                            Text("154")
-                                                .font(.system(size: 10))
+                                            HStack {
+                                                Image(systemName: "eye.fill")
+                                                    .font(.system(size: 12))
+                                                
+                                                Text("\(model.data.postVO.post.view)")
+                                                    .font(.system(size: 12))
+                                            }
                                         }
                                     }
                                 
                                 Capsule()
-                                    .frame(width: 50, height: 15)
+                                    .frame(width: 50, height: 18)
                                     .foregroundStyle(.white)
                                     .overlay {
-                                        Capsule().stroke(.gray)
-                                        
-                                        HStack {
-                                            Image(systemName: "bubble")
-                                                .font(.system(size: 10))
+                                        ZStack {
+                                            Capsule().stroke(.gray)
                                             
-                                            Text("12")
-                                                .font(.system(size: 10))
+                                            HStack {
+                                                Image(systemName: "bubble")
+                                                    .font(.system(size: 12))
+                                                
+                                                Text("\(model.data.comments.count)")
+                                                    .font(.system(size: 10))
+                                            }
                                         }
                                     }
                                 
@@ -80,12 +85,13 @@ struct PostPreviewCell: View {
                         }
                         .padding(.vertical, 15)
                     }
+                    .tint(.black)
                 
                 Rectangle()
-                    .frame(width: UIScreen.main.bounds.width, height: 1)
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
                     .foregroundStyle(.gray)
             }
-            .tint(.black)
         }
     }
 }
@@ -95,7 +101,7 @@ struct PostPreviewCell: View {
         ZStack {
             Color.black
             
-            PostPreviewCell()
+            PostPreviewCell(model: NoticeBoardDetailModel())
         }
     }
 }
