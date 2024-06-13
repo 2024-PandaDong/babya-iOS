@@ -13,7 +13,7 @@ struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                HomeView()
+                SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
             }
         }
     }

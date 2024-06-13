@@ -89,9 +89,10 @@ struct SignInView : View {
                             .foregroundColor(Color.gray1)
                             .font(.system(size: 12))
                     }
-                    Button{
-                        
-                    }label: {
+                    NavigationLink {
+                        FirstSignUpView()
+                            .environmentObject(SignUpViewModel())
+                    } label: {
                         Text("회원가입")
                             .foregroundColor(Color.yellow1)
                             .font(.system(size: 12))

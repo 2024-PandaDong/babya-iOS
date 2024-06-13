@@ -15,7 +15,7 @@ final class RemoteAuthService: AuthService {
         let loginUrl = "auth/login"
         
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + loginUrl, method: .post, parameters: loginRequest, encoder: JSONParameterEncoder.default)
+            AF.request(ApiContent.url + loginUrl, method: .post, parameters: loginRequest, encoder: JSONParameterEncoder.default)
                 .responseDecodable(of: Response<LoginResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
@@ -30,7 +30,7 @@ final class RemoteAuthService: AuthService {
         let reissueRequest = ReissueRequest(refreshToken: refreshToken)
         let reissueUrl = "auth/reissue"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default)
+            AF.request(ApiContent.url + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default)
                 .responseDecodable(of: Response<ReissueResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
