@@ -18,7 +18,6 @@ struct DiaryRequest : Encodable{
     let nextAppointment : String
     let emoji : String
     let fetusComment : String
-    let memo : String
     let isPublic : Bool
     let url : [String]
 }

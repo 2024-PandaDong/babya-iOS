@@ -176,14 +176,14 @@ struct DiaryWritingView : View {
                                     .font(.system(size: 20))
                                     .bold()
                                     .padding(.bottom,10)
-//                                HStack(spacing: 30) {
-//                                    ForEach(Emotion.allCases, id: \.self) { emotion in
-//                                        IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
-//                                            selectedEmotion = selected
-//                                        }
-//                                    }
-//                                }
-//                                .padding(.bottom, 15)
+                                HStack(spacing: 30) {
+                                    ForEach(Emotion.allCases, id: \.self) { emotion in
+                                        IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
+                                            selectedEmotion = selected
+                                        }
+                                    }
+                                }
+                                .padding(.bottom, 15)
                                 
                                 Divider()
                                 HStack(spacing:10){
