@@ -20,7 +20,7 @@ struct HomeView: View {
                                 .foregroundStyle(.black)
                             
                             Text("대구광역시 출산 정책 이렇게 달라집니다.")
-                                .font(.system(size: 12))
+                                .font(.pretendardMedium12)
                             
                             Spacer()
                             
