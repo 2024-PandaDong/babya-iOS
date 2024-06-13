@@ -13,6 +13,7 @@ struct SignInView : View {
     @State private var showPassword: Bool = false
 
     @StateObject var vm : SignInViewModel
+    @StateObject var signUpViewModel = SignUpViewModel()
     
     var body: some View {
         ZStack{
@@ -89,7 +90,7 @@ struct SignInView : View {
                             .foregroundColor(Color.gray1)
                             .font(.system(size: 12))
                     }
-                    NavigationLink {
+                    NavigationLink(isActive: $signUpViewModel.rootActive) {
                         FirstSignUpView()
                             .environmentObject(SignUpViewModel())
                     } label: {
