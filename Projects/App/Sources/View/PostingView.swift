@@ -116,11 +116,12 @@ struct PostingView: View {
                     .foregroundStyle(.gray)
                 
                 HStack {
-                    ImagePickerBox(width: 135, height: 100, target: $viewModel.model.file)
+                    ImagePickerBox(width: 135, height: 100)
                     
                     Spacer()
                 }
                 .padding(.horizontal, 20)
+                .padding(.vertical)
                 
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $viewModel.model.content)
@@ -138,8 +139,6 @@ struct PostingView: View {
                             .padding(.vertical, 12)
                     }
                 }
-                
-                
             }
             
         }
@@ -161,11 +160,20 @@ struct PostingView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.post()
+//                    viewModel.post()
+//                    self.presentationMode.wrappedValue.dismiss()
+
                 } label: {
-                    Image(systemName: "checkmark")
-                        .foregroundStyle(.black)
+                    RoundedRectangle(cornerRadius: 5)
+                        .frame(width: 50, height: 25)
+                        .foregroundStyle(viewModel.isAvailable ? Color(red: 255/255, green: 203/255, blue: 41/255) : .gray)
+                        .overlay {
+                            Text("등록")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 15, weight: .bold))
+                        }
                 }
+                .disabled(!viewModel.isAvailable)
             }
         }
     }

@@ -8,29 +8,54 @@
 import SwiftUI
 
 struct ImagePickerBox: View {
+    @StateObject var viewModel = PostingViewModel()
+    
     let width: CGFloat
     let height: CGFloat
     
-    @Binding var target: String
-    
     @State private var showImagePicker = false
-    @State private var selectedUIImage: UIImage?
-    @State private var image: UIImage = UIImage()
-        
+    @State var selectedUIImage: UIImage?
+    @State var image: Image?
+    
     func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
-        self.image = selectedImage
-        target = image.pngData()?.base64EncodedString() ?? ""
+        image = Image(uiImage: selectedImage)
+        viewModel.imageUpload(image: selectedImage)
     }
-    
+        
     var body: some View {
         VStack {
-            if let data = Data(base64Encoded: target, options: .ignoreUnknownCharacters),
-               let decodedImg = UIImage(data: data) {
-                Image(uiImage: decodedImg)
-                    .resizable()
-                    .frame(width: 340, height: 230)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            if let image = image {
+                ZStack {
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                            
+                            Button {
+                                self.image = nil
+                            } label: {
+                                Circle()
+                                    .frame(width: 25, height: 25)
+                                    .foregroundStyle(.white)
+                                    .overlay {
+                                        Circle().stroke(.yellow, lineWidth: 1)
+                                        
+                                        Image(systemName: "xmark")
+                                            .foregroundStyle(.yellow)
+                                            .font(.system(size: 15))
+                                    }
+                                    .offset(x: 10, y: -10)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
             } else {
                 Button {
                     showImagePicker.toggle()

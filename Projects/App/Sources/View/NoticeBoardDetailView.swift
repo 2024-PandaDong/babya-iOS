@@ -9,9 +9,8 @@ import SwiftUI
 
 struct NoticeBoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @State var myComment: String = ""
     @FocusState private var isFocused: Bool
+    @StateObject var viewModel = NoticeBoardDetailViewModel()
     
     var body: some View {
         VStack {
@@ -22,7 +21,7 @@ struct NoticeBoardDetailView: View {
                     
                     VStack(spacing: 3) {
                         HStack {
-                            Text("동동이맘")
+                            Text(viewModel.model.data.postVO.post.title)
                                 .font(.system(size: 16, weight: .bold))
                             Button {
                                 
@@ -34,21 +33,19 @@ struct NoticeBoardDetailView: View {
                             
                             Spacer()
                             
-                            Text("30분 전")
-                                .font(.system(size: 12))
-                                .foregroundStyle(.gray)
+                            //
                         }
                         
                         HStack {
                             Image(systemName: "eye.fill")
                                 .foregroundStyle(.gray)
                             
-                            Text("76")
+                            Text("\(viewModel.model.data.postVO.post.view)")
                             
                             Image(systemName: "bubble")
                                 .foregroundStyle(.gray)
                             
-                            Text("12")
+                            Text("")
                             
                             Spacer()
                         }
@@ -61,52 +58,64 @@ struct NoticeBoardDetailView: View {
                     .frame(width: 370, height: 240)
                 
                 HStack {
-                    Text("오늘부터 4주차 동동이 엄마 입니다.\n임신한 후에 모임 가지면서 요가 같이 해봐요~")
+                    Text(viewModel.model.data.postVO.post.content)
                     
                     Spacer()
                 }
                 .padding(.horizontal, 20)
                 
+                HStack {
+                    Spacer()
+                    
+                    Text("30분 전")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.gray)
+                        .padding(.top)
+                        .padding(.horizontal, 20)
+                }
+                
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
                     .foregroundStyle(.gray)
-                    .padding(.vertical, 15)
-                
-                CommentCell()
-                CommentCell()
-                CommentCell()
-                CommentCell()
-                CommentCell()
-                CommentCell()
+                    .padding(.vertical, 10)
+
+                ForEach(0..<$viewModel.model.data.comments.count, id: \.self) { index in
+                    CommentCell(name: $viewModel.model.data.comments[index].member.nickName, day: $viewModel.model.data.postVO.post.createdAt, content: $viewModel.model.data.comments[index].content)
+                }
             }
             
-            Rectangle()
-                .frame(height: 1)
-                .foregroundStyle(.gray)
-            
-            HStack(spacing: 0) {
-                Circle()
-                    .frame(width: 30, height: 30)
-                    .padding(.horizontal, 10)
-                
-                TextField(text: $myComment, prompt: Text("댓글 쓰기")) {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundStyle(.gray)
+
+                HStack(spacing: 0) {
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .padding(.horizontal, 10)
                     
+                    TextField(text: .constant(""), prompt: Text("댓글 쓰기")) {
+                        
+                    }
+                    .frame(height: 45)
+                    .focused($isFocused)
+                    
+                    Button {
+                        isFocused = false
+                    } label: {
+                        Rectangle()
+                            .frame(width: 50, height: 50)
+                            .foregroundStyle(.yellow)
+                            .overlay {
+                                Image(systemName: "paperplane")
+                                    .foregroundStyle(.white)
+                            }
+                    }
                 }
-                .frame(height: 45)
-                .background(Color.red)
-                .focused($isFocused)
-                
-                Button {
-                    isFocused = false
-                } label: {
-                    Rectangle()
-                        .frame(width: 50, height: 50)
-                        .foregroundStyle(.yellow)
-                        .overlay {
-                            Image(systemName: "paperplane")
-                                .foregroundStyle(.white)
-                        }
-                }
+      
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundStyle(.gray)
             }
         }
         .toolbar {
@@ -120,7 +129,7 @@ struct NoticeBoardDetailView: View {
             }
             
             ToolbarItem(placement: .principal) {
-                Text("임산부 취미 공유합니다!")
+                Text(viewModel.model.data.postVO.post.title)
                     .font(.system(size: 20, weight: .bold))
             }
         }

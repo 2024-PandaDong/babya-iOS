@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct CompanyRowCell: View {
+    let rank: String
+    let image: String
+    let title: String
+    
     var body: some View {
         Rectangle()
             .frame(width: UIScreen.main.bounds.width, height: 65)
             .foregroundStyle(.white)
             .overlay {
                 HStack(spacing: 20) {
-                    Text("1위")
+                    Text(rank)
                         .font(.system(size: 20, weight: .bold))
                     
-                    Text("SAMSUNG")
-                        .font(.system(size: 10))
+                    AsyncImage(url: .init(string: ""))
                     
-                    Text("삼성전자")
+                    Text(title)
                         .font(.system(size: 20, weight: .bold))
                     
                     Spacer()
@@ -39,6 +42,6 @@ struct CompanyRowCell: View {
 
 #Preview {
     NavigationView {
-        CompanyRowCell()
+        CompanyRowCell(rank: "", image: "", title: "")
     }
 }

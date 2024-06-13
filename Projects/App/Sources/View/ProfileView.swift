@@ -167,8 +167,6 @@ struct ProfileView: View {
                     .frame(height: 120)
             }
             .ignoresSafeArea()
-            
-            CustomTabBar()
         }
         .navigationBarBackButtonHidden()
     }
