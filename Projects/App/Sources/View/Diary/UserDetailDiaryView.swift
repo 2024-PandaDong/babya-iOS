@@ -126,29 +126,34 @@ struct UserDetailDiaryView : View {
         .navigationTitle(PostName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
-            ToolbarItem(placement: .navigationBarLeading){
-                Button {
-                    self.presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Image("arrow")
-                        .resizable()
-                        .frame(width: 18,height: 18)
-                }
+            toolbarContent()
+        }
+    }
+    @ToolbarContentBuilder
+    private func toolbarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading){
+            Button {
+                self.presentationMode.wrappedValue.dismiss()
+            } label: {
+                Image("arrow")
+                    .resizable()
+                    .frame(width: 18,height: 18)
             }
-            
-            ToolbarItem(placement:.navigationBarTrailing) {
-                NavigationLink {
-                    DiaryWritingView(title: "",PostName: "dsa",DiaryImage: "Image")
-                } label: {
-                    Image("dots")
-                        .resizable()
-                        .frame(width: 18)
-                }
+        }
+        
+        ToolbarItem(placement:.navigationBarTrailing) {
+            NavigationLink {
+//                DiaryWritingView(title: PostName ,PostName: PostName ,DiaryImage: DiaryImage, vm: DiaryViewModel(diaryService: RemoteDiaryService()))
+            } label: {
+                Image("dots")
+                    .resizable()
+                    .frame(width: 18)
             }
         }
     }
+    
 }
 
-#Preview {
-    UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image")
-}
+//#Preview {
+//    UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image")
+//}

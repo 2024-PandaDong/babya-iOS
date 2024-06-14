@@ -16,7 +16,7 @@ struct DiaryView : View {
     @State var myDiary : Bool = false
     @State var Diary : Bool = true
     @FocusState private var isTextFieldFocused: Bool
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         NavigationView{
             ZStack{
@@ -104,7 +104,7 @@ struct DiaryView : View {
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
-                            //
+                            self.presentationMode.wrappedValue.dismiss()
                         } label: {
                             Image("arrow")
                                 .resizable()

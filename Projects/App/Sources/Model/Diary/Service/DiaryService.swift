@@ -9,5 +9,7 @@
 import Foundation
 
 protocol DiaryService {
-    func diary(request: DiaryRequest) async throws -> baseResponse
+    func postDiary(request: DiaryRequest) async throws -> baseResponse
+    func getDiary(request: PageRequest) async throws -> Response<DiaryResponse>
+    func commentDiary(request:)
 }
