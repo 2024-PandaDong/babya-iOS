@@ -19,11 +19,10 @@ class DiaryViewModel: ObservableObject {
     }
     func diary(content : DiaryRequest) async {
             do {
-                let response = try await diaryService.diary(request: content)
+                let response = try await diaryService.postDiary(request: content)
                 print(response)
             } catch {
                 print(error)
-                
             }
         }
 }

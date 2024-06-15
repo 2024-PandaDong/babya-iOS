@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DiaryRequest : Encodable{
+struct DiaryRequest : Encodable,Hashable{
     let title : String
     let content : String
     let pregnancyWeeks : Int

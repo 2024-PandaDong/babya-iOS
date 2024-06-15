@@ -34,6 +34,8 @@ struct DiaryWritingView : View {
     @State private var formattedDate = ""
     @State private var openPhoto = false
     @State private var image = UIImage()
+    @State private var imageUrl: URL? = nil
+    @StateObject var vm : DiaryViewModel
     var body: some View {
         NavigationView{
             ScrollView{
@@ -124,7 +126,7 @@ struct DiaryWritingView : View {
                                     .font(.system(size: 20))
                                     .bold()
                                 
-                                LineTextField(text: $title, TextFieldWidth: .infinity)
+                                LineTextField(text: $Opinion, TextFieldWidth: .infinity)
                                     .onAppear {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             self.isTextFieldFocused = true
@@ -222,7 +224,7 @@ struct DiaryWritingView : View {
                 }
             }
             .sheet(isPresented: $openPhoto) {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl)
             }
         }
         .navigationBarBackButtonHidden()
@@ -240,7 +242,22 @@ struct DiaryWritingView : View {
             }
             ToolbarItem(placement:.navigationBarTrailing) {
                 Button(action: {
-                    //
+                    Task {
+                        let diaryRequest = DiaryRequest(
+                            title: title,
+                            content: Content,
+                            pregnancyWeeks: Int(weeks) ?? 0,
+                            weight: Int(weight) ?? 0,
+                            systolicPressure: Int(systolicPressure) ?? 0,
+                            diastolicPressure: Int(diastolicPressure) ?? 0,
+                            nextAppointment: formattedDate,
+                            emoji: selectedEmotion?.rawValue ?? "",
+                            fetusComment: Opinion,
+                            isPublic: privateToggle,
+                            url: imageUrl != nil ? [imageUrl!.absoluteString] : [""]
+                        )
+                        await vm.diary(content: diaryRequest)
+                    }
                 }, label: {
                     ZStack{
                         RoundedRectangle(cornerRadius: 3)
@@ -271,6 +288,4 @@ struct DiaryWritingView : View {
     }
 }
 
-#Preview {
-    DiaryWritingView(title: "v",PostName: "dsa",DiaryImage: "Image")
-}
+
