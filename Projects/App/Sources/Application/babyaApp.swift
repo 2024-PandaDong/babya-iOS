@@ -10,10 +10,15 @@ import SwiftUI
 
 @main
 struct babyaApp: App {
+    @StateObject var tokenManager = TokenManager()
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                HomeView()
+                if tokenManager.accessToken.isEmpty {
+                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+                } else {
+                    HomeView()
+                }
             }
         }
     }

@@ -107,7 +107,7 @@ struct PostingView: View {
                     .frame(height: 1)
                     .foregroundStyle(.gray)
                 
-                TextField("", text: $viewModel.model.title, prompt: Text("제목").font(.system(size: 20)).foregroundStyle(.gray))
+                TextField("", text: $viewModel.model.title, prompt: Text("제목").font(.system(size: 20)).foregroundColor(.gray))
                     .padding(.horizontal, 20)
                     .tint(.yellow)
                 

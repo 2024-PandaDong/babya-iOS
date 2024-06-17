@@ -150,9 +150,9 @@ class SignUpViewModel: ObservableObject {
     
     func signUp() {
         AF.request("\(ApiContent.url)/auth/join", method: .post, parameters: model.params, encoding: JSONEncoding.default)
-            .responseDecodable(of: ResponseModel.self, completionHandler: { response in
-                
+            .responseDecodable(of: ResponseModel.self) { response in
+                self.rootActive = false
                 print(response)
-            })
+            }
     }
 }

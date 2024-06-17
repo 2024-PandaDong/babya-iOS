@@ -57,7 +57,7 @@ struct FirstSignUpView: View {
                 }
                 
                 VStack {
-                    NavigationLink {
+                    NavigationLink() {
                        SecondSignUpView()
                             .environmentObject(viewModel)
                     } label: {
@@ -71,7 +71,8 @@ struct FirstSignUpView: View {
                             }
                     }
                     .padding(.bottom)
-                    .disabled(!viewModel.isFirstSignUpAvailable)
+                    
+//                    .disabled(!viewModel.isFirstSignUpAvailable)
                 }
                 .padding(.bottom, 30)
             }
