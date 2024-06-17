@@ -163,7 +163,7 @@ struct ProfileView: View {
                         Text("FAQ")
                     }
                     Button(role: .destructive) {
-                        
+                        print("로그아웃")
                     } label: {
                         Text("로그아웃")
                             .tint(.red)

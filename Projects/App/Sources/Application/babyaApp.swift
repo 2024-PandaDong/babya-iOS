@@ -10,11 +10,10 @@ import SwiftUI
 
 @main
 struct babyaApp: App {
-    @StateObject var tokenManager = TokenManager()
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                if tokenManager.accessToken.isEmpty {
+                if LoginUserHashCache.accessToken.isEmpty {
                     SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
                 } else {
                     HomeView()
