@@ -43,7 +43,9 @@ struct InputFieldView: View {
                             .foregroundColor(.secondary)
                     }
                 }
-            }.underlineTextField()
+            }
+            .underlineTextField()
+            .textInputAutocapitalization(.never)
 
             if let errorMessage = errorMessage {
                 Text(errorMessage)

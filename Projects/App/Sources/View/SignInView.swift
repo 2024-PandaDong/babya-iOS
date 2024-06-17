@@ -92,12 +92,13 @@ struct SignInView : View {
                     }
                     NavigationLink(isActive: $signUpViewModel.rootActive) {
                         FirstSignUpView()
-                            .environmentObject(SignUpViewModel())
+                            .environmentObject(signUpViewModel)
                     } label: {
                         Text("회원가입")
                             .foregroundColor(Color.yellow1)
                             .font(.system(size: 12))
                     }
+                    
                 }
                 .padding(.top,2)
                 .padding(.horizontal,40)

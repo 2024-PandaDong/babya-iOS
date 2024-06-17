@@ -103,8 +103,9 @@ struct SecondSignUpView: View {
                 }
                 
                 SignUpButton(isAvailable: viewModel.isSecondSignUpAvailable, action: {
-                    print(viewModel.model.params)
+//                    print(viewModel.model.params)
                     viewModel.signUp()
+                    
                 })
             }
             .ignoresSafeArea()
