@@ -253,7 +253,7 @@ struct DiaryWritingView : View {
                             nextAppointment: formattedDate,
                             emoji: selectedEmotion?.rawValue ?? "",
                             fetusComment: Opinion,
-                            isPublic: privateToggle,
+                            isPublic: privateToggle ? false : true,
                             url: imageUrl != nil ? [imageUrl!.absoluteString] : [""]
                         )
                         await vm.diary(content: diaryRequest)

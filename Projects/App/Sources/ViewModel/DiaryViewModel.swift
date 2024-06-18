@@ -21,6 +21,7 @@ class DiaryViewModel: ObservableObject {
             do {
                 let response = try await diaryService.postDiary(request: content)
                 print(response)
+                print(content)
             } catch {
                 print(error)
             }
