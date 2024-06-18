@@ -51,5 +51,6 @@ struct LoginUserHashCache {
     
     func logout(){
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.accessToken)
+        UserDefaults.standard.removeObject(forKey: LoginUserHashCache.refreshToken)
     }
 }

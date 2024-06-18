@@ -9,17 +9,21 @@ import SwiftUI
 
 @main
 struct babyaApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
-            ZStack{
-                DiaryView()
-//                SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-//                DiaryWritingView(title: "테스트", PostName: "텟그트", DiaryImage: "Image")
-//                if LoginUserHashCache.accessToken.isEmpty {
-//                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-//                } else {
-//                    DiaryView()
-//                }
+            ZStack {
+                if LoginUserHashCache.shared.checkAccessToken() == nil {
+                    SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
+                } else {
+                    DiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()))
+                }
+            }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .background {
+                LoginUserHashCache.shared.logout()
             }
         }
     }

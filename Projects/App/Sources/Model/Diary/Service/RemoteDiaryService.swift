@@ -11,11 +11,22 @@ import Alamofire
 import SwiftUI
 
 final class RemoteDiaryService : DiaryService{
+    
+    func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<DiaryResponse> {
+        let url = "diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
 
-//    func getDiary(request: PageRequest) async throws -> Response<DiaryResponse> {
-//        let url = "diary"
-//
-//    }
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url, method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<DiaryResponse>.self) { response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
+    }
 //    
 //    func getCommentDiary(pageRequest: PageRequest, diaryId: Int) async throws -> Response<CommentResponse> {
 //        let url = "diary/comment"

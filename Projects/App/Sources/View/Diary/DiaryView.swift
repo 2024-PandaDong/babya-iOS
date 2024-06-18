@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DiaryView : View {
+    @StateObject var vm : DiaryViewModel
     let columns = [GridItem(.fixed(180)),
                    GridItem(.fixed(180))]
     @State var All : Bool = true
@@ -123,10 +124,13 @@ struct DiaryView : View {
                     }
                 }
             }
+            .task {
+                await vm.getDiary(pageRequest: PageRequest(page: 1, size: 1), email: LoginUserHashCache.email)
+            }
         }
     }
 }
 
-#Preview {
-    DiaryView()
-}
+//#Preview {
+//    DiaryView()
+//}

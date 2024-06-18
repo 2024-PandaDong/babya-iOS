@@ -25,4 +25,13 @@ class DiaryViewModel: ObservableObject {
                 print(error)
             }
         }
+    
+    func getDiary(pageRequest : PageRequest,email : String) async {
+        do {
+            let response = try await diaryService.getDiary(pageRequest: pageRequest, email: email)
+            print(response)
+        } catch {
+            print(error)
+        }
+    }
 }
