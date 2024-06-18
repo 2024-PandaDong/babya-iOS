@@ -13,6 +13,7 @@ struct LoginUserHashCache {
     private init () {}
     static var accessToken = "accessToken"
     static var refreshToken = "refreshToken"
+    static var email = "email"
     
     func checkAccessToken() -> String? {
         if let accessToken = UserDefaults.standard.object(forKey: LoginUserHashCache.accessToken) as? String {
@@ -26,6 +27,17 @@ struct LoginUserHashCache {
             return refreshToken
         }
         return nil
+    }
+    
+    func checkEmail() -> String? {
+        if let email = UserDefaults.standard.object(forKey: LoginUserHashCache.email) as? String {
+            return email
+        }
+        return nil
+    }
+    
+    func storeEmail(value: String){
+        UserDefaults.standard.set(value, forKey: LoginUserHashCache.email)
     }
     
     func storeAccessToken(value: String){
