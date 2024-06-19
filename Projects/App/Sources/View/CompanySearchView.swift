@@ -29,15 +29,7 @@ struct CompanySearchView: View {
                     }
                     .padding(.horizontal, 20)
                     
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
-                    CompanyRowCell()
+                    CompanyRowCell(rank: "1위", image: "", title: "삼성전자")
                     
                     Spacer()
                         .frame(height: 100)
@@ -70,8 +62,6 @@ struct CompanySearchView: View {
                     }
                 }
             }
-            
-            CustomTabBar()
         }
         .navigationBarBackButtonHidden()
     }

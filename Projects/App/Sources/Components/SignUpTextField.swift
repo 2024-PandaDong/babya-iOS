@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SignUpTextField: View {
-    @StateObject var vm = SignUpViewModel()
+    
     
     let title: String
     @Binding var content: String
