@@ -21,29 +21,27 @@ struct NoticeBoardDetailView: View {
                     
                     VStack(spacing: 3) {
                         HStack {
-                            Text(viewModel.model.data.postVO.post.title)
+                            Text("")
                                 .font(.system(size: 16, weight: .bold))
                             Button {
-                                
+                                // Button action here
                             } label: {
                                 Image(systemName: "star")
                                     .font(.system(size: 15))
-                                    .foregroundStyle(.black)
+                                    .foregroundColor(.black)
                             }
                             
                             Spacer()
-                            
-                            //
                         }
                         
                         HStack {
                             Image(systemName: "eye.fill")
-                                .foregroundStyle(.gray)
+                                .foregroundColor(.gray)
                             
-                            Text("\(viewModel.model.data.postVO.post.view)")
+                            Text("")
                             
                             Image(systemName: "bubble")
-                                .foregroundStyle(.gray)
+                                .foregroundColor(.gray)
                             
                             Text("")
                             
@@ -58,7 +56,7 @@ struct NoticeBoardDetailView: View {
                     .frame(width: 370, height: 240)
                 
                 HStack {
-                    Text(viewModel.model.data.postVO.post.content)
+                    Text("")
                     
                     Spacer()
                 }
@@ -67,55 +65,56 @@ struct NoticeBoardDetailView: View {
                 HStack {
                     Spacer()
                     
-                    Text("30분 전")
+                    Text("")
                         .font(.system(size: 12))
-                        .foregroundStyle(.gray)
+                        .foregroundColor(.gray)
                         .padding(.top)
                         .padding(.horizontal, 20)
                 }
                 
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
                     .padding(.vertical, 10)
 
-                ForEach(0..<$viewModel.model.data.comments.count, id: \.self) { index in
-                    CommentCell(name: $viewModel.model.data.comments[index].member.nickName, day: $viewModel.model.data.postVO.post.createdAt, content: $viewModel.model.data.comments[index].content)
-                }
+//                ForEach(viewModel.model.data.comments.indices, id: \.self) { index in
+//                    CommentCell(name: viewModel.model.data.comments[index].member.nickName,
+//                                day: viewModel.model.data.comments[index].createdAt,
+//                                content: viewModel.model.data.comments[index].content)
+//                }
             }
             
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
 
                 HStack(spacing: 0) {
                     Circle()
                         .frame(width: 30, height: 30)
                         .padding(.horizontal, 10)
                     
-                    TextField(text: .constant(""), prompt: Text("댓글 쓰기")) {
-                        
-                    }
-                    .frame(height: 45)
-                    .focused($isFocused)
+                    TextField("댓글 쓰기", text: .constant(""))
+                        .frame(height: 45)
+                        .focused($isFocused)
                     
                     Button {
                         isFocused = false
+                        // Add comment action here
                     } label: {
                         Rectangle()
                             .frame(width: 50, height: 50)
-                            .foregroundStyle(.yellow)
+                            .foregroundColor(.yellow)
                             .overlay {
                                 Image(systemName: "paperplane")
-                                    .foregroundStyle(.white)
+                                    .foregroundColor(.white)
                             }
                     }
                 }
       
                 Rectangle()
                     .frame(height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
             }
         }
         .toolbar {
@@ -124,19 +123,18 @@ struct NoticeBoardDetailView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
-                        .foregroundStyle(.black)
+                        .foregroundColor(.black)
                 }
             }
             
             ToolbarItem(placement: .principal) {
-                Text(viewModel.model.data.postVO.post.title)
+                Text("")
                     .font(.system(size: 20, weight: .bold))
             }
         }
         .navigationBarBackButtonHidden()
     }
 }
-
 #Preview {
     NavigationView {
         NoticeBoardDetailView()

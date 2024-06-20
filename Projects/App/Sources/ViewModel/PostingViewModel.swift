@@ -12,9 +12,17 @@ import UIKit
 
 class PostingViewModel: ObservableObject {
     @Published var model = PostingModel()
+    @Published var uploadResponse = UploadResponse()
     
     func post() {
-        AF.request("\(ApiContent.url)/post", method: .post, parameters: model.params)
+        AF.request("\(ApiContent.url)/post", 
+                   method: .post,
+                   parameters: model.params,
+                   encoding: JSONEncoding.default,
+                   headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("*/*")])
+            .responseJSON { json in
+                print(json)
+            }
             .response { response in
                 switch response.result {
                 case .success:
@@ -25,24 +33,48 @@ class PostingViewModel: ObservableObject {
             }
     }
 
-    func imageUpload(image: Image) {
+    func imageUpload(image: UIImage) {
+        
+        
+        let headers: HTTPHeaders = [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .contentType("multipart/form-data")
+        ]
+        
+  
+        
         AF.upload(multipartFormData: { multipartFormData in
             
-            if let imageData = image.jpegData(compressionQuality: 1.0) {
-                multipartFormData.append(imageData, withName: "file")
+            
+            if let imageData = image.jpegData(compressionQuality: 0.1) {
+                multipartFormData.append(imageData, withName: "file", fileName: "image", mimeType: "image/jpeg")
+                
             }
             
-        }, to: "\(ApiContent.url)/upload")
-        .validate()
-        .response { response in
+        }, to: "\(ApiContent.url)/upload", method: .post, headers: headers)
+        .responseJSON { json in
+            print("Json :")
+
+            print(json)
+        }
+        .responseDecodable(of: UploadResponse.self) { response in
+            print("response")
             switch response.result {
-            case.success(let data):
-                print("\(String(describing: data))")
-            case.failure(let error):
-                print(error.localizedDescription)
+            case .success(let data):
+                print(data.data)
+                self.model.file.append( data.data )
+                
+                if let statusCode = response.response?.statusCode {
+                    print("status code: \(statusCode)")
+                }
+            case .failure(let error):
+                if let statusCode = response.response?.statusCode {
+                    print("status code: \(statusCode), error: \(error.localizedDescription)")
+                }
             }
         }
     }
+
     
     var isAvailable: Bool {
         get {

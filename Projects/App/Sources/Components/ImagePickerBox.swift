@@ -8,26 +8,19 @@
 import SwiftUI
 
 struct ImagePickerBox: View {
-    @StateObject var viewModel = PostingViewModel()
+    @EnvironmentObject var viewModel: PostingViewModel
     
     let width: CGFloat
     let height: CGFloat
     
     @State private var showImagePicker = false
     @State var selectedUIImage: UIImage?
-    @State var image: Image?
-    
-    func loadImage() {
-        guard let selectedImage = selectedUIImage else { return }
-        image = Image(uiImage: selectedImage)
-        viewModel.imageUpload(image: selectedImage)
-    }
         
     var body: some View {
         VStack {
-            if let image = image {
+            if let image = selectedUIImage {
                 ZStack {
-                    image
+                    Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -37,7 +30,7 @@ struct ImagePickerBox: View {
                             Spacer()
                             
                             Button {
-                                self.image = nil
+                                self.selectedUIImage = nil
                             } label: {
                                 Circle()
                                     .frame(width: 25, height: 25)
@@ -72,7 +65,8 @@ struct ImagePickerBox: View {
                         }
                 }
                 .sheet(isPresented: $showImagePicker, onDismiss: {
-                    loadImage()
+                    
+                    viewModel.imageUpload(image: self.selectedUIImage ?? .init())
                 }) {
                     ImagePicker(image: $selectedUIImage)
                 }

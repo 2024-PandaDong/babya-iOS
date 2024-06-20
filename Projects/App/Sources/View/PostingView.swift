@@ -35,7 +35,7 @@ struct PostingView: View {
                     Spacer()
                     
                     Button {
-                        viewModel.model.category = "question"
+                        viewModel.model.category = "1"
                         print("카테고리 : \(viewModel.model.category)")
                     } label: {
                         Circle()
@@ -58,7 +58,7 @@ struct PostingView: View {
                         .frame(width: 5)
                     
                     Button {
-                        viewModel.model.category = "share"
+                        viewModel.model.category = "2"
                         print("카테고리 : \(viewModel.model.category)")
                     } label: {
                         Circle()
@@ -81,7 +81,7 @@ struct PostingView: View {
                         .frame(width: 5)
                     
                     Button {
-                        viewModel.model.category = "life"
+                        viewModel.model.category = "3"
                         print("카테고리 : \(viewModel.model.category)")
                     } label: {
                         Circle()
@@ -117,6 +117,7 @@ struct PostingView: View {
                 
                 HStack {
                     ImagePickerBox(width: 135, height: 100)
+                        .environmentObject(viewModel)
                     
                     Spacer()
                 }
@@ -160,9 +161,10 @@ struct PostingView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-//                    viewModel.post()
-//                    self.presentationMode.wrappedValue.dismiss()
-
+                    viewModel.post()
+                    self.presentationMode.wrappedValue.dismiss()
+                    print(viewModel.model.params)
+                    
                 } label: {
                     RoundedRectangle(cornerRadius: 5)
                         .frame(width: 50, height: 25)

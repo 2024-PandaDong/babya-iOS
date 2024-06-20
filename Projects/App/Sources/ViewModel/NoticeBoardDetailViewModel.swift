@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Alamofire
 
 class NoticeBoardDetailViewModel: ObservableObject {
-    @Published var model = NoticeBoardDetailModel()
+    @Published var postListModel = PostListResponse()
 }

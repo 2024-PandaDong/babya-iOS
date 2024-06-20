@@ -9,7 +9,15 @@ import SwiftUI
 
 struct NoticeBoardView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel = NoticeBoardDetailViewModel()
+    @StateObject var viewModel = NoticeBoardViewModel()
+    
+    let category: [String : String] = [
+        "질문" : "1",
+        "공유" : "2",
+        "일상" : "3"
+    ]
+    @State var selectedCategory: String = "1"
+    @State var showCategoryPicker: Bool = false
     
     var body: some View {
         ZStack {
@@ -29,8 +37,8 @@ struct NoticeBoardView: View {
                             }
                         }
                     
-                    ForEach(0..<viewModel.model.data.comments.count, id: \.self) { index in
-                        PostPreviewCell(model: viewModel.model)
+                    ForEach(0..<viewModel.model.data.count, id: \.self) { index in
+                        PostPreviewCell(model: viewModel.model, index: index)
                     }
                     
                     Spacer()
@@ -52,12 +60,19 @@ struct NoticeBoardView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        
+                    Menu {
+                        Picker("", selection: $selectedCategory) {
+                            ForEach(Array(category.keys), id: \.self) { key in
+                                Text(key).tag(category[key] ?? "")
+                            }
+                        }
                     } label: {
-                        Image(systemName: "arrow.clockwise")
+                        Image(systemName: "line.3.horizontal.decrease.circle")
                             .foregroundStyle(.black)
-                            .font(.system(size: 15))
+                    }
+                    .onChange(of: selectedCategory) { newValue in
+                        viewModel.getPosts(page: 1, size: 25, category: newValue)
+                        print()
                     }
                 }
             }
@@ -85,6 +100,9 @@ struct NoticeBoardView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getPosts(page: 1, size: 25, category: "1")
+        }
     }
 }
 
