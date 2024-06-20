@@ -26,4 +26,20 @@ final class RemoteAuthService: AuthService {
                 }
         }
     }
+    
+    func reissue(refreshToken: String) async throws -> Response<ReissueResponse> {
+        let reissueRequest = ReissueRequest(refreshToken: refreshToken)
+        let reissueUrl = "/auth/reissue"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default)
+                .responseDecodable(of: Response<ReissueResponse>.self) { response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
+    }
 }

@@ -13,18 +13,20 @@ struct babyaApp: App {
 
     var body: some Scene {
         WindowGroup {
+//            SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
             ZStack {
                 if LoginUserHashCache.shared.checkAccessToken() == nil {
                     SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
                 } else {
                     DiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()))
+                        .onAppear{
+                            print(LoginUserHashCache.shared.checkAccessToken())
+                        }
                 }
             }
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .background {
-                LoginUserHashCache.shared.logout()
-            }
+//            .onAppear{
+//                LoginUserHashCache.shared.logout()
+//            }
         }
     }
 }

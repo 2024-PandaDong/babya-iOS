@@ -12,12 +12,12 @@ import SwiftUI
 
 final class RemoteDiaryService : DiaryService{
     
-    func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<DiaryResponse> {
+    func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
         let url = "diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
 
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url, method: .get,interceptor: MyRequestInterceptor())
-                .responseDecodable(of: Response<DiaryResponse>.self) { response in
+            AF.request( baseUrl + url, method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<[DiaryResponse]>.self) { response in
                     switch response.result {
                     case .success(let responseData):
                         continuation.resume(returning: responseData)
@@ -65,11 +65,11 @@ final class RemoteDiaryService : DiaryService{
         }
     }
     
-    func getMyDiary(pageRequest: PageRequest) async throws -> Response<DiaryResponse> {
+    func getMyDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
         let url = "diary/my?page=\(pageRequest.page)&size=\(pageRequest.size)"
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
-                .responseDecodable(of: Response<DiaryResponse>.self){ response in
+                .responseDecodable(of: Response<[DiaryResponse]>.self){ response in
                     switch response.result {
                     case .success(let responseData):
                         continuation.resume(returning: responseData)

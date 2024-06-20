@@ -13,16 +13,15 @@ struct DiaryResponse : Decodable{
     let title : String
     let content : String
     let pregnancyWeeks : Int
-    let weight : String
+    let weight : Int
     let systolicPressure : Int
     let diastolicPressure : Int
     let nextAppointment : String
     let emojiCode : String
     let fetusComment : String
-    let memo : String
     let writtenDt : String
     let isPublic : String
-    let files : [FilesResponse]
+    let files : [FilesResponse?]
     let memberId : String
     let nickname : String
 }

@@ -36,6 +36,7 @@ struct LoginUserHashCache {
         return nil
     }
     
+    
     func storeEmail(value: String){
         UserDefaults.standard.set(value, forKey: LoginUserHashCache.email)
     }
@@ -52,5 +53,6 @@ struct LoginUserHashCache {
     func logout(){
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.accessToken)
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.refreshToken)
+        UserDefaults.standard.removeObject(forKey: LoginUserHashCache.email)
     }
 }

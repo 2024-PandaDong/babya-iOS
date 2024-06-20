@@ -77,14 +77,19 @@ struct DiaryView : View {
                     .padding(.vertical,10)
                     .padding(.horizontal,20)
                     Divider()
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: columns) {
-                            ForEach((0...2), id: \.self) { _ in
-                                            NavigationLink(destination:// UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image"))
-                                //                                {
-                                DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름")) {
-                                    DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
-                                        .padding(.vertical,5)
+                            ForEach((0..<vm.diarycount), id: \.self) { count in
+                                NavigationLink(destination:
+                                                DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름"))
+                                {
+                                    if All{
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
+                                            .padding(.vertical, 5)
+                                    }else {
+                                        DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
+                                            .padding(.vertical,5)
+                                    }
                                 }
                             }
                         }
@@ -125,7 +130,9 @@ struct DiaryView : View {
                 }
             }
             .task {
-                await vm.getDiary(pageRequest: PageRequest(page: 1, size: 1), email: LoginUserHashCache.email)
+                if All{
+                    await vm.getDiary(pageRequest: PageRequest(page: 1, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                }
             }
         }
     }

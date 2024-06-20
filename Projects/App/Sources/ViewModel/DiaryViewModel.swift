@@ -14,6 +14,8 @@ import Alamofire
 class DiaryViewModel: ObservableObject {
     private let diaryService: DiaryService
     @Published var success: Bool = false
+    @Published var diaryList = [DiaryResponse]()
+    @Published var diarycount : Int = 0
     
     init(diaryService: DiaryService) {
         self.diaryService = diaryService
@@ -35,6 +37,14 @@ class DiaryViewModel: ObservableObject {
         do {
             let response = try await diaryService.getDiary(pageRequest: pageRequest, email: email)
             print(response)
+            if let data = response.data {
+                  diaryList = data.compactMap { $0 }
+                  diarycount = data.count
+              } else {
+                  diaryList = []
+                  diarycount = 0
+              }
+            
         } catch {
             print(error)
         }
