@@ -12,6 +12,7 @@ struct DiaryWritingView : View {
     @State var title : String
     var PostName : String
     var DiaryImage : String
+    @Environment(\.dismiss) private var dismiss
     @State private var privateToggle : Bool = false
     @State var weight: String = ""
     @State var weeks : String = ""
@@ -139,7 +140,6 @@ struct DiaryWritingView : View {
                                     }
                                     .padding(.bottom,15)
                                 
-                                
                                 Text("본문")
                                     .font(.system(size: 20))
                                     .bold()
@@ -257,6 +257,9 @@ struct DiaryWritingView : View {
                             url: imageUrl != nil ? [imageUrl!.absoluteString] : [""]
                         )
                         await vm.diary(content: diaryRequest)
+                        if vm.success {
+                            dismiss()
+                        }
                     }
                 }, label: {
                     ZStack{
@@ -287,5 +290,3 @@ struct DiaryWritingView : View {
         formattedDate = formatter.string(from: selectedDate)
     }
 }
-
-

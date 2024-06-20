@@ -15,6 +15,7 @@ class SignInViewModel: ObservableObject {
     @Published var is401Error: Bool = false
     @Published var is404Error: Bool = false
     @Published var isLoggedIn: Bool = false
+    @Published var success : Bool = false
     
     private let authService: AuthService
     

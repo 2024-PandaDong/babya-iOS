@@ -13,6 +13,7 @@ import Alamofire
 @MainActor
 class DiaryViewModel: ObservableObject {
     private let diaryService: DiaryService
+    @Published var success: Bool = false
     
     init(diaryService: DiaryService) {
         self.diaryService = diaryService
@@ -22,6 +23,9 @@ class DiaryViewModel: ObservableObject {
                 let response = try await diaryService.postDiary(request: content)
                 print(response)
                 print(content)
+                if response.status == 201{
+                    success = true
+                }
             } catch {
                 print(error)
             }

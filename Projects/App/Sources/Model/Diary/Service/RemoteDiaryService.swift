@@ -48,13 +48,38 @@ final class RemoteDiaryService : DiaryService{
 //        let url = "diary/sub-comment"
 //    }
 //    
-//    func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
-//        let url = "diary/staus/week"
-//    }
-//    
-//    func getMyDiary(pageRequest: PageRequest) async throws -> Response<DiaryResponse> {
-//        let url = "diary/my"
-//    }
+    func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
+        let url = "diary/staus/week"
+        return try await withCheckedThrowingContinuation {continuation in
+            AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<DiaryWeekStausResponse>.self){ response in
+                    switch response.result {
+                    case.success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case.failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
+                }
+            
+        }
+    }
+    
+    func getMyDiary(pageRequest: PageRequest) async throws -> Response<DiaryResponse> {
+        let url = "diary/my?page=\(pageRequest.page)&size=\(pageRequest.size)"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<DiaryResponse>.self){ response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
+                }
+        }
+    }
     
     func postDiary(request: DiaryRequest) async throws -> baseResponse {
         let url = "diary"
