@@ -12,6 +12,9 @@ import SwiftUI
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
+//            ZStack{
+//                SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
+//            }
             NavigationView {
                 if LoginUserHashCache.accessToken.isEmpty {
                     SignInView( vm: SignInViewModel(authService: RemoteAuthService()))

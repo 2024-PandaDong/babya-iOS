@@ -24,6 +24,7 @@ class SignInViewModel: ObservableObject {
     func login(email: String, password: String) async {
             do {
                 let response = try await authService.login(email: email, password: password)
+                print(response)
                 
                 switch response.status {
                 case 200:
