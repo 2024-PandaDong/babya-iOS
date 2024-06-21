@@ -84,7 +84,6 @@ struct DiaryView : View {
                                 NavigationLink(destination:
                                                 DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름"))
                                 {
-                                    if Diary {
                                         DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
                                             .padding(.vertical, 5)
                                             .onAppear{
@@ -93,16 +92,6 @@ struct DiaryView : View {
                                                     print("page :: \(nowPage)")
                                                 }
                                             }
-                                    }else {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
-                                            .padding(.vertical, 5)
-                                            .onAppear{
-                                                if count == 9 {
-                                                    nowPage += 1
-                                                    print("page :: \(nowPage)")
-                                                }
-                                            }
-                                    }
                                 }
                             }
                         }
