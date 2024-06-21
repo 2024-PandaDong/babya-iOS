@@ -16,6 +16,7 @@ struct DiaryView : View {
     @State var All : Bool = true
     @State var myDiary : Bool = false
     @State var Diary : Bool = true
+    @State var nowPage : Int = 1
     @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
@@ -86,6 +87,12 @@ struct DiaryView : View {
                                     if All{
                                         DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
                                             .padding(.vertical, 5)
+                                            .onAppear{
+                                                if count == 9 {
+                                                    nowPage += 1
+                                                    print("page :: \(nowPage)")
+                                                }
+                                            }
                                     }else {
                                         DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
                                             .padding(.vertical,5)
@@ -129,9 +136,16 @@ struct DiaryView : View {
                     }
                 }
             }
+            .onChange(of: nowPage, perform: { value in
+                if All {
+                    Task{
+                        await vm.fetchDiary(pageRequest:PageRequest(page: nowPage, size: 10))
+                    }
+                }
+            })
             .task {
                 if All{
-                    await vm.getDiary(pageRequest: PageRequest(page: 1, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                    await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
                 }
             }
         }

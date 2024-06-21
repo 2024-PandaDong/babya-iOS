@@ -16,10 +16,12 @@ class DiaryViewModel: ObservableObject {
     @Published var success: Bool = false
     @Published var diaryList = [DiaryResponse]()
     @Published var diarycount : Int = 0
+    private var userEmail : String = "email"
     
     init(diaryService: DiaryService) {
         self.diaryService = diaryService
     }
+    
     func diary(content : DiaryRequest) async {
             do {
                 let response = try await diaryService.postDiary(request: content)
@@ -35,6 +37,7 @@ class DiaryViewModel: ObservableObject {
     
     func getDiary(pageRequest : PageRequest,email : String) async {
         do {
+            userEmail = email
             let response = try await diaryService.getDiary(pageRequest: pageRequest, email: email)
             print(response)
             if let data = response.data {
@@ -45,6 +48,23 @@ class DiaryViewModel: ObservableObject {
                   diarycount = 0
               }
             
+        } catch {
+            print(error)
+        }
+    }
+    func fetchDiary(pageRequest : PageRequest) async {
+        do {
+            let response = try await diaryService.getDiary(pageRequest: pageRequest, email: userEmail)
+            print(response)
+            if let data = response.data {
+                diaryList.append(contentsOf: data)
+                diarycount += data.count
+                print("diarycount   ::  \(diarycount)")
+                print("diaryList  ::  \(diaryList)")
+              } else {
+                  diaryList = []
+                  diarycount = 0
+              }
         } catch {
             print(error)
         }
