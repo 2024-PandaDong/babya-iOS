@@ -17,5 +17,5 @@ protocol DiaryService {
 //    func getDetailDiary(id: Int) async throws -> Response<DiaryResponse>
 //    func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<SubCommentResponse>
     func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse>
-    func getMyDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]>
+    func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]>
 }

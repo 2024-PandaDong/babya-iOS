@@ -65,8 +65,8 @@ final class RemoteDiaryService : DiaryService{
         }
     }
     
-    func getMyDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
-        let url = "diary/my?page=\(pageRequest.page)&size=\(pageRequest.size)"
+    func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
+        let url = "diary/list?page=\(pageRequest.page)&size=\(pageRequest.size)"
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[DiaryResponse]>.self){ response in

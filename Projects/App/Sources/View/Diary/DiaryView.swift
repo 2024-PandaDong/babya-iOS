@@ -84,7 +84,7 @@ struct DiaryView : View {
                                 NavigationLink(destination:
                                                 DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름"))
                                 {
-                                    if All{
+                                    if Diary {
                                         DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
                                             .padding(.vertical, 5)
                                             .onAppear{
@@ -94,8 +94,14 @@ struct DiaryView : View {
                                                 }
                                             }
                                     }else {
-                                        DiaryCeil(ProfileImage: "Image", Title: "타이틀", UserName: "유저이름")
-                                            .padding(.vertical,5)
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
+                                            .padding(.vertical, 5)
+                                            .onAppear{
+                                                if count == 9 {
+                                                    nowPage += 1
+                                                    print("page :: \(nowPage)")
+                                                }
+                                            }
                                     }
                                 }
                             }
@@ -136,22 +142,43 @@ struct DiaryView : View {
                     }
                 }
             }
+            .task {
+                nowPage = 1
+                await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
+            }
             .onChange(of: nowPage, perform: { value in
                 if All {
+                    Task{
+                        await vm.fetchListDiary(pageRequest:PageRequest(page: nowPage, size: 10))
+                    }
+                }else{
                     Task{
                         await vm.fetchDiary(pageRequest:PageRequest(page: nowPage, size: 10))
                     }
                 }
             })
-            .task {
-                if All{
-                    await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+            .onChange(of: All, perform: { value in
+                nowPage = 1
+                Diary = true
+                Task{
+                    if All{
+                        await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
+                    }else {
+                        await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                    }
+                }
+            })
+            .onChange(of: Diary) { value in
+                nowPage = 1
+                Task {
+                    if Diary {
+                        await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                    }else {
+                        await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                        
+                    }
                 }
             }
         }
     }
 }
-
-//#Preview {
-//    DiaryView()
-//}

@@ -18,6 +18,7 @@ struct babyaApp: App {
                     SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
                 } else {
                     DiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()))
+    
                 }
             }
 //            .onAppear{
