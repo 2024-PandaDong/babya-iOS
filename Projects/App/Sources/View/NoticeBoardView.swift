@@ -101,7 +101,7 @@ struct NoticeBoardView: View {
         }
         .navigationBarBackButtonHidden()
         .onAppear {
-            viewModel.getPosts(page: 1, size: 25, category: "1")
+            viewModel.getPosts(page: 1, size: 25, category: selectedCategory)
         }
     }
 }

@@ -40,7 +40,7 @@ struct PostingView: View {
                     } label: {
                         Circle()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(viewModel.model.category == "question" ? .yellow : .gray)
+                            .foregroundStyle(viewModel.model.category == "1" ? .yellow : .gray)
                             .overlay {
                                 Image(systemName: "bubble.fill")
                                     .font(.system(size: 10))
@@ -63,7 +63,7 @@ struct PostingView: View {
                     } label: {
                         Circle()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(viewModel.model.category == "share" ? .yellow : .gray)
+                            .foregroundStyle(viewModel.model.category == "2" ? .yellow : .gray)
                             .overlay {
                                 Image(systemName: "pin.fill")
                                     .font(.system(size: 10))
@@ -86,7 +86,7 @@ struct PostingView: View {
                     } label: {
                         Circle()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(viewModel.model.category == "life" ? .yellow : .gray)
+                            .foregroundStyle(viewModel.model.category == "3" ? .yellow : .gray)
                             .overlay {
                                 Image(systemName: "car.fill")
                                     .font(.system(size: 10))

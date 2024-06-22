@@ -11,6 +11,7 @@ struct NoticeBoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     @FocusState private var isFocused: Bool
     @StateObject var viewModel = NoticeBoardDetailViewModel()
+    let postId: Int
     
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct NoticeBoardDetailView: View {
                     
                     VStack(spacing: 3) {
                         HStack {
-                            Text("")
+                            Text(viewModel.model.data.nickname)
                                 .font(.system(size: 16, weight: .bold))
                             Button {
                                 // Button action here
@@ -38,12 +39,12 @@ struct NoticeBoardDetailView: View {
                             Image(systemName: "eye.fill")
                                 .foregroundColor(.gray)
                             
-                            Text("")
+                            Text("\(viewModel.model.data.view)")
                             
                             Image(systemName: "bubble")
                                 .foregroundColor(.gray)
                             
-                            Text("")
+                            Text("\(viewModel.model.data.commentCnt)")
                             
                             Spacer()
                         }
@@ -52,11 +53,20 @@ struct NoticeBoardDetailView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 370, height: 240)
+                if let fileURLString = viewModel.model.data.files?.first?.url, let fileURL = URL(string: fileURLString) {
+                        AsyncImage(url: fileURL) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(height: 240) // Add frame size or other modifiers as needed
+                    }
                 
                 HStack {
-                    Text("")
+                    Text(viewModel.model.data.content)
                     
                     Spacer()
                 }
@@ -65,7 +75,7 @@ struct NoticeBoardDetailView: View {
                 HStack {
                     Spacer()
                     
-                    Text("")
+                    Text(viewModel.model.data.createdAt)
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                         .padding(.top)
@@ -128,15 +138,18 @@ struct NoticeBoardDetailView: View {
             }
             
             ToolbarItem(placement: .principal) {
-                Text("")
+                Text(viewModel.model.data.title)
                     .font(.system(size: 20, weight: .bold))
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getPostDetail(postId: postId)
+        }
     }
 }
 #Preview {
     NavigationView {
-        NoticeBoardDetailView()
+        NoticeBoardDetailView(postId: 1)
     }
 }

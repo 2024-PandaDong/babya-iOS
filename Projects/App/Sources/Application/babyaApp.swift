@@ -13,7 +13,7 @@ struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                if LoginUserHashCache.accessToken == "accessToken" {
+                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
                     SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
                 } else {
                     HomeView()

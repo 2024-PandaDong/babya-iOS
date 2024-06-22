@@ -10,9 +10,10 @@ import SwiftUI
 struct PostPreviewCell: View {
     let model: PostListResponse
     let index: Int
+    @StateObject var detailViewModel = NoticeBoardDetailViewModel()
     
     var body: some View {
-        NavigationLink(destination: NoticeBoardDetailView()) {
+        NavigationLink(destination: NoticeBoardDetailView(postId: model.data[index].postId)) {
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 130)

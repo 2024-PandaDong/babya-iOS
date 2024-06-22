@@ -52,11 +52,6 @@ class PostingViewModel: ObservableObject {
             }
             
         }, to: "\(ApiContent.url)/upload", method: .post, headers: headers)
-        .responseJSON { json in
-            print("Json :")
-
-            print(json)
-        }
         .responseDecodable(of: UploadResponse.self) { response in
             print("response")
             switch response.result {

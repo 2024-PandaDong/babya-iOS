@@ -28,7 +28,6 @@ class NoticeBoardViewModel: ObservableObject {
                 switch response.result {
                     case .success(let data):
                         self.model = data
-                        print("Decoded data: \(data)")
                     case .failure(let error):
                         if let data = response.data {
                             print("Response data: \(String(data: data, encoding: .utf8) ?? "Cannot decode data")")
