@@ -9,17 +9,15 @@
 import SwiftUI
 
 struct DetailDiaryView : View {
-    @State var inputText : String
+    @State var inputText : String = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var DiaryImage : String
-    var Content : String
-    var PostName : String
+    var Diary : DiaryResponse
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
                 ScrollView(showsIndicators: false){
                     VStack(alignment: .leading){
-                        Image(DiaryImage)
+                        Image(Diary.files.first??.url ?? "Image")
                             .resizable()
                             .frame(maxWidth: .infinity)
                             .frame(height: 200)
@@ -30,10 +28,10 @@ struct DetailDiaryView : View {
                         TextTitleStyle(Title: Text("본문"))
                             .padding(.vertical,7)
                         
-                        TextContentStyle(content: Text(Content))
+                        TextContentStyle(content: Text(Diary.content))
                         HStack{
                             Spacer()
-                            Text("2024/01/23")
+                            Text(Diary.writtenDt)
                                 .font(.system(size: 11))
                                 .foregroundStyle(.gray)
                                 .padding(15)
@@ -60,7 +58,7 @@ struct DetailDiaryView : View {
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle(PostName)
+        .navigationTitle(Diary.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItem(placement: .navigationBarLeading){
@@ -84,9 +82,9 @@ struct DetailDiaryView : View {
         }
     }
 }
-#Preview {
-    DetailDiaryView(inputText: "", DiaryImage: "Image", Content: "내용내용",PostName: "게시물이름")
-}
+//#Preview {
+//    DetailDiaryView(inputText: "test", DiaryImage: "Image", Content: "내용내용",PostName: "게시물이름")
+//}
 
 extension View{
     func TextContentStyle(content : Text) -> some View{

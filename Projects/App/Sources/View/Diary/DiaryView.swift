@@ -81,17 +81,23 @@ struct DiaryView : View {
                     ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: columns) {
                             ForEach((0..<vm.diarycount), id: \.self) { count in
-                                NavigationLink(destination:
-                                                DetailDiaryView(inputText: "", DiaryImage: "Image",  Content: "내용", PostName: "포스트이름"))
+                                NavigationLink(
+                                    destination: {
+                                        if All {
+                                            DetailDiaryView(Diary: vm.diaryList[count])
+                                        } else {
+                                            UserDetailDiaryView(Diary: vm.diaryList[count])
+                                        }
+                                    })
                                 {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
-                                            .padding(.vertical, 5)
-                                            .onAppear{
-                                                if count == 9 {
-                                                    nowPage += 1
-                                                    print("page :: \(nowPage)")
-                                                }
+                                    DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
+                                        .padding(.vertical, 5)
+                                        .onAppear{
+                                            if count == 9 {
+                                                nowPage += 1
+                                                print("page :: \(nowPage)")
                                             }
+                                        }
                                 }
                             }
                         }

@@ -9,23 +9,16 @@
 import SwiftUI
 
 struct UserDetailDiaryView : View {
-    var PostName : String
-    var DiaryImage : String
+    var Diary : DiaryResponse
     @State var inputText : String = ""
-    @State var weight: String = "20"
-    @State var weeks : String = "2주"
-    @State var Opinion : String = "좋습니다"
-    @State var BloodPressure1 : String = "130"
-    @State var BloodPressure2 : String = "60"
-    @State var Content : String = "일기 내용"
-    @FocusState private var isTextFieldFocused: Bool
+    @FocusState private var isTextFieldFocused: Bool 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
                 ScrollView{
                     VStack{
-                        Image(DiaryImage)
+                        Image(Diary.files.first??.url ?? "Image")
                             .resizable()
                             .frame(maxWidth: .infinity)
                             .frame(height: 200)
@@ -39,7 +32,7 @@ struct UserDetailDiaryView : View {
                                     HStack(spacing:7){
                                         Text("체중:")
                                             .font(.system(size: 13))
-                                        TextLineStyle(text: weight)
+                                        TextLineStyle(text:String( Diary.weight))
                                         
                                         Text("kg")
                                             .font(.system(size: 13))
@@ -47,32 +40,37 @@ struct UserDetailDiaryView : View {
                                         
                                         Text("임신주수:")
                                             .font(.system(size: 13))
-                                        TextLineStyle(text: weeks)
+                                        TextLineStyle(text: String(Diary.pregnancyWeeks))
                                         Text("주")
                                             .font(.system(size: 13))
                                     }
                                     HStack(spacing:7){
                                         Text("혈압:")
                                             .font(.system(size: 13))
-                                        TextLineStyle(text: BloodPressure1)
+                                        TextLineStyle(text: String(Diary.systolicPressure))
                                         Text("/")
                                             .font(.system(size: 13))
-                                        TextLineStyle(text: BloodPressure2)
+                                        TextLineStyle(text: String(Diary.diastolicPressure))
                                             .padding(.trailing,14)
                                         
                                         Text("다음 진찰일:")
                                             .font(.system(size: 13))
-                                        Text("12/16")
+                                        Text(Diary.nextAppointment)
                                             .font(.system(size: 13))
                                     }
                                 }
                                 Spacer()
-                                VStack(spacing:5){
-                                    Image("happy")
-                                        .resizable()
-                                        .frame(width: 45,height: 45)
-                                    Text("좋음")
-                                        .font(.system(size: 12))
+                                VStack(spacing: 5) {
+                                    if let emotion = Emotion.allCases.first(where: { $0.label == Diary.emojiCode }) {
+                                        Image(emotion.rawValue)
+                                            .resizable()
+                                            .frame(width: 45, height: 45)
+                                        Text(emotion.label)
+                                            .font(.system(size: 12))
+                                    } else {
+                                        Text("Unknown Emotion")
+                                            .font(.system(size: 12))
+                                    }
                                 }
                             }
                             
@@ -80,7 +78,7 @@ struct UserDetailDiaryView : View {
                                 .font(.system(size: 16))
                                 .bold()
                             
-                            Text(Opinion)
+                            Text(Diary.fetusComment)
                                 .font(.system(size: 12))
                                 .multilineTextAlignment(.leading)
                             
@@ -90,20 +88,20 @@ struct UserDetailDiaryView : View {
                                 .padding(.top,5)
                             
                             
-                            Text(Content)
+                            Text(Diary.content)
                                 .font(.system(size: 12))
                                 .multilineTextAlignment(.leading)
                         }
                         .padding(.horizontal,20)
                         HStack{
                             Spacer()
-                            Text("2024/01/23")
+                            Text(Diary.writtenDt)
                                 .font(.system(size: 11))
                                 .foregroundStyle(.gray)
                                 .padding(15)
                         }
                         Divider()
-                        CommentCeil(ProfileImage: "Image", UserName: "유저", Days: "11일", Content: "안녕핫에요")
+//                        CommentCeil(ProfileImage: "Image", UserName: "유저", Days: "11일", Content: "안녕핫에요")
                     }
                     
                 }
@@ -123,7 +121,7 @@ struct UserDetailDiaryView : View {
             
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle(PostName)
+        .navigationTitle(Diary.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             toolbarContent()

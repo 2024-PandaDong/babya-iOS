@@ -40,9 +40,21 @@ final class RemoteDiaryService : DiaryService{
 //        let url = "diary/\(id)"
 //    }
 //    
-//    func getDetailDiary(id: Int) async throws -> Response<DiaryResponse> {
-//        let url = "diary/\(id)"
-//    }
+    func getDetailDiary(id: Int) async throws -> Response<DiaryResponse> {
+        let url = "diary/\(id)"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<DiaryResponse>.self){ response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
+                }
+        }
+    }
 //    
 //    func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<SubCommentResponse> {
 //        let url = "diary/sub-comment"
