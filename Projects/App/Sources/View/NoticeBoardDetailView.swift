@@ -9,8 +9,10 @@ import SwiftUI
 
 struct NoticeBoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.refresh) private var refresh
     @FocusState private var isFocused: Bool
     @StateObject var viewModel = NoticeBoardDetailViewModel()
+    let postId: Int
     
     var body: some View {
         VStack {
@@ -21,31 +23,29 @@ struct NoticeBoardDetailView: View {
                     
                     VStack(spacing: 3) {
                         HStack {
-                            Text(viewModel.model.data.postVO.post.title)
+                            Text(viewModel.model.data.nickname)
                                 .font(.system(size: 16, weight: .bold))
                             Button {
-                                
+                                // Button action here
                             } label: {
                                 Image(systemName: "star")
                                     .font(.system(size: 15))
-                                    .foregroundStyle(.black)
+                                    .foregroundColor(.black)
                             }
                             
                             Spacer()
-                            
-                            //
                         }
                         
                         HStack {
                             Image(systemName: "eye.fill")
-                                .foregroundStyle(.gray)
+                                .foregroundColor(.gray)
                             
-                            Text("\(viewModel.model.data.postVO.post.view)")
+                            Text("\(viewModel.model.data.view)")
                             
                             Image(systemName: "bubble")
-                                .foregroundStyle(.gray)
+                                .foregroundColor(.gray)
                             
-                            Text("")
+                            Text("\(viewModel.model.data.commentCnt)")
                             
                             Spacer()
                         }
@@ -54,11 +54,20 @@ struct NoticeBoardDetailView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 370, height: 240)
+                if let fileURLString = viewModel.model.data.files?.first?.url, let fileURL = URL(string: fileURLString) {
+                        AsyncImage(url: fileURL) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(height: 240)
+                    }
                 
                 HStack {
-                    Text(viewModel.model.data.postVO.post.content)
+                    Text(viewModel.model.data.content)
                     
                     Spacer()
                 }
@@ -67,55 +76,59 @@ struct NoticeBoardDetailView: View {
                 HStack {
                     Spacer()
                     
-                    Text("30분 전")
+                    Text(viewModel.model.data.createdAt.prefix(10))
                         .font(.system(size: 12))
-                        .foregroundStyle(.gray)
+                        .foregroundColor(.gray)
                         .padding(.top)
                         .padding(.horizontal, 20)
                 }
                 
                 Rectangle()
                     .frame(width: UIScreen.main.bounds.width, height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
                     .padding(.vertical, 10)
 
-                ForEach(0..<$viewModel.model.data.comments.count, id: \.self) { index in
-                    CommentCell(name: $viewModel.model.data.comments[index].member.nickName, day: $viewModel.model.data.postVO.post.createdAt, content: $viewModel.model.data.comments[index].content)
+                ForEach(0..<viewModel.commentResponse.data.count, id: \.self) { index in
+                    CommentCell(model: viewModel.commentResponse, index: index)
                 }
             }
             
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
 
                 HStack(spacing: 0) {
                     Circle()
                         .frame(width: 30, height: 30)
                         .padding(.horizontal, 10)
                     
-                    TextField(text: .constant(""), prompt: Text("댓글 쓰기")) {
-                        
-                    }
-                    .frame(height: 45)
-                    .focused($isFocused)
+                    TextField("댓글 쓰기", text: $viewModel.commentModel.comment)
+                        .frame(height: 45)
+                        .focused($isFocused)
                     
                     Button {
                         isFocused = false
+                        viewModel.postComment(postId: postId)
+                        viewModel.commentModel.comment = ""
+                        Task {
+                            await refresh?()
+                        }
                     } label: {
                         Rectangle()
                             .frame(width: 50, height: 50)
-                            .foregroundStyle(.yellow)
+                            .foregroundColor(viewModel.commentModel.comment == "" ? .gray : .yellow0)
                             .overlay {
                                 Image(systemName: "paperplane")
-                                    .foregroundStyle(.white)
+                                    .foregroundColor(.white)
                             }
                     }
+                    .disabled(viewModel.commentModel.comment == "" ? true : false)
                 }
       
                 Rectangle()
                     .frame(height: 1)
-                    .foregroundStyle(.gray)
+                    .foregroundColor(.gray)
             }
         }
         .toolbar {
@@ -124,21 +137,28 @@ struct NoticeBoardDetailView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
-                        .foregroundStyle(.black)
+                        .foregroundColor(.black)
                 }
             }
             
             ToolbarItem(placement: .principal) {
-                Text(viewModel.model.data.postVO.post.title)
+                Text(viewModel.model.data.title)
                     .font(.system(size: 20, weight: .bold))
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getPostDetail(postId: postId)
+            viewModel.getComment(page: 1, size: 10, postId: postId)
+        }
+        .refreshable {
+            viewModel.getPostDetail(postId: postId)
+            viewModel.getComment(page: 1, size: 10, postId: postId)
+        }
     }
 }
-
 #Preview {
     NavigationView {
-        NoticeBoardDetailView()
+        NoticeBoardDetailView(postId: 1)
     }
 }

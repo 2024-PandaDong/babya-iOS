@@ -54,7 +54,7 @@ struct LocationPicker: View {
                 })
                 .padding(.trailing, 10)
                 .sheet(isPresented: $showDatePicker, content: {
-                    if #available(iOS 16.0, *) {
+                    if #available(iOS 15.0, *) {
                         Picker("", selection: $selectedLocation) {
                             ForEach(locations.keys.sorted(), id: \.self) { key in
                                 Text(key)
