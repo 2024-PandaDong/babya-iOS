@@ -79,7 +79,7 @@ struct PostPreviewCell: View {
                                 
                                 Spacer()
                                 
-                                Text(model.data[index].createdAt)
+                                Text(model.data[index].createdAt.prefix(10))
                                     .font(.system(size: 12))
                                     .foregroundStyle(.gray)
                             }

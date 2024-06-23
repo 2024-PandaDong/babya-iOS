@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NoticeBoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.refresh) private var refresh
     @FocusState private var isFocused: Bool
     @StateObject var viewModel = NoticeBoardDetailViewModel()
     let postId: Int
@@ -62,7 +63,7 @@ struct NoticeBoardDetailView: View {
                         } placeholder: {
                             ProgressView()
                         }
-                        .frame(height: 240) // Add frame size or other modifiers as needed
+                        .frame(height: 240)
                     }
                 
                 HStack {
@@ -75,7 +76,7 @@ struct NoticeBoardDetailView: View {
                 HStack {
                     Spacer()
                     
-                    Text(viewModel.model.data.createdAt)
+                    Text(viewModel.model.data.createdAt.prefix(10))
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                         .padding(.top)
@@ -87,11 +88,9 @@ struct NoticeBoardDetailView: View {
                     .foregroundColor(.gray)
                     .padding(.vertical, 10)
 
-//                ForEach(viewModel.model.data.comments.indices, id: \.self) { index in
-//                    CommentCell(name: viewModel.model.data.comments[index].member.nickName,
-//                                day: viewModel.model.data.comments[index].createdAt,
-//                                content: viewModel.model.data.comments[index].content)
-//                }
+                ForEach(0..<viewModel.commentResponse.data.count, id: \.self) { index in
+                    CommentCell(model: viewModel.commentResponse, index: index)
+                }
             }
             
             VStack(spacing: 0) {
@@ -104,22 +103,27 @@ struct NoticeBoardDetailView: View {
                         .frame(width: 30, height: 30)
                         .padding(.horizontal, 10)
                     
-                    TextField("댓글 쓰기", text: .constant(""))
+                    TextField("댓글 쓰기", text: $viewModel.commentModel.comment)
                         .frame(height: 45)
                         .focused($isFocused)
                     
                     Button {
                         isFocused = false
-                        // Add comment action here
+                        viewModel.postComment(postId: postId)
+                        viewModel.commentModel.comment = ""
+                        Task {
+                            await refresh?()
+                        }
                     } label: {
                         Rectangle()
                             .frame(width: 50, height: 50)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(viewModel.commentModel.comment == "" ? .gray : .yellow0)
                             .overlay {
                                 Image(systemName: "paperplane")
                                     .foregroundColor(.white)
                             }
                     }
+                    .disabled(viewModel.commentModel.comment == "" ? true : false)
                 }
       
                 Rectangle()
@@ -145,6 +149,11 @@ struct NoticeBoardDetailView: View {
         .navigationBarBackButtonHidden()
         .onAppear {
             viewModel.getPostDetail(postId: postId)
+            viewModel.getComment(page: 1, size: 10, postId: postId)
+        }
+        .refreshable {
+            viewModel.getPostDetail(postId: postId)
+            viewModel.getComment(page: 1, size: 10, postId: postId)
         }
     }
 }

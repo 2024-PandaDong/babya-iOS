@@ -42,3 +42,25 @@ struct File: Codable {
             case url = "url"
     }
 }
+
+struct CommentModel: Codable {
+    var comment: String = ""
+    var parentCommentId: Int = 0
+    var postId: Int = 0
+}
+
+struct CommentResponse: Codable {
+    var status: Int = 0
+    var message: String = ""
+    var data: [CommentData] = []
+}
+
+struct CommentData: Codable {
+    var commentId: Int = 0
+    var content: String = ""
+    var createdAt: String = ""
+    var memberId: String = ""
+    var nickname: String = ""
+    var profileImg: String?
+    var subCommentCnt: Int = 0
+}
