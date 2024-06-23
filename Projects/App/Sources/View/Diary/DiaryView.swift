@@ -17,6 +17,7 @@ struct DiaryView : View {
     @State var myDiary : Bool = false
     @State var Diary : Bool = true
     @State var nowPage : Int = 1
+    @State private var diaryComment: [DiaryCommentResponse] = []
     @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
@@ -84,7 +85,8 @@ struct DiaryView : View {
                                 NavigationLink(
                                     destination: {
                                         if All {
-                                            DetailDiaryView(Diary: vm.diaryList[count])
+                                            DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
+                                                
                                         } else {
                                             UserDetailDiaryView(Diary: vm.diaryList[count])
                                         }

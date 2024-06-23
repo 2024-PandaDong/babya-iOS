@@ -14,6 +14,6 @@ struct CommentResponse : Decodable{
     let createdAt : String
     let subCommentCnt : Int
     let memberId : String
-    let profileImg : String
+    let profileImg : String?
     let nickname : String
 }

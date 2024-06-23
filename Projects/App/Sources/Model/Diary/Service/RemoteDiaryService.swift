@@ -27,10 +27,22 @@ final class RemoteDiaryService : DiaryService{
                 }
         }
     }
-//    
-//    func getCommentDiary(pageRequest: PageRequest, diaryId: Int) async throws -> Response<CommentResponse> {
-//        let url = "diary/comment"
-//    }
+    
+    func getCommentDiary(pageRequest: PageRequest, diaryId: Int) async throws -> Response<[CommentResponse]> {
+        let url = "diary/comment?page=\(pageRequest.page)&size=\(pageRequest.size)&diaryId=\(diaryId)"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<[CommentResponse]>.self){ response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
+                }
+        }
+    }
 //    
 //    func postCommentDiary(request: CommentRequest) async throws -> baseResponse {
 //        let url = "diary/comment"

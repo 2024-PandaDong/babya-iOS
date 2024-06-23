@@ -15,7 +15,9 @@ class DiaryViewModel: ObservableObject {
     private let diaryService: DiaryService
     @Published var success: Bool = false
     @Published var diaryList = [DiaryResponse]()
+    @Published var comment = [CommentResponse]()
     @Published var diarycount : Int = 0
+    @Published var commentcount : Int = 0
     private var userEmail : String = "email"
     
     init(diaryService: DiaryService) {
@@ -127,6 +129,18 @@ class DiaryViewModel: ObservableObject {
                   diaryList = []
                   diarycount = 0
               }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func getCommentDiary(pageRequest : PageRequest, id : Int) async {
+        do {
+            let response = try await diaryService.getCommentDiary(pageRequest: pageRequest, diaryId: id)
+            print("다이어리 댓글댁슬~~~~~~~~~~~~~~")
+            print(response)
+            comment = response.data ?? []
+            commentcount = comment.count
         } catch {
             print(error)
         }

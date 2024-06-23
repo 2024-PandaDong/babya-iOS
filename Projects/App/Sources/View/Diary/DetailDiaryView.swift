@@ -11,7 +11,9 @@ import SwiftUI
 struct DetailDiaryView : View {
     @State var inputText : String = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var Diary : DiaryResponse
+    @StateObject var vm : DiaryViewModel
+    var Diary: DiaryResponse
+    @State var nowPage : Int = 1
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
@@ -23,7 +25,7 @@ struct DetailDiaryView : View {
                             .frame(height: 200)
                             .cornerRadius(10)
                             .padding(.horizontal,15)
-
+                        
                         
                         TextTitleStyle(Title: Text("본문"))
                             .padding(.vertical,7)
@@ -37,25 +39,42 @@ struct DetailDiaryView : View {
                                 .padding(15)
                         }
                         Divider()
-                         
                         
-                        CommentCeil(ProfileImage: "Image", UserName: "유저이름", Days: "1일", Content: "내용내용")
-                            .padding(.vertical,5)
+                        ScrollView(showsIndicators: false) {
+                            ForEach((0..<vm.commentcount  ), id: \.self) { count in
+                                CommentCeil(ProfileImage:vm.comment[count].profileImg ?? "Image",
+                                            UserName: vm.comment[count].nickname,
+                                            Days: vm.comment[count].createdAt,
+                                            Content: vm.comment[count].content)
+                                    .padding(.vertical,5)
+                                    .onAppear{
+                                        if count == 9 {
+                                            nowPage += 1
+                                            print("page :: \(nowPage)")
+                                        }
+                                    }
+                            }
+                        }
+                        
                     }
                 }
                 ZStack{
-                        HStack(spacing: 1){
-                            Image("Image")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                                .frame(minWidth: 25,maxHeight: 25)
-                            
-                            TextField("댓글달기", text: $inputText)
-                                .textFieldStyle(TextfieldStyle())
-                        }
+                    HStack(spacing: 1){
+                        Image("Image")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                            .frame(minWidth: 25,maxHeight: 25)
+                        
+                        TextField("댓글달기", text: $inputText)
+                            .textFieldStyle(TextfieldStyle())
+                    }
                 }
             }
+        }
+        .task{
+            nowPage = 1
+            await vm.getCommentDiary(pageRequest: PageRequest(page: 1, size: 10), id: Diary.diaryId)
         }
         .navigationBarBackButtonHidden()
         .navigationTitle(Diary.title)
@@ -82,9 +101,6 @@ struct DetailDiaryView : View {
         }
     }
 }
-//#Preview {
-//    DetailDiaryView(inputText: "test", DiaryImage: "Image", Content: "내용내용",PostName: "게시물이름")
-//}
 
 extension View{
     func TextContentStyle(content : Text) -> some View{
