@@ -14,6 +14,8 @@ struct CommentCeil : View {
 //    var subcomment = [SubCommentResponse]()
 //    var isSub : Bool
     @State var nowcommentPage : Int = 1
+    @Binding var postSubComment : Bool
+    @Binding var parentCommentId : Int
     var body: some View {
         VStack{
             HStack{
@@ -37,7 +39,8 @@ struct CommentCeil : View {
                         .foregroundStyle(.black)
                     
                     Button {
-                        // 댓글 쓰기
+                        postSubComment = true
+                        parentCommentId = Comment.commentId
                     } label: {
                         Text("답글달기")
                             .font(.system(size: 11))

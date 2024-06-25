@@ -20,6 +20,8 @@ struct DetailDiaryView : View {
     @State var nowcommentPage : Int = 1
     @State var subresponse = [SubCommentResponse]()
     @State var isClick : Bool = false
+    @State var postSubComment : Bool = false
+    @State var parentCommentId : Int = 0
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -49,7 +51,7 @@ struct DetailDiaryView : View {
                             
                             ScrollView(showsIndicators: false) {
                                 ForEach((0..<vm.commentcount), id: \.self) { count in
-                                    CommentCeil(Comment: vm.comment[count]/*, subcomment: subresponse, isSub: subCommentBool*/)
+                                    CommentCeil(Comment: vm.comment[count], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
                                     .padding(.vertical,5)
                                     .onAppear{
                                         if count == 9 {
@@ -119,9 +121,10 @@ struct DetailDiaryView : View {
             .onChange(of: isClick){
                 if isClick{
                     Task{
-                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId)
+                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentIds : 0)
                         inputText = ""
                         await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                        postSubComment = false
 
                     }
                 }

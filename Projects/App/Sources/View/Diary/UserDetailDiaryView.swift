@@ -16,6 +16,8 @@ struct UserDetailDiaryView : View {
     @State var nowPage : Int = 1
     @State var isClick : Bool = false
     @StateObject var vm : DiaryViewModel
+    @State var postSubComment : Bool = false
+    @State var parentCommentId : Int = 0
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -107,7 +109,7 @@ struct UserDetailDiaryView : View {
                             Divider()
                             ScrollView(showsIndicators: false) {
                                 ForEach(0..<vm.commentcount, id: \.self) { index in
-                                    CommentCeil(Comment:vm.comment[index])
+                                    CommentCeil(Comment: vm.comment[index], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
                                         .padding(.vertical,5)
                                         .onAppear{
                                             if index == 9 {
@@ -141,9 +143,10 @@ struct UserDetailDiaryView : View {
             .onChange(of: isClick){
                 if isClick{
                     Task{
-                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId)
+                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentCommentId : 0)
                         inputText = ""
                         await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                        postSubComment = false
                         
                     }
                 }
