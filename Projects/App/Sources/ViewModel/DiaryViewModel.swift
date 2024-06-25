@@ -16,8 +16,11 @@ class DiaryViewModel: ObservableObject {
     @Published var success: Bool = false
     @Published var diaryList = [DiaryResponse]()
     @Published var comment = [CommentResponse]()
+    @Published var subcomment = [SubCommentResponse]()
     @Published var diarycount : Int = 0
     @Published var commentcount : Int = 0
+    @Published var subcommentcount : Int = 0
+    
     private var userEmail : String = "email"
     
     init(diaryService: DiaryService) {
@@ -61,7 +64,7 @@ class DiaryViewModel: ObservableObject {
     
     func getNDiary(pageRequest : PageRequest,email : String) async {
         do {
-            print("내 NN다이어리조회")
+            print("내 비공개 다이어리조회")
             diaryList = []
             diarycount = 0
             userEmail = email
@@ -137,11 +140,28 @@ class DiaryViewModel: ObservableObject {
     func getCommentDiary(pageRequest : PageRequest, id : Int) async {
         do {
             let response = try await diaryService.getCommentDiary(pageRequest: pageRequest, diaryId: id)
-            print("다이어리 댓글댁슬~~~~~~~~~~~~~~")
             print(response)
             comment = response.data ?? []
             commentcount = comment.count
         } catch {
+            print(error)
+        }
+    }
+    
+    func getSubCommentDiary(pageRequest: PageRequest, parentId: Int) async {
+        do {
+            let response = try await diaryService.getSubComment(pageRequest: pageRequest, parentId: parentId)
+            if let data = response.data {
+                subcomment = data.compactMap { $0 }
+//                subcomment.append(contentsOf: data)
+                subcommentcount = data.count
+              } else {
+                  subcomment = []
+                  subcommentcount = 0
+              }
+            print(subcommentcount)
+            print(response)
+        }catch{
             print(error)
         }
     }

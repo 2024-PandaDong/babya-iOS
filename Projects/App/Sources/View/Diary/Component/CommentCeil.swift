@@ -10,48 +10,68 @@ import Foundation
 import SwiftUI
 
 struct CommentCeil : View {
-    var ProfileImage : String
-    var UserName : String
-    var Days : String
-    var Content : String
+    var Comment : CommentResponse
+//    var subcomment = [SubCommentResponse]()
+//    var isSub : Bool
+    @State var nowcommentPage : Int = 1
     var body: some View {
-        HStack{
-            VStack(alignment: .leading){
-                HStack(spacing: 2){
-                    Image(ProfileImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(minWidth: 25,maxHeight: 25)
-                    Text(UserName)
+        VStack{
+            HStack{
+                VStack(alignment: .leading){
+                    HStack(spacing: 2){
+                        Image(Comment.profileImg ?? "Image")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                            .frame(minWidth: 25,maxHeight: 25)
+                        Text(Comment.nickname)
+                            .font(.system(size: 13))
+                            .foregroundStyle(.black)
+                        Text(Comment.createdAt)
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.gray2)
+                    }
+                    Text(Comment.content)
+                        .padding(.leading,25)
                         .font(.system(size: 13))
                         .foregroundStyle(.black)
-                    Text(Days)
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color.gray2)
+                    
+                    Button {
+                        // 댓글 쓰기
+                    } label: {
+                        Text("답글달기")
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.gray2)
+                            .padding(.vertical,1)
+                            .padding(.leading,25)
+                    }
+                    Divider()
                 }
-                Text(Content)
-                    .padding(.leading,25)
-                    .font(.system(size: 13))
-                    .foregroundStyle(.black)
-                
-                Button {
-                    // 댓글 쓰기
-                } label: {
-                    Text("답글달기")
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color.gray2)
-                        .padding(.vertical,1)
-                        .padding(.leading,25)
-                }
-                Divider()
+                Spacer()
             }
-            Spacer()
+            .padding(.top,3)
+            
+//            if isSub{
+                //                ForEach((0..<subcomment.count), id: \.self) { index in
+                //                    SubCommentCeil(ProfileImage: subcomment[index].profileImg ?? "Image",
+                //                                   UserName: subcomment[index].nickname,
+                //                                   Days: subcomment[index].createdAt,
+                //                                   Content: subcomment[index].content)
+                //                    .padding(.leading, 10)
+                //                    .onAppear {
+                //                        if index == 9 {
+                //                            nowcommentPage += 1
+                //                            print("page :: \(nowcommentPage)")
+                //                        }
+                //                        print("index : \(index)")
+                //                    }
+                //                }
+//            }
         }
-        .padding(.top,3)
     }
 }
 
-#Preview {
-    CommentCeil(ProfileImage: "Image", UserName: "dldbs", Days: "1일", Content: "집에 가고 싶다.")
-}
+
+//#Preview {
+//    CommentCeil(ProfileImage: "Image", UserName: "dldbs", Days: "1일", Content: "집에 가고 싶다.")
+//}

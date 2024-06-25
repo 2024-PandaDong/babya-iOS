@@ -14,7 +14,7 @@ final class RemoteDiaryService : DiaryService{
     
     func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
         let url = "diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
-
+        
         return try await withCheckedThrowingContinuation { continuation in
             AF.request( baseUrl + url, method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[DiaryResponse]>.self) { response in
@@ -43,15 +43,15 @@ final class RemoteDiaryService : DiaryService{
                 }
         }
     }
-//    
-//    func postCommentDiary(request: CommentRequest) async throws -> baseResponse {
-//        let url = "diary/comment"
-//    }
-//    
-//    func deleteCommentDiary(id: Int) async throws -> baseResponse {
-//        let url = "diary/\(id)"
-//    }
-//    
+    //
+    //    func postCommentDiary(request: CommentRequest) async throws -> baseResponse {
+    //        let url = "diary/comment"
+    //    }
+    //
+    //    func deleteCommentDiary(id: Int) async throws -> baseResponse {
+    //        let url = "diary/\(id)"
+    //    }
+    //
     func getDetailDiary(id: Int) async throws -> Response<DiaryResponse> {
         let url = "diary/\(id)"
         return try await withCheckedThrowingContinuation { continuation in
@@ -67,11 +67,23 @@ final class RemoteDiaryService : DiaryService{
                 }
         }
     }
-//    
-//    func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<SubCommentResponse> {
-//        let url = "diary/sub-comment"
-//    }
-//    
+    
+    func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<[SubCommentResponse]> {
+        let url = "diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
+        return try await withCheckedThrowingContinuation {continuation in
+            AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<[SubCommentResponse]>.self){ response in
+                    switch response.result {
+                    case.success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case.failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
+                }
+        }
+    }
+    
     func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
         let url = "diary/staus/week"
         return try await withCheckedThrowingContinuation {continuation in
@@ -85,7 +97,6 @@ final class RemoteDiaryService : DiaryService{
                     }
                     
                 }
-            
         }
     }
     

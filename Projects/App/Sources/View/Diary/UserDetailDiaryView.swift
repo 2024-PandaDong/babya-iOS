@@ -11,8 +11,10 @@ import SwiftUI
 struct UserDetailDiaryView : View {
     var Diary : DiaryResponse
     @State var inputText : String = ""
-    @FocusState private var isTextFieldFocused: Bool 
+    @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var nowPage : Int = 1
+    @StateObject var vm : DiaryViewModel
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
@@ -101,9 +103,19 @@ struct UserDetailDiaryView : View {
                                 .padding(15)
                         }
                         Divider()
-//                        CommentCeil(ProfileImage: "Image", UserName: "유저", Days: "11일", Content: "안녕핫에요")
+                        ScrollView(showsIndicators: false) {
+                            ForEach(0..<vm.commentcount, id: \.self) { index in
+                                CommentCeil(Comment:vm.comment[index])
+                                    .padding(.vertical,5)
+                                    .onAppear{
+                                        if index == 9 {
+                                            nowPage += 1
+                                        }
+                                    }
+
+                            }
+                        }
                     }
-                    
                 }
                 ZStack{
                     HStack(spacing: 1){
@@ -119,6 +131,10 @@ struct UserDetailDiaryView : View {
                 }
             }
             
+        }
+        .task{
+            nowPage = 1
+            await vm.getCommentDiary(pageRequest: PageRequest(page: 1, size: 10), id: Diary.diaryId)
         }
         .navigationBarBackButtonHidden()
         .navigationTitle(Diary.title)
@@ -141,7 +157,7 @@ struct UserDetailDiaryView : View {
         
         ToolbarItem(placement:.navigationBarTrailing) {
             NavigationLink {
-//                DiaryWritingView(title: PostName ,PostName: PostName ,DiaryImage: DiaryImage, vm: DiaryViewModel(diaryService: RemoteDiaryService()))
+                //                DiaryWritingView(title: PostName ,PostName: PostName ,DiaryImage: DiaryImage, vm: DiaryViewModel(diaryService: RemoteDiaryService()))
             } label: {
                 Image("dots")
                     .resizable()

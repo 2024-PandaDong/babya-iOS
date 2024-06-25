@@ -88,7 +88,7 @@ struct DiaryView : View {
                                             DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                                 
                                         } else {
-                                            UserDetailDiaryView(Diary: vm.diaryList[count])
+                                            UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                         }
                                     })
                                 {
