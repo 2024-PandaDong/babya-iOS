@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct TextfieldStyle: TextFieldStyle {
+    @Binding var isClick : Bool 
     func _body(configuration: TextField<Self._Label>) -> some View {
         HStack{
             ZStack {
@@ -22,7 +23,7 @@ struct TextfieldStyle: TextFieldStyle {
                     .padding()
             }
             Button(action: {
-                
+                isClick = true
             }, label: {
                 ZStack{
                    Rectangle()

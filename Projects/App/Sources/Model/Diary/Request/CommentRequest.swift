@@ -11,5 +11,5 @@ import Foundation
 struct CommentRequest : Encodable{
     let comment : String
     let parentCommentId : Int
-    let diaryId : String
+    let diaryId : Int
 }

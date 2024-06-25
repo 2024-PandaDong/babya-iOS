@@ -19,8 +19,7 @@ struct DetailDiaryView : View {
     @State var cumulative : Int = 0
     @State var nowcommentPage : Int = 1
     @State var subresponse = [SubCommentResponse]()
-
-
+    @State var isClick : Bool = false
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -107,7 +106,8 @@ struct DetailDiaryView : View {
                                 .frame(minWidth: 25,maxHeight: 25)
                             
                             TextField("댓글달기", text: $inputText)
-                                .textFieldStyle(TextfieldStyle())
+                                .textFieldStyle(TextfieldStyle(isClick: $isClick))
+                            
                         }
                     }
                 }
@@ -115,6 +115,16 @@ struct DetailDiaryView : View {
             .task{
                 nowPage = 1
                 await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+            }
+            .onChange(of: isClick){
+                if isClick{
+                    Task{
+                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId)
+                        inputText = ""
+                        await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+
+                    }
+                }
             }
 //            .onChange(of: subCommentBool){
 //                if subCommentBool == true{

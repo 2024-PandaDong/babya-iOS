@@ -20,6 +20,7 @@ struct DiaryView : View {
     @State private var diaryComment: [DiaryCommentResponse] = []
     @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var fetchDiary : Bool = false
     var body: some View {
         NavigationView{
             ZStack{

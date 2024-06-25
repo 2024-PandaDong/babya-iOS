@@ -12,7 +12,7 @@ protocol DiaryService {
     func postDiary(request: DiaryRequest) async throws -> baseResponse
     func getDiary(pageRequest: PageRequest,email: String) async throws -> Response<[DiaryResponse]>
     func getCommentDiary(pageRequest: PageRequest, diaryId: Int) async throws -> Response<[CommentResponse]>
-//    func postCommentDiary(request: CommentRequest) async throws -> baseResponse
+    func postCommentDiary(request: CommentRequest) async throws -> baseResponse
 //    func deleteCommentDiary(id: Int) async throws -> baseResponse
     func getDetailDiary(id: Int) async throws -> Response<DiaryResponse>
     func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<[SubCommentResponse]>

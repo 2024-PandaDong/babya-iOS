@@ -165,4 +165,14 @@ class DiaryViewModel: ObservableObject {
             print(error)
         }
     }
+    func postComment(comment: String, diaryId: Int) async {
+        do{
+            let response = try await diaryService.postCommentDiary(request: CommentRequest(comment: comment,
+                                                                                           parentCommentId: 0,
+                                                                                           diaryId: diaryId))
+            print(response)
+        }catch{
+            print(error)
+        }
+    }
 }
