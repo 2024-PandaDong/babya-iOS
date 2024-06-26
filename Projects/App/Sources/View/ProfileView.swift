@@ -12,6 +12,9 @@ struct ProfileView: View {
     
     @State var showDiary: Bool = true
     
+    @StateObject var viewModel = ProfileViewModel()
+    @StateObject var signInViewModel = SignInViewModel(authService: RemoteAuthService())
+    
     var body: some View {
         ZStack {
             Color(red: 245/255, green: 245/255, blue: 245/255)
@@ -26,23 +29,23 @@ struct ProfileView: View {
                             
                             HStack {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Text("박규민님 반가워요!")
+                                    Text("\(viewModel.model.data.nickname)님 반가워요!")
                                         .font(.system(size: 20, weight: .bold))
                                         .padding(.vertical, 5)
                                     
-                                    Text("소망이 아빠 D-Day: 86일")
+                                    Text(viewModel.model.data.children?[0]?.birthName == nil ? "자녀: X D-Day: X" : "\(viewModel.model.data.children?[0]?.birthName) 아빠 D-Day: 86일")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 12))
                                     
                                     HStack {
-                                        Text("나이: 25살")
-                                        Text("결혼: 3년차")
+                                        Text("나이: \(viewModel.model.data.age)살")
+                                        Text(viewModel.model.data.marriedYears == nil ? "결혼: X" : "결혼: \(viewModel.model.data.marriedYears)년차")
                                     }
                                     .foregroundStyle(.white)
                                     .font(.system(size: 12))
                                     
                                     HStack {
-                                        Text("산모일기: 소망이 산모일기")
+                                        Text(viewModel.model.data.children?[0]?.birthName == nil ? "산모일기: X" : "\(viewModel.model.data.children?[0]?.birthName) 산모일기")
                                         Image(systemName: "lock.fill")
                                     }
                                     .foregroundStyle(.white)
@@ -96,19 +99,23 @@ struct ProfileView: View {
                 }
                 
                 ScrollView {
-                    DiaryCell()
-                    DiaryCell()
-                    DiaryCell()
-                    DiaryCell()
-                    DiaryCell()
-                    DiaryCell()
+                    if viewModel.myDiary.data.isEmpty {
+                        Text("아직 산모일기를 작성하지 않았어요")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.gray)
+                            .padding(.vertical)
+                    } else {
+                        ForEach(0..<viewModel.myDiary.data.count, id: \.self) { index in
+                            DiaryCell(writtenDt: viewModel.myDiary.data[index].writtenDt, title: viewModel.myDiary.data[index].title)
+                        }
+                    }
                 }
                 .frame(width: 350, height: 200)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 HStack {
-                    Text("산모일기")
+                    Text("게시물")
                         .font(.system(size: 15, weight: .bold))
                         .padding(.horizontal, 30)
                         .padding(.vertical, 10)
@@ -117,12 +124,16 @@ struct ProfileView: View {
                 }
                 
                 ScrollView {
-                    PostCell()
-                    PostCell()
-                    PostCell()
-                    PostCell()
-                    PostCell()
-                    PostCell()
+                    if viewModel.myPost.data.isEmpty {
+                        Text("아직 게시물을 작성하지 않았어요")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.gray)
+                            .padding(.vertical)
+                    } else {
+                        ForEach(0..<viewModel.myPost.data.count, id: \.self) { index in
+                            PostCell(createdAt: viewModel.myPost.data[index].createdAt, title: viewModel.myPost.data[index].title)
+                        }
+                    }
                 }
                 .frame(width: 350, height: 200)
                 .background(Color.white)
@@ -179,6 +190,11 @@ struct ProfileView: View {
                         .foregroundStyle(.black)
                 }
             }
+        }
+        .onAppear {
+            viewModel.getMyProfile()
+            viewModel.getMyPosts(page: 1, size: 10)
+            viewModel.getMyDiary(page: 1, size: 10)
         }
     }
 }
