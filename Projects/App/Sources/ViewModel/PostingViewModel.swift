@@ -57,15 +57,10 @@ class PostingViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 print(data.data)
-                self.model.file.append( data.data )
-                
-                if let statusCode = response.response?.statusCode {
-                    print("status code: \(statusCode)")
-                }
+                self.model.file.append(data.data)
+                print("status code: \(response.response?.statusCode)")
             case .failure(let error):
-                if let statusCode = response.response?.statusCode {
-                    print("status code: \(statusCode), error: \(error.localizedDescription)")
-                }
+                print(error.localizedDescription)
             }
         }
     }
