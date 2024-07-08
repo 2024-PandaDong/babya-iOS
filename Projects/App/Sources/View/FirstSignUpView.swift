@@ -71,8 +71,7 @@ struct FirstSignUpView: View {
                             }
                     }
                     .padding(.bottom)
-                    
-//                    .disabled(!viewModel.isFirstSignUpAvailable)
+                    .disabled(!viewModel.isFirstSignUpAvailable)
                 }
                 .padding(.bottom, 30)
             }

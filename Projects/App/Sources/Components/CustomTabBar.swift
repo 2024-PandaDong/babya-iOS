@@ -33,7 +33,7 @@ struct CustomTabBar: View {
                     
                     Spacer()
                     
-                    CustomTabButton(image: "list.bullet", title: "투두리스트", destination: Text("투두리스트"))
+                    CustomTabButton(image: "list.bullet", title: "투두리스트", destination: TodoListView().environmentObject(TodoViewModel()))
                     
                     Spacer()
                     

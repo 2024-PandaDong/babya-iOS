@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CommentCell: View {
-    @Binding var name: String
-    @Binding var day: String
-    @Binding var content: String
+    let model: CommentResponse
+    let index: Int
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -19,10 +18,10 @@ struct CommentCell: View {
                     .frame(width: 25, height: 25)
                     .offset(x: 0, y: 10)
                 
-                Text(name)
+                Text(model.data[index].nickname)
                     .font(.system(size: 14, weight: .bold))
                 
-                Text(day)
+                Text(model.data[index].createdAt.prefix(10))
                     .font(.system(size: 11, weight: .bold))
                     .foregroundStyle(.gray)
                 
@@ -30,7 +29,7 @@ struct CommentCell: View {
             }
             .padding(.horizontal, 20)
             
-            Text(content)
+            Text(model.data[index].content)
                 .font(.system(size: 12))
                 .padding(.horizontal, 55)
             
@@ -40,8 +39,4 @@ struct CommentCell: View {
                 .padding(.vertical, 10)
         }
     }
-}
-
-#Preview {
-    CommentCell(name: .constant(""), day: .constant(""), content: .constant(""))
 }

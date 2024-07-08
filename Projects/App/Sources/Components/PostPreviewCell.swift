@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct PostPreviewCell: View {
-    let model: NoticeBoardDetailModel
+    let model: PostListResponse
+    let index: Int
+    @StateObject var detailViewModel = NoticeBoardDetailViewModel()
     
     var body: some View {
-        NavigationLink(destination: NoticeBoardDetailView()) {
+        NavigationLink(destination: NoticeBoardDetailView(postId: model.data[index].postId)) {
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 130)
@@ -20,12 +22,12 @@ struct PostPreviewCell: View {
                     .overlay {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(model.data.postVO.post.title)
+                                Text(model.data[index].title)
                                     .font(.system(size: 16, weight: .bold))
                                 
                                 Spacer()
                                 
-                                Text(model.data.postVO.post.member.nickName)
+                                Text(model.data[index].nickname)
                                     .font(.system(size: 12, weight: .bold))
                                 
                                 Circle()
@@ -33,7 +35,7 @@ struct PostPreviewCell: View {
                             }
                             .padding(.horizontal, 20)
                             
-                            Text(model.data.postVO.post.content)
+                            Text(model.data[index].content)
                                 .font(.system(size: 14))
                                 .foregroundStyle(.gray)
                                 .padding(.horizontal, 20)
@@ -52,7 +54,7 @@ struct PostPreviewCell: View {
                                                 Image(systemName: "eye.fill")
                                                     .font(.system(size: 12))
                                                 
-                                                Text("\(model.data.postVO.post.view)")
+                                                Text("\(model.data[index].view)")
                                                     .font(.system(size: 12))
                                             }
                                         }
@@ -69,7 +71,7 @@ struct PostPreviewCell: View {
                                                 Image(systemName: "bubble")
                                                     .font(.system(size: 12))
                                                 
-                                                Text("\(model.data.comments.count)")
+                                                Text("\(model.data[index].commentCnt)")
                                                     .font(.system(size: 10))
                                             }
                                         }
@@ -77,7 +79,7 @@ struct PostPreviewCell: View {
                                 
                                 Spacer()
                                 
-                                Text("30분 전")
+                                Text(model.data[index].createdAt.prefix(10))
                                     .font(.system(size: 12))
                                     .foregroundStyle(.gray)
                             }
@@ -101,7 +103,7 @@ struct PostPreviewCell: View {
         ZStack {
             Color.black
             
-            PostPreviewCell(model: NoticeBoardDetailModel())
+            PostPreviewCell(model: PostListResponse(), index: 0)
         }
     }
 }

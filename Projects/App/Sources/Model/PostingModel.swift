@@ -11,14 +11,14 @@ struct PostingModel: Codable {
     var title: String = ""
     var content: String = ""
     var category: String = ""
-    var file: String = ""
+    var file: [String] = .init()
     
     var params: [String: Any] {
         return [
-            "title" : title,
-            "content" : content,
-            "category" : category,
-            "file" : [file]
+            "title": title,
+            "content": content,
+            "category": category,
+            "file": file
         ]
     }
 }

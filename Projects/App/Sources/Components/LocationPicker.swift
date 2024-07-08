@@ -54,22 +54,17 @@ struct LocationPicker: View {
                 })
                 .padding(.trailing, 10)
                 .sheet(isPresented: $showDatePicker, content: {
-                    if #available(iOS 16.0, *) {
-                        Picker("", selection: $selectedLocation) {
-                            ForEach(locations.keys.sorted(), id: \.self) { key in
-                                Text(key)
-                            }
+                    Picker("", selection: $selectedLocation) {
+                        ForEach(locations.keys.sorted(), id: \.self) { key in
+                            Text(key)
                         }
-                        .onChange(of: selectedLocation) { newValue in
-                            target = locations[newValue] ?? ""
-                            print(target)
-                        }
-                        .pickerStyle(WheelPickerStyle())
-                        .presentationDetents([.fraction(0.35)])
-
-                    } else {
-                        
                     }
+                    .onChange(of: selectedLocation) { newValue in
+                        target = locations[newValue] ?? ""
+                        print(target)
+                    }
+                    .pickerStyle(WheelPickerStyle())
+                    .presentationDetents([.fraction(0.35)])
                 })
             }
                     

@@ -18,18 +18,12 @@ final class RemoteAuthService: AuthService {
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(ApiContent.url + loginUrl, method: .post, parameters: loginRequest, encoder: JSONParameterEncoder.default)
+                .responseJSON { json in
+                    print(json)
+                }
                 .responseDecodable(of: Response<LoginResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
-                        DispatchQueue.main.async {
-                            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                            let rootViewController = windowScene.windows.first?.rootViewController {
-                                let homeView = UIHostingController(rootView: NavigationView { HomeView() })
-                                homeView.modalPresentationStyle = .fullScreen
-                                rootViewController.present(homeView, animated: true, completion: nil)
-                            }
-                        }
-                        
                         continuation.resume(returning: responseData)
                     case .failure(let error):
                         continuation.resume(throwing: error)
@@ -41,7 +35,7 @@ final class RemoteAuthService: AuthService {
         let reissueRequest = ReissueRequest(refreshToken: refreshToken)
         let reissueUrl = "/auth/reissue"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default)
+            AF.request(ApiContent.url + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default, interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<ReissueResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
