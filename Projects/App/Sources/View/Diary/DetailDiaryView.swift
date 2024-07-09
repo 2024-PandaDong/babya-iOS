@@ -61,16 +61,16 @@ struct DetailDiaryView : View {
                                                 print("page :: \(nowPage)")
                                             }
                                             print("count : \(count)")
-//                                            if vm.comment[count].commentId == vm.commentIdList[1]{
-//                                                Second = true
-//                                                print("트루")
-//                                            }
-                                            // 댓글 수가 없으면 에러 뜸. 고려하기 애초에 vm.commentIdList[1] 값이 없기 때문에 
+                                            //                                            if vm.comment[count].commentId == vm.commentIdList[1]{
+                                            //                                                Second = true
+                                            //                                                print("트루")
+                                            //                                            }
+                                            // 댓글 수가 없으면 에러 뜸. 고려하기 애초에 vm.commentIdList[1] 값이 없기 때문에
                                             /*Second ? vm.comment[count].subCommentCnt - 1 :*/
-
+                                            
                                         }
                                     if vm.comment[count].subCommentCnt != 0 && vm.Load {
-                                        ForEach((count != 0 ? (vm.comment[count - 1].subCommentCnt) - 1 : 0)..<vm.subcommentcount, id: \.self) { index in
+                                        ForEach(((count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt - 1) : 0)..<vm.subcommentcount, id: \.self) { index in
                                             SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "Image",
                                                            UserName: subcommentList[index].nickname,
                                                            Days: subcommentList[index].createdAt,
@@ -118,25 +118,26 @@ struct DetailDiaryView : View {
             }
             .onChange(of: isClick){
                 if isClick{
+                    vm.commentcount = 0
+                    vm.subcommentcount = 0
+                    vm.subcomment = []
                     Task{
-                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentIds : 0)
+                        await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentCommentId : 0)
                         inputText = ""
-                        vm.commentcount = 0
-                        subcommentList = []
                         await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
                         postSubComment = false
-                        
+                        subcommentList = vm.subcomment
                     }
                 }
             }
-            //            .onChange(of: subCommentBool){
-            //                if subCommentBool == true{
-            //                    Task{
-            //                        nowcommentPage = 1
-            //                        await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10), parentId: parentIds )
-            //                    }
-            //                }
-            //            }
+//            .onChange(of: subCommentBool){
+//                if subCommentBool == true{
+//                    Task{
+//                        nowcommentPage = 1
+//                        await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10), parentId: parentIds )
+//                    }
+//                }
+//            }
             .navigationBarBackButtonHidden()
             .navigationTitle(Diary.title)
             .navigationBarTitleDisplayMode(.inline)

@@ -170,7 +170,7 @@ class DiaryViewModel: ObservableObject {
                 //                subcomment = data.compactMap { $0 }
                 subcomment.append(contentsOf: data)
 //                subcomment.insert(contentsOf: data, at: 0)
-                subcommentcount = data.count
+                subcommentcount += data.count
             } else {
                 subcomment = []
                 subcommentcount = 0

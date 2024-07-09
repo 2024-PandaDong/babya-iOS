@@ -41,6 +41,7 @@ struct CommentCeil : View {
                     Button {
                         postSubComment = true
                         parentCommentId = Comment.commentId
+                        print(postSubComment)
                     } label: {
                         Text("답글달기")
                             .font(.system(size: 11))
