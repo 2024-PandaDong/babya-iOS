@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct SubCommentCeil : View {
+struct SubCommentCeil : View ,Equatable{
     var ProfileImage : String
     var UserName : String
     var Days : String
@@ -34,14 +34,13 @@ struct SubCommentCeil : View {
                     .padding(.leading,25)
                     .font(.system(size: 13))
                     .foregroundStyle(.black)
-                
-                Divider()
-                    .padding(.vertical,1)
             }
             Spacer()
         }
+        .padding(.bottom,3)
         .padding(.top,3)
     }
+    static func == (lhs: SubCommentCeil, rhs: SubCommentCeil) -> Bool {
+        return lhs.Content == rhs.Content
+    }
 }
-
-

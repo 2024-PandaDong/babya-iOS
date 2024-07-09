@@ -36,6 +36,7 @@ struct DiaryWritingView : View {
     @State private var openPhoto = false
     @State private var image = UIImage()
     @State private var imageUrl: URL? = nil
+    @State private var imageData: Data? = nil
     @StateObject var vm : DiaryViewModel
     var body: some View {
         NavigationView{
@@ -224,7 +225,7 @@ struct DiaryWritingView : View {
                 }
             }
             .sheet(isPresented: $openPhoto) {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl)
+                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl, imageData: $imageData)
             }
         }
         .navigationBarBackButtonHidden()
@@ -251,13 +252,18 @@ struct DiaryWritingView : View {
                             systolicPressure: Int(systolicPressure) ?? 0,
                             diastolicPressure: Int(diastolicPressure) ?? 0,
                             nextAppointment: formattedDate,
-                            emoji: selectedEmotion?.rawValue ?? "",
+                            emoji: selectedEmotion?.label ?? "",
                             fetusComment: Opinion,
                             isPublic: privateToggle ? false : true,
-                            url: imageUrl != nil ? [imageUrl!.absoluteString] : [""]
+                            url: ["hello"]
+//                            url: imageData != nil ? [URL(image)]: [nil]
+//                            url: imageData != nil ? [imageData.base64EncodedString()]: [nil]
+//                            url: imageUrl != nil ? [imageUrl] : [nil]
+//                            url: imageUrl != nil ? [imageUrl!.absoluteURL] : [nil]
                         )
                         await vm.diary(content: diaryRequest)
                         if vm.success {
+                            print("imageUrl : \(String(describing: imageData))")
                             dismiss()
                         }
                     }

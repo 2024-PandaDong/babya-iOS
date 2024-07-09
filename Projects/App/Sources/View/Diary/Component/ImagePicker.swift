@@ -15,8 +15,10 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     @Binding var selectedImage: UIImage
     @Binding var imageUrl: URL?
+    @Binding var imageData: Data?
+    
     @Environment(\.presentationMode) private var presentationMode
-
+    
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         
         let imagePicker = UIImagePickerController()
@@ -44,15 +46,19 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            
+            guard let image = info[.originalImage] as? UIImage else { return }
+
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 parent.selectedImage = image
+                if let imageData = image.jpegData(compressionQuality: 0.8) {
+                    parent.imageData = imageData
+                }
             }
+            
             
             if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL {
                 parent.imageUrl = url
             }
-            
             parent.presentationMode.wrappedValue.dismiss()
         }
     }

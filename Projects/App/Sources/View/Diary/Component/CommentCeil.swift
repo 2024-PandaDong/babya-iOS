@@ -48,33 +48,13 @@ struct CommentCeil : View {
                             .padding(.vertical,1)
                             .padding(.leading,25)
                     }
-                    Divider()
                 }
                 Spacer()
             }
             .padding(.top,3)
             
-//            if isSub{
-                //                ForEach((0..<subcomment.count), id: \.self) { index in
-                //                    SubCommentCeil(ProfileImage: subcomment[index].profileImg ?? "Image",
-                //                                   UserName: subcomment[index].nickname,
-                //                                   Days: subcomment[index].createdAt,
-                //                                   Content: subcomment[index].content)
-                //                    .padding(.leading, 10)
-                //                    .onAppear {
-                //                        if index == 9 {
-                //                            nowcommentPage += 1
-                //                            print("page :: \(nowcommentPage)")
-                //                        }
-                //                        print("index : \(index)")
-                //                    }
-                //                }
-//            }
         }
     }
 }
 
 
-//#Preview {
-//    CommentCeil(ProfileImage: "Image", UserName: "dldbs", Days: "1일", Content: "집에 가고 싶다.")
-//}

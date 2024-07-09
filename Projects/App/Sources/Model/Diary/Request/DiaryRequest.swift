@@ -19,5 +19,5 @@ struct DiaryRequest : Encodable,Hashable{
     let emoji : String
     let fetusComment : String
     let isPublic : Bool
-    let url : [String]
+    let url : [String?]
 }

@@ -22,6 +22,8 @@ struct DetailDiaryView : View {
     @State var isClick : Bool = false
     @State var postSubComment : Bool = false
     @State var parentCommentId : Int = 0
+    @State var subcommentList = [SubCommentResponse]()
+    @State var Second : Bool = false
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -52,48 +54,41 @@ struct DetailDiaryView : View {
                             ScrollView(showsIndicators: false) {
                                 ForEach((0..<vm.commentcount), id: \.self) { count in
                                     CommentCeil(Comment: vm.comment[count], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
-                                    .padding(.vertical,5)
-                                    .onAppear{
-                                        if count == 9 {
-                                            nowPage += 1
-                                            print("page :: \(nowPage)")
-                                        }
-                                        if vm.comment[count].subCommentCnt != 0 {
-                                            subCommentBool = true
-                                            Task{
-                                                nowcommentPage = 1
-                                                let response: () = await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10),   parentId: vm.comment[count].commentId)
-                                                subresponse = vm.subcomment
-                                                
+                                        .padding(.vertical,5)
+                                        .onAppear{
+                                            if count == 9 {
+                                                nowPage += 1
+                                                print("page :: \(nowPage)")
                                             }
-                                        }else{
-                                            subCommentBool = false
-                                        }
-                                        print("count : \(count)")
-                                    }
-//                                    if vm.comment[count].subCommentCnt != 0 {
-//                                        ForEach((0..<vm.subcommentcount), id: \.self) { index in
-//                                            SubCommentCeil(ProfileImage: vm.subcomment[index].profileImg ?? "Image",
-//                                                           UserName: vm.subcomment[index].nickname,
-//                                                           Days: vm.subcomment[index].createdAt,
-//                                                           Content: vm.subcomment[index].content)
-//                                            .padding(.leading, 10)
-//                                            .onAppear {
-//                                                if index == 9 {
-//                                                    nowcommentPage += 1
-//                                                    print("page :: \(nowcommentPage)")
-//                                                }
-////                                                if index == vm.subcommentcount {
-////                                                    subCommentBool = false
-////                                                    cumulative += vm.subcommentcount - 1
-////                                                    print("컬티베이티브 : \(cumulative)")
-////                                                }
-//                                                
-//                                                print("index : \(index)")
-//                                                print("답글 수 : \(vm.subcommentcount)")
+                                            print("count : \(count)")
+//                                            if vm.comment[count].commentId == vm.commentIdList[1]{
+//                                                Second = true
+//                                                print("트루")
 //                                            }
-//                                        }
-//                                    }
+                                            // 댓글 수가 없으면 에러 뜸. 고려하기 애초에 vm.commentIdList[1] 값이 없기 때문에 
+                                            /*Second ? vm.comment[count].subCommentCnt - 1 :*/
+
+                                        }
+                                    if vm.comment[count].subCommentCnt != 0 && vm.Load {
+                                        ForEach((count != 0 ? (vm.comment[count - 1].subCommentCnt) - 1 : 0)..<vm.subcommentcount, id: \.self) { index in
+                                            SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "Image",
+                                                           UserName: subcommentList[index].nickname,
+                                                           Days: subcommentList[index].createdAt,
+                                                           Content: subcommentList[index].content)
+                                            .padding(.leading, 10)
+                                            .onAppear {
+                                                if index == 9 {
+                                                    nowcommentPage += 1
+                                                    print("page :: \(nowcommentPage)")
+                                                }
+                                                
+                                                print("index : \(index)")
+                                                print("각각답글수 : \(vm.comment[count].subCommentCnt)")
+                                                print("답글 수 : \(vm.subcommentcount)")
+                                            }
+                                        }
+                                    }
+                                    Divider()
                                 }
                             }
                             
@@ -114,29 +109,34 @@ struct DetailDiaryView : View {
                     }
                 }
             }
-            .task{
-                nowPage = 1
-                await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+            .onAppear{
+                Task{
+                    nowPage = 1
+                    await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                    subcommentList = vm.subcomment
+                }
             }
             .onChange(of: isClick){
                 if isClick{
                     Task{
                         await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentIds : 0)
                         inputText = ""
+                        vm.commentcount = 0
+                        subcommentList = []
                         await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
                         postSubComment = false
-
+                        
                     }
                 }
             }
-//            .onChange(of: subCommentBool){
-//                if subCommentBool == true{
-//                    Task{
-//                        nowcommentPage = 1
-//                        await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10), parentId: parentIds )
-//                    }
-//                }
-//            }
+            //            .onChange(of: subCommentBool){
+            //                if subCommentBool == true{
+            //                    Task{
+            //                        nowcommentPage = 1
+            //                        await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10), parentId: parentIds )
+            //                    }
+            //                }
+            //            }
             .navigationBarBackButtonHidden()
             .navigationTitle(Diary.title)
             .navigationBarTitleDisplayMode(.inline)

@@ -20,6 +20,8 @@ class DiaryViewModel: ObservableObject {
     @Published var diarycount : Int = 0
     @Published var commentcount : Int = 0
     @Published var subcommentcount : Int = 0
+    @Published var Load : Bool = false
+    var commentIdList : [Int] = []
     
     private var userEmail : String = "email"
     
@@ -28,17 +30,17 @@ class DiaryViewModel: ObservableObject {
     }
     
     func diary(content : DiaryRequest) async {
-            do {
-                let response = try await diaryService.postDiary(request: content)
-                print(response)
-                print(content)
-                if response.status == 201{
-                    success = true
-                }
-            } catch {
-                print(error)
+        do {
+            let response = try await diaryService.postDiary(request: content)
+            print(response)
+            print(content)
+            if response.status == 201{
+                success = true
             }
+        } catch {
+            print(error)
         }
+    }
     
     func getDiary(pageRequest : PageRequest,email : String) async {
         do {
@@ -46,16 +48,17 @@ class DiaryViewModel: ObservableObject {
             diaryList = []
             diarycount = 0
             userEmail = email
+            print("이메일 : \(email)")
             let response = try await diaryService.getDiary(pageRequest: pageRequest, email: email)
             print("페이지 : \(pageRequest.page) 사이즈 : \(pageRequest.size) 이메일 : \(email)")
             print(response)
             if let data = response.data {
-                  diaryList = data.compactMap { $0 }
-                  diarycount = data.count
-              } else {
-                  diaryList = []
-                  diarycount = 0
-              }
+                diaryList = data.compactMap { $0 }
+                diarycount = data.count
+            } else {
+                diaryList = []
+                diarycount = 0
+            }
             
         } catch {
             print(error)
@@ -74,10 +77,10 @@ class DiaryViewModel: ObservableObject {
             if let data = response.data {
                 diaryList = data.compactMap { $0.isPublic == "N" ? $0 : nil  }
                 diarycount = diaryList.count
-              } else {
-                  diaryList = []
-                  diarycount = 0
-              }
+            } else {
+                diaryList = []
+                diarycount = 0
+            }
             
         } catch {
             print(error)
@@ -92,12 +95,12 @@ class DiaryViewModel: ObservableObject {
             let response = try await diaryService.getListDiary(pageRequest: pageRequest)
             print(response)
             if let data = response.data {
-                  diaryList = data.compactMap { $0 }
-                  diarycount = data.count
-              } else {
-                  diaryList = []
-                  diarycount = 0
-              }
+                diaryList = data.compactMap { $0 }
+                diarycount = data.count
+            } else {
+                diaryList = []
+                diarycount = 0
+            }
             
         } catch {
             print(error)
@@ -111,10 +114,10 @@ class DiaryViewModel: ObservableObject {
                 diaryList.append(contentsOf: data)
                 diarycount += data.count
                 print("diarycount   ::  \(diarycount)")
-              } else {
-                  diaryList = []
-                  diarycount = 0
-              }
+            } else {
+                diaryList = []
+                diarycount = 0
+            }
         } catch {
             print(error)
         }
@@ -128,21 +131,33 @@ class DiaryViewModel: ObservableObject {
                 diaryList.append(contentsOf: data)
                 diarycount += data.count
                 print("diarycount   ::  \(diarycount)")
-              } else {
-                  diaryList = []
-                  diarycount = 0
-              }
+            } else {
+                diaryList = []
+                diarycount = 0
+            }
         } catch {
             print(error)
         }
     }
     
-    func getCommentDiary(pageRequest : PageRequest, id : Int) async {
+    func getCommentDiary(pageRequest: PageRequest, id: Int) async {
         do {
             let response = try await diaryService.getCommentDiary(pageRequest: pageRequest, diaryId: id)
             print(response)
-            comment = response.data ?? []
-            commentcount = comment.count
+            self.comment = response.data ?? []
+            self.commentcount = self.comment.count
+            self.commentIdList = self.comment.map { Int($0.commentId) }
+            print("리스트 \(self.commentIdList)")
+            
+            // TaskGroup을 사용하여 비동기 작업을 그룹화
+            await withTaskGroup(of: Void.self) { taskGroup in
+                for comment in self.comment where comment.subCommentCnt > 0 {
+                    taskGroup.addTask {
+                        await self.getSubCommentDiary(pageRequest: pageRequest, parentId: comment.commentId)
+                    }
+                }
+            }
+            self.Load = true
         } catch {
             print(error)
         }
@@ -152,14 +167,16 @@ class DiaryViewModel: ObservableObject {
         do {
             let response = try await diaryService.getSubComment(pageRequest: pageRequest, parentId: parentId)
             if let data = response.data {
-                subcomment = data.compactMap { $0 }
-//                subcomment.append(contentsOf: data)
+                //                subcomment = data.compactMap { $0 }
+                subcomment.append(contentsOf: data)
+//                subcomment.insert(contentsOf: data, at: 0)
                 subcommentcount = data.count
-              } else {
-                  subcomment = []
-                  subcommentcount = 0
-              }
-            print(subcommentcount)
+            } else {
+                subcomment = []
+                subcommentcount = 0
+            }
+            print("대댓글 수 : \(subcommentcount)")
+            print("대댓글 리스트 : \(subcomment)")
             print(response)
         }catch{
             print(error)
