@@ -11,6 +11,32 @@ import Alamofire
 import SwiftUI
 
 final class RemoteDiaryService : DiaryService{
+    
+    func upload(image: UIImage) async throws -> Response<String> {
+        
+        let headers: HTTPHeaders = [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .contentType("multipart/form-data")
+        ]
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.upload(multipartFormData: { multipartFormData in
+                if let imageData = image.jpegData(compressionQuality: 0.1) {
+                    multipartFormData.append(imageData, withName: "file", fileName: "image", mimeType: "image/jpeg")
+                }
+            }, to: "\(baseUrl)upload", method: .post, headers: headers)
+            .responseDecodable(of: Response<String>.self) { response in
+                switch response.result {
+                case .success(let data):
+                    continuation.resume(returning: data)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    
     func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
         let url = "diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
         
@@ -106,69 +132,69 @@ final class RemoteDiaryService : DiaryService{
         }
     }
     
-//    func getSubComment(pageRequest: PageRequest, parentId: Int) -> Response<[SubCommentResponse]> {
-//        let url = "diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
-//        let semaphore = DispatchSemaphore(value: 0)
-//        var result: Response<[SubCommentResponse]>?
-//
-//        AF.request(baseUrl + url, method: .get, interceptor: MyRequestInterceptor())
-//            .responseDecodable(of: Response<[SubCommentResponse]>.self) { response in
-//                if case .success(let data) = response.result {
-//                    result = data
-//                }
-//                semaphore.signal()
-//            }
-//
-//        semaphore.wait()
-//        return result! 
-//    }
-
-
-
-func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
-    let url = "diary/staus/week"
-    return try await withCheckedThrowingContinuation {continuation in
-        AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
-            .responseDecodable(of: Response<DiaryWeekStausResponse>.self){ response in
-                switch response.result {
-                case.success(let responseData):
-                    continuation.resume(returning: responseData)
-                case.failure(let error):
-                    continuation.resume(throwing: error)
+    //    func getSubComment(pageRequest: PageRequest, parentId: Int) -> Response<[SubCommentResponse]> {
+    //        let url = "diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
+    //        let semaphore = DispatchSemaphore(value: 0)
+    //        var result: Response<[SubCommentResponse]>?
+    //
+    //        AF.request(baseUrl + url, method: .get, interceptor: MyRequestInterceptor())
+    //            .responseDecodable(of: Response<[SubCommentResponse]>.self) { response in
+    //                if case .success(let data) = response.result {
+    //                    result = data
+    //                }
+    //                semaphore.signal()
+    //            }
+    //
+    //        semaphore.wait()
+    //        return result!
+    //    }
+    
+    
+    
+    func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
+        let url = "diary/staus/week"
+        return try await withCheckedThrowingContinuation {continuation in
+            AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<DiaryWeekStausResponse>.self){ response in
+                    switch response.result {
+                    case.success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case.failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
                 }
-                
-            }
+        }
     }
-}
-
-func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
-    let url = "diary/list?page=\(pageRequest.page)&size=\(pageRequest.size)"
-    return try await withCheckedThrowingContinuation { continuation in
-        AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
-            .responseDecodable(of: Response<[DiaryResponse]>.self){ response in
-                switch response.result {
-                case .success(let responseData):
-                    continuation.resume(returning: responseData)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
+    
+    func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
+        let url = "diary/list?page=\(pageRequest.page)&size=\(pageRequest.size)"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<[DiaryResponse]>.self){ response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    
                 }
-                
-            }
+        }
     }
-}
-
-func postDiary(request: DiaryRequest) async throws -> baseResponse {
-    let url = "diary"
-    return try await withCheckedThrowingContinuation { continuation in
-        AF.request(baseUrl + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
-            .responseDecodable(of: baseResponse.self) { response in
-                switch response.result {
-                case .success(let responseData):
-                    continuation.resume(returning: responseData)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
+    
+    func postDiary(request: DiaryRequest) async throws -> baseResponse {
+        let url = "diary"
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(baseUrl + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: baseResponse.self) { response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
                 }
-            }
+        }
     }
-}
 }

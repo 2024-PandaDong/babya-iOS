@@ -21,6 +21,7 @@ class DiaryViewModel: ObservableObject {
     @Published var commentcount : Int = 0
     @Published var subcommentcount : Int = 0
     @Published var Load : Bool = false
+    @Published var imageUrl : String = ""
     var commentIdList : [Int] = []
     
     private var userEmail : String = "email"
@@ -187,6 +188,16 @@ class DiaryViewModel: ObservableObject {
             let response = try await diaryService.postCommentDiary(request: CommentRequest(comment: comment,
                                                                                            parentCommentId: parentCommentId,
                                                                                            diaryId: diaryId))
+            print(response)
+        }catch{
+            print(error)
+        }
+    }
+    
+    func upload(image : UIImage) async {
+        do {
+            let response = try await diaryService.upload(image: image)
+            imageUrl = response.data ?? ""
             print(response)
         }catch{
             print(error)

@@ -60,7 +60,7 @@ struct DiaryWritingView : View {
                                             }
                                     }
                                     
-                                    Image(uiImage: self.image)
+                                    Image(uiImage: image)
                                         .resizable()
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 200)
@@ -224,8 +224,13 @@ struct DiaryWritingView : View {
                     }
                 }
             }
-            .sheet(isPresented: $openPhoto) {
-                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl, imageData: $imageData)
+            .sheet(isPresented: $openPhoto,onDismiss: {
+                Task{
+                    await vm.upload(image: self.image)
+                }
+            }) {
+                ImagePicker(image: self.$image)
+//                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl, imageData: $imageData)
             }
         }
         .navigationBarBackButtonHidden()
@@ -255,7 +260,7 @@ struct DiaryWritingView : View {
                             emoji: selectedEmotion?.label ?? "",
                             fetusComment: Opinion,
                             isPublic: privateToggle ? false : true,
-                            url: ["hello"]
+                            url: vm.imageUrl != nil ? [vm.imageUrl] : [nil]
 //                            url: imageData != nil ? [URL(image)]: [nil]
 //                            url: imageData != nil ? [imageData.base64EncodedString()]: [nil]
 //                            url: imageUrl != nil ? [imageUrl] : [nil]

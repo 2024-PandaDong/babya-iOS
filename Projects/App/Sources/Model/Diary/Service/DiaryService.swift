@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol DiaryService {
     func postDiary(request: DiaryRequest) async throws -> baseResponse
@@ -19,4 +20,5 @@ protocol DiaryService {
     func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<[SubCommentResponse]>
     func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse>
     func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]>
+    func upload(image: UIImage) async throws -> Response<String>
 }

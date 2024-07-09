@@ -61,12 +61,6 @@ struct DetailDiaryView : View {
                                                 print("page :: \(nowPage)")
                                             }
                                             print("count : \(count)")
-                                            //                                            if vm.comment[count].commentId == vm.commentIdList[1]{
-                                            //                                                Second = true
-                                            //                                                print("트루")
-                                            //                                            }
-                                            // 댓글 수가 없으면 에러 뜸. 고려하기 애초에 vm.commentIdList[1] 값이 없기 때문에
-                                            /*Second ? vm.comment[count].subCommentCnt - 1 :*/
                                             
                                         }
                                     if vm.comment[count].subCommentCnt != 0 && vm.Load {
