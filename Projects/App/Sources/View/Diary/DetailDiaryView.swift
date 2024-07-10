@@ -16,14 +16,13 @@ struct DetailDiaryView : View {
     @State var subCommentBool : Bool = false
     var Diary: DiaryResponse
     @State var nowPage : Int = 1
-    @State var cumulative : Int = 0
     @State var nowcommentPage : Int = 1
     @State var subresponse = [SubCommentResponse]()
     @State var isClick : Bool = false
     @State var postSubComment : Bool = false
     @State var parentCommentId : Int = 0
     @State var subcommentList = [SubCommentResponse]()
-    @State var Second : Bool = false    
+    @State var loding : Bool = false
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -71,15 +70,17 @@ struct DetailDiaryView : View {
                                             print("count : \(count)")
                                             
                                         }
-                                    if vm.comment[count].subCommentCnt != 0 && vm.Load {
-                                        ForEach(((count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt - 1) : 0)..<vm.subcommentcount, id: \.self) { index in
+                                    if vm.comment[count].subCommentCnt != 0 && loding {
+                                        let cnt = (count != 0) ? subcommentList.count : vm.comment[count].subCommentCnt
+                                        let aa = (count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt) : 0
+                                        ForEach(aa..<cnt , id: \.self) { index in
                                             SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "Image",
                                                            UserName: subcommentList[index].nickname,
                                                            Days: subcommentList[index].createdAt,
                                                            Content: subcommentList[index].content)
                                             .padding(.leading, 10)
                                             .onAppear {
-                                                if index == 9 {
+                                                if index % 10 == 9 {
                                                     nowcommentPage += 1
                                                     print("page :: \(nowcommentPage)")
                                                 }
@@ -87,6 +88,9 @@ struct DetailDiaryView : View {
                                                 print("index : \(index)")
                                                 print("각각답글수 : \(vm.comment[count].subCommentCnt)")
                                                 print("답글 수 : \(vm.subcommentcount)")
+                                                print("cnt 수 : \(cnt)")
+                                                print("aa 수 : \(aa)")
+                                                print("서브 리스트 \(subcommentList)")
                                             }
                                         }
                                     }
@@ -114,32 +118,40 @@ struct DetailDiaryView : View {
             .onAppear{
                 Task{
                     nowPage = 1
-                    await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                    await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 50), id: Diary.diaryId)
                     subcommentList = vm.subcomment
+                    loding = true
                 }
             }
             .onChange(of: isClick){
                 if isClick{
-                    vm.commentcount = 0
-                    vm.subcommentcount = 0
-                    vm.subcomment = []
+//                    vm.commentcount = 0
+//                    vm.subcommentcount = 0
+//                    vm.subcomment = []
+                    if postSubComment{
+                        vm.subcommentcount = 0
+                        vm.subcomment = []
+                    }else{
+//                        vm.subcomment = []
+                        vm.commentcount = 0
+                    }
                     Task{
+                        loding = false
                         await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentCommentId : 0)
                         inputText = ""
-                        await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                        await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 50), id: Diary.diaryId)
+                        if postSubComment{
+                            subcommentList = vm.subcomment
+                        }
                         postSubComment = false
-                        subcommentList = vm.subcomment
+                        loding = true
+                        print("대댓글 리스트\(subcommentList)")
+                        print("대댓글 수\(vm.subcommentcount)")
+
                     }
                 }
             }
-//            .onChange(of: subCommentBool){
-//                if subCommentBool == true{
-//                    Task{
-//                        nowcommentPage = 1
-//                        await vm.getSubCommentDiary(pageRequest: PageRequest(page: nowcommentPage, size: 10), parentId: parentIds )
-//                    }
-//                }
-//            }
+            //do : 대댓글 페이징 처리
             .navigationBarBackButtonHidden()
             .navigationTitle(Diary.title)
             .navigationBarTitleDisplayMode(.inline)

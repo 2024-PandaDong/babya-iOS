@@ -122,7 +122,7 @@ class DiaryViewModel: ObservableObject {
         } catch {
             print(error)
         }
-    }
+    }// Do : comment fetch 구현 페이징 처리 
     
     func fetchDiary(pageRequest : PageRequest) async {
         do {
@@ -150,7 +150,6 @@ class DiaryViewModel: ObservableObject {
             self.commentIdList = self.comment.map { Int($0.commentId) }
             print("리스트 \(self.commentIdList)")
             
-            // TaskGroup을 사용하여 비동기 작업을 그룹화
             await withTaskGroup(of: Void.self) { taskGroup in
                 for comment in self.comment where comment.subCommentCnt > 0 {
                     taskGroup.addTask {
