@@ -12,36 +12,11 @@ import SwiftUI
 
 final class RemoteDiaryService : DiaryService{
     
-    func upload(image: UIImage) async throws -> Response<String> {
-        
-        let headers: HTTPHeaders = [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .contentType("multipart/form-data")
-        ]
-        
-        return try await withCheckedThrowingContinuation { continuation in
-            AF.upload(multipartFormData: { multipartFormData in
-                if let imageData = image.jpegData(compressionQuality: 0.1) {
-                    multipartFormData.append(imageData, withName: "file", fileName: "image", mimeType: "image/jpeg")
-                }
-            }, to: "\(baseUrl)upload", method: .post, headers: headers)
-            .responseDecodable(of: Response<String>.self) { response in
-                switch response.result {
-                case .success(let data):
-                    continuation.resume(returning: data)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
-    
-    
     func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
-        let url = "diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
+        let url = "/diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
         
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request( baseUrl + url, method: .get,interceptor: MyRequestInterceptor())
+            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[DiaryResponse]>.self) { response in
                     switch response.result {
                     case .success(let responseData):
@@ -54,9 +29,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func getCommentDiary(pageRequest: PageRequest, diaryId: Int) async throws -> Response<[CommentResponse]> {
-        let url = "diary/comment?page=\(pageRequest.page)&size=\(pageRequest.size)&diaryId=\(diaryId)"
+        let url = "/diary/comment?page=\(pageRequest.page)&size=\(pageRequest.size)&diaryId=\(diaryId)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[CommentResponse]>.self){ response in
                     switch response.result {
                     case .success(let responseData):
@@ -70,9 +45,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func postCommentDiary(request: CommentRequest) async throws -> baseResponse {
-        let url = "diary/comment"
+        let url = "/diary/comment"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: baseResponse.self) { response in
                     switch response.result {
                     case .success(let responseData):
@@ -85,9 +60,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func deleteCommentDiary(id: Int) async throws -> baseResponse {
-        let url = "diary/\(id)"
+        let url = "/diary/\(id)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url,method: .delete,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .delete,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: baseResponse.self){ response in
                     switch response.result {
                     case .success(let responseData):
@@ -101,9 +76,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func getDetailDiary(id: Int) async throws -> Response<DiaryResponse> {
-        let url = "diary/\(id)"
+        let url = "/diary/\(id)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<DiaryResponse>.self){ response in
                     switch response.result {
                     case .success(let responseData):
@@ -117,9 +92,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func getSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<[SubCommentResponse]> {
-        let url = "diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
+        let url = "/diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
         return try await withCheckedThrowingContinuation {continuation in
-            AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method:.get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[SubCommentResponse]>.self){ response in
                     switch response.result {
                     case.success(let responseData):
@@ -132,29 +107,10 @@ final class RemoteDiaryService : DiaryService{
         }
     }
     
-    //    func getSubComment(pageRequest: PageRequest, parentId: Int) -> Response<[SubCommentResponse]> {
-    //        let url = "diary/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
-    //        let semaphore = DispatchSemaphore(value: 0)
-    //        var result: Response<[SubCommentResponse]>?
-    //
-    //        AF.request(baseUrl + url, method: .get, interceptor: MyRequestInterceptor())
-    //            .responseDecodable(of: Response<[SubCommentResponse]>.self) { response in
-    //                if case .success(let data) = response.result {
-    //                    result = data
-    //                }
-    //                semaphore.signal()
-    //            }
-    //
-    //        semaphore.wait()
-    //        return result!
-    //    }
-    
-    
-    
     func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse> {
-        let url = "diary/staus/week"
+        let url = "/diary/staus/week"
         return try await withCheckedThrowingContinuation {continuation in
-            AF.request(baseUrl + url,method:.get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method:.get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<DiaryWeekStausResponse>.self){ response in
                     switch response.result {
                     case.success(let responseData):
@@ -168,9 +124,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]> {
-        let url = "diary/list?page=\(pageRequest.page)&size=\(pageRequest.size)"
+        let url = "/diary/list?page=\(pageRequest.page)&size=\(pageRequest.size)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url,method: .get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<[DiaryResponse]>.self){ response in
                     switch response.result {
                     case .success(let responseData):
@@ -184,9 +140,9 @@ final class RemoteDiaryService : DiaryService{
     }
     
     func postDiary(request: DiaryRequest) async throws -> baseResponse {
-        let url = "diary"
+        let url = "/diary"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(baseUrl + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: baseResponse.self) { response in
                     switch response.result {
                     case .success(let responseData):
@@ -195,6 +151,30 @@ final class RemoteDiaryService : DiaryService{
                         continuation.resume(throwing: error)
                     }
                 }
+        }
+    }
+    
+    func upload(image: UIImage) async throws -> Response<String> {
+        
+        let headers: HTTPHeaders = [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .contentType("multipart/form-data")
+        ]
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.upload(multipartFormData: { multipartFormData in
+                if let imageData = image.jpegData(compressionQuality: 0.1) {
+                    multipartFormData.append(imageData, withName: "file", fileName: "image", mimeType: "image/jpeg")
+                }
+            }, to: ApiContent.url + "/upload", method: .post, headers: headers)
+            .responseDecodable(of: Response<String>.self) { response in
+                switch response.result {
+                case .success(let data):
+                    continuation.resume(returning: data)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
         }
     }
 }
