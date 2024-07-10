@@ -23,19 +23,27 @@ struct DetailDiaryView : View {
     @State var postSubComment : Bool = false
     @State var parentCommentId : Int = 0
     @State var subcommentList = [SubCommentResponse]()
-    @State var Second : Bool = false
+    @State var Second : Bool = false    
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
                 VStack(alignment: .leading){
                     ScrollView(showsIndicators: false){
                         VStack(alignment: .leading){
-                            Image(Diary.files.first??.url ?? "Image")
-                                .resizable()
+                            if let fileImage = Diary.files.first??.url,let imageUrl = URL(string: fileImage){
+                                AsyncImage(url: imageUrl) { image in
+                                    image
+                                        .resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 200)
                                 .cornerRadius(10)
                                 .padding(.horizontal,15)
+                            }
+
+                        
                             
                             
                             TextTitleStyle(Title: Text("본문"))

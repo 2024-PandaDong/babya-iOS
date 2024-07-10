@@ -15,10 +15,16 @@ struct DiaryCeil : View {
     var UserName : String
     var body: some View {
         VStack(alignment: .leading,spacing: 6){
-            Image(ProfileImage)
-                .resizable()
+            if let imageUrl = URL(string: ProfileImage){
+                AsyncImage(url: imageUrl) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    ProgressView()
+                }
                 .frame(width: 166,height: 103)
-                
+            }
+            
             Text(Title)
                 .bold()
                 .font(.system(size: 16))
@@ -27,7 +33,7 @@ struct DiaryCeil : View {
             Text(UserName)
                 .font(.system(size: 13))
                 .foregroundStyle(.gray)
-
+            
         }
         .padding(.horizontal,35)
     }

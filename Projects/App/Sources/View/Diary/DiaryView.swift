@@ -96,7 +96,8 @@ struct DiaryView : View {
                                     DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
                                         .padding(.vertical, 5)
                                         .onAppear{
-                                            if count == 9 {
+                                            print("카운트 :: \(count)")
+                                            if count % 10 == 9 {
                                                 nowPage += 1
                                                 print("page :: \(nowPage)")
                                             }
