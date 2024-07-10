@@ -179,5 +179,6 @@ struct DiaryView : View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }

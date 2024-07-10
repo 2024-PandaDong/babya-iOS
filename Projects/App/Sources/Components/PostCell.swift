@@ -24,7 +24,7 @@ struct PostCell: View {
                         .foregroundColor(Color(red: 255/255, green: 227/255, blue: 139/255))
                         .overlay {
                             Text(monthDay)
-                                .font(.system(size: 12, weight: .bold))
+                                .font(.system(size: 12))
                                 .foregroundColor(Color(red: 255/255, green: 138/255, blue: 0/255))
                         }
                 }
