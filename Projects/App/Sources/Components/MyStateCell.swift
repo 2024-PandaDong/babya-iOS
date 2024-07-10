@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MyStateCell: View {
+    @StateObject var viewModel = ProfileViewModel()
+    
     var body: some View {
         HStack() {
             Text("나의 상태")
@@ -91,7 +93,7 @@ struct MyStateCell: View {
                             .frame(width: 70, height: 70)
                         
                         VStack {
-                            Text("현재 박규민 님의 상태 입니다.")
+                            Text("현재 \(viewModel.model.data.nickname) 님의 상태 입니다.")
                                 .font(.system(size: 15))
                             
                             HStack(spacing: 30) {
@@ -103,9 +105,9 @@ struct MyStateCell: View {
                             .padding(.vertical, 10)
                             
                             HStack(spacing: 30) {
-                                Text("86일")
-                                Text("26살")
-                                Text("3년차")
+                                Text(viewModel.model.data.dDay != nil ? "\(viewModel.model.data.dDay)일" : "X")
+                                Text("\(viewModel.model.data.age)살")
+                                Text(viewModel.model.data.marriedYears != nil ? "\(viewModel.model.data.marriedYears)년차" : "X")
                             }
                             .font(.system(size: 15))
                         }
@@ -115,7 +117,10 @@ struct MyStateCell: View {
         }
         .tabViewStyle(PageTabViewStyle())
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-        .frame(width: UIScreen.main.bounds.width, height: 130)
+        .frame(width: UIScreen.main.bounds.width, height: 220)
+        .onAppear {
+            viewModel.getMyProfile()
+        }
     }
 }
 
