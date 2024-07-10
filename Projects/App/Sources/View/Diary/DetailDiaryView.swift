@@ -42,9 +42,6 @@ struct DetailDiaryView : View {
                                 .padding(.horizontal,15)
                             }
 
-                        
-                            
-                            
                             TextTitleStyle(Title: Text("본문"))
                                 .padding(.vertical,7)
                             
@@ -84,13 +81,6 @@ struct DetailDiaryView : View {
                                                     nowcommentPage += 1
                                                     print("page :: \(nowcommentPage)")
                                                 }
-                                                
-                                                print("index : \(index)")
-                                                print("각각답글수 : \(vm.comment[count].subCommentCnt)")
-                                                print("답글 수 : \(vm.subcommentcount)")
-                                                print("cnt 수 : \(cnt)")
-                                                print("aa 수 : \(aa)")
-                                                print("서브 리스트 \(subcommentList)")
                                             }
                                         }
                                     }
@@ -125,14 +115,10 @@ struct DetailDiaryView : View {
             }
             .onChange(of: isClick){
                 if isClick{
-//                    vm.commentcount = 0
-//                    vm.subcommentcount = 0
-//                    vm.subcomment = []
                     if postSubComment{
                         vm.subcommentcount = 0
                         vm.subcomment = []
                     }else{
-//                        vm.subcomment = []
                         vm.commentcount = 0
                     }
                     Task{
@@ -145,9 +131,6 @@ struct DetailDiaryView : View {
                         }
                         postSubComment = false
                         loding = true
-                        print("대댓글 리스트\(subcommentList)")
-                        print("대댓글 수\(vm.subcommentcount)")
-
                     }
                 }
             }

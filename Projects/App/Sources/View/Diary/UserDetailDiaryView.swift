@@ -18,6 +18,9 @@ struct UserDetailDiaryView : View {
     @StateObject var vm : DiaryViewModel
     @State var postSubComment : Bool = false
     @State var parentCommentId : Int = 0
+    @State var nowcommentPage : Int = 1
+    @State var subcommentList = [SubCommentResponse]()
+    @State var loding : Bool = false
     var body: some View {
         if #available(iOS 17.0, *) {
             NavigationView{
@@ -108,15 +111,35 @@ struct UserDetailDiaryView : View {
                             }
                             Divider()
                             ScrollView(showsIndicators: false) {
-                                ForEach(0..<vm.commentcount, id: \.self) { index in
-                                    CommentCeil(Comment: vm.comment[index], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
+                                ForEach((0..<vm.commentcount), id: \.self) { count in
+                                    CommentCeil(Comment: vm.comment[count], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
                                         .padding(.vertical,5)
                                         .onAppear{
-                                            if index == 9 {
+                                            if count == 9 {
                                                 nowPage += 1
+                                                print("page :: \(nowPage)")
+                                            }
+                                            print("count : \(count)")
+                                            
+                                        }
+                                    if vm.comment[count].subCommentCnt != 0 && loding {
+                                        let cnt = (count != 0) ? subcommentList.count : vm.comment[count].subCommentCnt
+                                        let aa = (count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt) : 0
+                                        ForEach(aa..<cnt , id: \.self) { index in
+                                            SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "Image",
+                                                           UserName: subcommentList[index].nickname,
+                                                           Days: subcommentList[index].createdAt,
+                                                           Content: subcommentList[index].content)
+                                            .padding(.leading, 10)
+                                            .onAppear {
+                                                if index % 10 == 9 {
+                                                    nowcommentPage += 1
+                                                    print("page :: \(nowcommentPage)")
+                                                }
                                             }
                                         }
-                                    
+                                    }
+                                    Divider()
                                 }
                             }
                         }
@@ -136,18 +159,32 @@ struct UserDetailDiaryView : View {
                 }
                 
             }
-            .task{
-                nowPage = 1
-                await vm.getCommentDiary(pageRequest: PageRequest(page: 1, size: 10), id: Diary.diaryId)
+            .onAppear{
+                Task{
+                    nowPage = 1
+                    await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 50), id: Diary.diaryId)
+                    subcommentList = vm.subcomment
+                    loding = true
+                }
             }
             .onChange(of: isClick){
                 if isClick{
+                    if postSubComment{
+                        vm.subcommentcount = 0
+                        vm.subcomment = []
+                    }else{
+                        vm.commentcount = 0
+                    }
                     Task{
+                        loding = false
                         await vm.postComment(comment: inputText,diaryId:Diary.diaryId, parentCommentId: postSubComment ? parentCommentId : 0)
                         inputText = ""
-                        await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 10), id: Diary.diaryId)
+                        await vm.getCommentDiary(pageRequest: PageRequest(page: nowPage, size: 50), id: Diary.diaryId)
+                        if postSubComment{
+                            subcommentList = vm.subcomment
+                        }
                         postSubComment = false
-                        
+                        loding = true
                     }
                 }
             }
@@ -158,7 +195,7 @@ struct UserDetailDiaryView : View {
                 toolbarContent()
             }
         } else {
-            // Fallback on earlier versions
+            //
         }
     }
     @ToolbarContentBuilder
@@ -185,7 +222,3 @@ struct UserDetailDiaryView : View {
     }
     
 }
-
-//#Preview {
-//    UserDetailDiaryView(PostName: "포스트이름", DiaryImage: "Image")
-//}
