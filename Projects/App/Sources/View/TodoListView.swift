@@ -10,33 +10,28 @@ import SwiftUI
 struct TodoListView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    var dateFormatter = DateFormatter()
     
     @State var isClick: Bool = false
-    @State var currentTab: String = ""
-    @EnvironmentObject var viewModel: TodoViewModel
-    @State var date: Date = Date.now
+    @State var isEditing: Bool = false
     
-    init() {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-    }
+    @EnvironmentObject var viewModel: TodoViewModel
     
     var body: some View {
         ZStack {
             Color(red: 245/255, green: 245/255, blue: 245/255)
             
-            ScrollView {
-                Spacer()
-                    .frame(height: 110)
-                
+            VStack {
                 ScrollView(.horizontal) {
+                    Spacer()
+                        .frame(height: 110)
+                    
                     HStack {
                         Button {
-                            currentTab = ""
+                            viewModel.changeCategory()
                         } label: {
                             Capsule()
                                 .frame(width: 53, height: 23)
-                                .foregroundStyle(currentTab == "" ? Color.yellow0 : .gray)
+                                .foregroundStyle(viewModel.currentTab == "" ? Color.yellow0 : .gray)
                                 .overlay {
                                     Text("전체")
                                         .font(.system(size: 15, weight: .bold))
@@ -46,12 +41,12 @@ struct TodoListView: View {
                         
                         ForEach(0..<viewModel.categoryResponse.data.category.count, id: \.self) { index in
                             Button {
-                                currentTab = viewModel.categoryResponse.data.category[index]
-                                print(currentTab)
+                                viewModel.changeCategory(currentTab: viewModel.categoryResponse.data.category[index])
+
                             } label: {
                                 Capsule()
                                     .frame(width: 53, height: 23)
-                                    .foregroundStyle(currentTab == viewModel.categoryResponse.data.category[index] ? Color.yellow0 : .gray)
+                                    .foregroundStyle(viewModel.currentTab == viewModel.categoryResponse.data.category[index] ? Color.yellow0 : .gray)
                                     .overlay {
                                         Text(viewModel.categoryResponse.data.category[index])
                                             .font(.system(size: 15, weight: .bold))
@@ -62,6 +57,53 @@ struct TodoListView: View {
                     }
                 }
                 .padding(.horizontal)
+                
+                ScrollView {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            if viewModel.todoResponse != nil {
+                                ForEach(viewModel.uniqueDates, id: \.self) { date in
+                                    let dateComponents = date.split(separator: "-")
+                                    let month = dateComponents[1]
+                                    let day = dateComponents[2]
+                                    
+                                    if let todoItems = viewModel.todoResponse.data?.filter({ $0.planedDt == date }) {
+                                        VStack(alignment: .leading) {
+                                            Text("\(month)월 \(day)일")
+                                                .font(.headline)
+                                                                                    
+                                            ForEach(todoItems, id: \.self) { item in
+                                                SwipeAction(cornerRadius: 10, direction: .trailing) {
+                                                    TodoCell(title: item.content, isChecked: item.isChecked) {
+                                                        viewModel.todoCheck(isChecked: item.isChecked, id: item.todoId)
+                                                        print(item.todoId)
+                                                    }
+                                                } actions: {
+                                                    Action(tint: Color.yellow0, icon: "square.and.pencil") {
+                                                        print("modify")
+                                                        self.isEditing = true
+                                                    }
+                                                    Action(tint: .red, icon: "trash.fill") {
+                                                        print("delete")
+                                                        viewModel.deleteTodo(id: item.todoId)
+                                                    }
+                                                }
+                                                .sheet(isPresented: $isEditing) {
+                                                    TodoModifyView()
+                                                }
+                                            }
+                                        }
+                                        .padding()
+                                    }
+                                }
+                            } else {
+                                Text("할 일이 존재하지 않아요")
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
             }
             
             HStack {
@@ -112,7 +154,7 @@ struct TodoListView: View {
         .ignoresSafeArea()
         .onAppear {
             viewModel.getCategory()
-            viewModel.getTodo(category: "", date: dateFormatter.string(from: date))
+            viewModel.changeCategory()
         }
     }
 }

@@ -10,23 +10,22 @@ import SwiftUI
 struct TodoPostView: View {
     @Binding var category: String
     @Binding var content: String
-    @Binding var planedDt: String
+    @Binding var planedDt: Date
     let action: () -> Void
     
     @FocusState var showKeyboard: Bool
-    @State var date: Date = Date.now
-    var dateFormatter = DateFormatter()
+    
+    
     
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: TodoViewModel
     
-    init(category: Binding<String>, content: Binding<String>, planedDt: Binding<String>, action: @escaping () -> Void) {
+    init(category: Binding<String>, content: Binding<String>, planedDt: Binding<Date>, action: @escaping () -> Void) {
         self._category = category
         self._content = content
         self._planedDt = planedDt
         self.action = action
-        dateFormatter.dateFormat = "yyyy-MM-dd"
     }
     
     var body: some View {
@@ -51,13 +50,9 @@ struct TodoPostView: View {
             HStack {
                 Text("시작일:")
                 Image(systemName: "clock")
-                DatePicker("", selection: $date, displayedComponents: .date)
+                DatePicker("", selection: $planedDt, displayedComponents: .date)
                     .labelsHidden()
                     .presentationDetents([.fraction(0.2)])
-                    .onChange(of: date, perform: { value in
-                        planedDt = dateFormatter.string(from: value)
-                        print(planedDt)
-                    })
                     .tint(Color.yellow0)
                 
                 Spacer()
@@ -89,7 +84,7 @@ struct TodoPostView: View {
 }
 
 #Preview {
-    TodoPostView(category: .constant(""), content: .constant(""), planedDt: .constant("")) {
+    TodoPostView(category: .constant(""), content: .constant(""), planedDt: .constant(.init())) {
         
     }
     .environmentObject(TodoViewModel())

@@ -48,12 +48,14 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal, 20)
+                .padding(.top, -30)
                 
                 HStack(spacing: 15) {
                     CompanyCell(title: "부영그룹", image: "")
                     CompanyCell(title: "금호석유화학", image: "")
                     CompanyCell(title: "Posco", image: "")
                 }
+                .padding(.top, -15)
                 
                 Spacer()
             }

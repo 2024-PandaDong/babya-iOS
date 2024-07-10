@@ -121,6 +121,7 @@ struct MyStateCell: View {
         .onAppear {
             viewModel.getMyProfile()
         }
+        .padding(.top, -45)
     }
 }
 
