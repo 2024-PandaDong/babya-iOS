@@ -11,8 +11,8 @@ import Alamofire
 class NoticeBoardDetailViewModel: ObservableObject {
     @Published var postListModel = PostListResponse()
     @Published var model = NoticeBoardDetailModel()
-    @Published var commentModel = CommentModel()
-    @Published var commentResponse = CommentResponse()
+    @Published var commentModel = PostCommentModel()
+    @Published var commentResponse = PostCommentResponse()
     
     func getPostDetail(postId: Int) {
         AF.request("\(ApiContent.url)/post/\(postId)", method: .get, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("*/*")])
@@ -57,7 +57,7 @@ class NoticeBoardDetailViewModel: ObservableObject {
         guard let url = urlComponents.url else { return }
         
         AF.request(url, method: .get, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
-            .responseDecodable(of: CommentResponse.self) { response in
+            .responseDecodable(of: PostCommentResponse.self) { response in
                 switch response.result {
                 case.success(let data):
                     self.commentResponse = data

@@ -33,7 +33,7 @@ struct ProfileView: View {
                                         .font(.system(size: 20, weight: .bold))
                                         .padding(.vertical, 5)
                                     
-                                    Text(viewModel.model.data.children?[0]?.birthName == nil ? "자녀: X D-Day: X" : "\(viewModel.model.data.children?[0]?.birthName) 아빠 D-Day: 86일")
+                                    Text(viewModel.model.data.dDay == nil ? "D-Day: X" : "D-Day: \(viewModel.model.data.dDay)일")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 12))
                                     
@@ -44,12 +44,12 @@ struct ProfileView: View {
                                     .foregroundStyle(.white)
                                     .font(.system(size: 12))
                                     
-                                    HStack {
-                                        Text(viewModel.model.data.children?[0]?.birthName == nil ? "산모일기: X" : "\(viewModel.model.data.children?[0]?.birthName) 산모일기")
-                                        Image(systemName: "lock.fill")
-                                    }
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 12))
+//                                    HStack {
+//                                        Text(viewModel.model.data.children?[0]?.birthName == nil ? "산모일기: X" : "\(viewModel.model.data.children?[0]?.birthName) 산모일기")
+//                                        Image(systemName: "lock.fill")
+//                                    }
+//                                    .foregroundStyle(.white)
+//                                    .font(.system(size: 12))
                                 }
                                 
                                 Spacer()
@@ -64,30 +64,30 @@ struct ProfileView: View {
                         }
                     }
                 
-                HStack {
-                    Text("즐겨찾기 목록")
-                        .font(.system(size: 15, weight: .bold))
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: FavoritesView()) {
-                        Image(systemName: "arrow.right")
-                            .foregroundStyle(.black)
-                    }
-                }
-                .padding(.horizontal, 30)
-                .padding(.vertical, 10)
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .frame(width: 350, height: 65)
-                    .foregroundStyle(.white)
-                    .overlay {
-                        HStack(alignment: .firstTextBaseline) {
-                            FavoritesPreviewCell()
-                            FavoritesPreviewCell()
-                            FavoritesPreviewCell()
-                        }
-                    }
+//                HStack {
+//                    Text("즐겨찾기 목록")
+//                        .font(.system(size: 15, weight: .bold))
+//                    
+//                    Spacer()
+//                    
+//                    NavigationLink(destination: FavoritesView()) {
+//                        Image(systemName: "arrow.right")
+//                            .foregroundStyle(.black)
+//                    }
+//                }
+//                .padding(.horizontal, 30)
+//                .padding(.vertical, 10)
+//                
+//                RoundedRectangle(cornerRadius: 10)
+//                    .frame(width: 350, height: 65)
+//                    .foregroundStyle(.white)
+//                    .overlay {
+//                        HStack(alignment: .firstTextBaseline) {
+//                            FavoritesPreviewCell()
+//                            FavoritesPreviewCell()
+//                            FavoritesPreviewCell()
+//                        }
+//                    }
                 
                 HStack {
                     Text("산모일기")

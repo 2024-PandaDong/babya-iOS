@@ -14,9 +14,9 @@ struct babyaApp: App {
         WindowGroup {
             NavigationView {
                 if (LoginUserHashCache.shared.checkAccessToken() != nil) {
-                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-                } else {
                     HomeView()
+                } else {
+                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
                 }
             }
         }

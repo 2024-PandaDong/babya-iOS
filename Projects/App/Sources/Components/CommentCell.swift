@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let model: CommentResponse
+    let model: PostCommentResponse
     let index: Int
     
     var body: some View {

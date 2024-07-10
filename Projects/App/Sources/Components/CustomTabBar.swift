@@ -29,7 +29,7 @@ struct CustomTabBar: View {
                     
                     Spacer()
                     
-                    CustomTabButton(image: "book", title: "산모일기", destination: Text("산모일기"))
+                    CustomTabButton(image: "book", title: "산모일기", destination: DiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService())))
                     
                     Spacer()
                     
