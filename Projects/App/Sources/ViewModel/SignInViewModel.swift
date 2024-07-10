@@ -16,6 +16,7 @@ class SignInViewModel: ObservableObject {
     @Published var is401Error: Bool = false
     @Published var is404Error: Bool = false
     @Published var isLoggedIn: Bool = false
+    @Published var success : Bool = false
     
     private let authService: AuthService
     
@@ -49,6 +50,8 @@ class SignInViewModel: ObservableObject {
                     }
               
                     
+                    LoginUserHashCache.shared.storeEmail(value: email) 
+                    print(response)
                 case 401:
                     is401Error = true
                 case 404:
