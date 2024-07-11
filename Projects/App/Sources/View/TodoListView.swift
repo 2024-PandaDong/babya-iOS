@@ -13,6 +13,8 @@ struct TodoListView: View {
     
     @State var isClick: Bool = false
     @State var isEditing: Bool = false
+    @State private var editingContent: String = ""
+    @State private var isCheck: Bool = false
     
     @EnvironmentObject var viewModel: TodoViewModel
     
@@ -42,7 +44,7 @@ struct TodoListView: View {
                         ForEach(0..<viewModel.categoryResponse.data.category.count, id: \.self) { index in
                             Button {
                                 viewModel.changeCategory(currentTab: viewModel.categoryResponse.data.category[index])
-
+                                
                             } label: {
                                 Capsule()
                                     .frame(width: 53, height: 23)
@@ -61,26 +63,31 @@ struct TodoListView: View {
                 ScrollView {
                     HStack {
                         VStack(alignment: .leading) {
-                            if viewModel.todoResponse != nil {
+                            if viewModel.todoResponse.data != [] {
+                                
                                 ForEach(viewModel.uniqueDates, id: \.self) { date in
                                     let dateComponents = date.split(separator: "-")
                                     let month = dateComponents[1]
                                     let day = dateComponents[2]
                                     
-                                    if let todoItems = viewModel.todoResponse.data?.filter({ $0.planedDt == date }) {
-                                        VStack(alignment: .leading) {
-                                            Text("\(month)월 \(day)일")
-                                                .font(.headline)
-                                                                                    
-                                            ForEach(todoItems, id: \.self) { item in
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("\(month)월 \(day)일")
+                                            .font(.headline)
+                                        
+                                        
+                                        
+                                        ForEach($viewModel.todoResponse.data, id: \.self) { $item in
+                                            if $item.planedDt.wrappedValue == date {
                                                 SwipeAction(cornerRadius: 10, direction: .trailing) {
-                                                    TodoCell(title: item.content, isChecked: item.isChecked) {
-                                                        viewModel.todoCheck(isChecked: item.isChecked, id: item.todoId)
-                                                        print(item.todoId)
+                                                    TodoCell(title: $item.content.wrappedValue, isChecked: $item.isChecked) {
+                                                        viewModel.todoCheck(isChecked: $item.isChecked.wrappedValue, id: $item.todoId.wrappedValue)
+                                                        
                                                     }
                                                 } actions: {
                                                     Action(tint: Color.yellow0, icon: "square.and.pencil") {
                                                         print("modify")
+                                                        self.editingContent = item.content
                                                         self.isEditing = true
                                                     }
                                                     Action(tint: .red, icon: "trash.fill") {
@@ -89,16 +96,22 @@ struct TodoListView: View {
                                                     }
                                                 }
                                                 .sheet(isPresented: $isEditing) {
-                                                    TodoModifyView()
+                                                    TodoModifyView(content: $editingContent) {
+                                                        viewModel.editTodo(
+                                                            id: item.todoId,
+                                                            category: item.category,
+                                                            content: editingContent,
+                                                            planedDt: item.planedDt)
+                                                        
+                                                    }
                                                 }
                                             }
                                         }
-                                        .padding()
                                     }
+                                    .padding()
                                 }
-                            } else {
-                                Text("할 일이 존재하지 않아요")
                             }
+                            
                         }
                         
                         Spacer()
@@ -156,6 +169,7 @@ struct TodoListView: View {
             viewModel.getCategory()
             viewModel.changeCategory()
         }
+        
     }
 }
 

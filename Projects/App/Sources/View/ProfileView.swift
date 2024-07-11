@@ -175,6 +175,7 @@ struct ProfileView: View {
                     }
                     Button(role: .destructive) {
                         print("로그아웃")
+                        LoginUserHashCache.shared.logout()
                     } label: {
                         Text("로그아웃")
                             .tint(.red)
