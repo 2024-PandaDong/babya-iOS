@@ -38,7 +38,7 @@ struct TodoResponse: Codable {
     
     var status: Int = 0
     var message: String = ""
-    var data: [TodoData]?
+    var data: [TodoData] = []
 }
 
 struct TodoData: Codable, Hashable {
@@ -46,6 +46,7 @@ struct TodoData: Codable, Hashable {
     var content: String = ""
     var planedDt: String = ""
     var isChecked: Bool = false
+    var category: String = ""
 
     static func == (lhs: TodoData, rhs: TodoData) -> Bool {
         return lhs.todoId == rhs.todoId

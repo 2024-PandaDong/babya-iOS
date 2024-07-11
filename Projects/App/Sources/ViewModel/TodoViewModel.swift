@@ -13,15 +13,17 @@ class TodoViewModel: ObservableObject {
     @Published var model = TodoModel()
     @Published var currentTab: String = ""
     @Published var date: Date = .now
-    @Published var todoResponse = TodoResponse()
+    @Published var todoResponse: TodoResponse = .init()
     @Published var categoryResponse = CategoryResponse()
     @Published var uniqueDates: [String] = []
     @Published var todoList: [String: Any] = ["":""]
+    
     
     var dateFormatter = DateFormatter()
     
     init() {
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        
     }
     
     var isPostAvailable: Bool {
@@ -50,6 +52,7 @@ class TodoViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 self.todoResponse = data
+                
                 self.updateUniqueDates()
                 print("Todo 불러오기 성공")
             case .failure(let error):
@@ -91,21 +94,43 @@ class TodoViewModel: ObservableObject {
     func deleteTodo(id: Int) {
         AF.request("\(ApiContent.url)/todo/\(id)", method: .delete, headers: [
             .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken)])
-            .validate()
-            .responseJSON { json in
-                print(json)
+        .validate()
+        .responseJSON { json in
+            print(json)
+        }
+        .response { response in
+            switch response.result {
+            case .success(_):
+                self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            .response { response in
-                switch response.result {
-                case .success(_):
-                    self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
+        }
     }
     
-    func editTodo() {
+    func editTodo(id: Int, category: String, content: String, planedDt: String) {
+        let params: [String: Any] = [
+            "id": id,
+            "category": category,
+            "content": content,
+            "planedDt": planedDt
+        ]
+        
+        AF.request("\(ApiContent.url)/todo", method: .patch, parameters: params, encoding: JSONEncoding.default, headers: [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .accept("application/json")
+        ])
+        .responseJSON { json in
+            print(json)
+        }
+        .response { response in
+            switch response.result {
+            case .success(_):
+                self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         
     }
     
@@ -136,9 +161,10 @@ class TodoViewModel: ObservableObject {
     }
     
     private func updateUniqueDates() {
-        if let data = todoResponse.data {
-            let allDates = data.map { $0.planedDt }
-            self.uniqueDates = Array(Set(allDates)).sorted()
-        }
+        
+        let allDates = todoResponse.data.map { $0.planedDt }
+        self.uniqueDates = Array(Set(allDates)).sorted()
+        
     }
+    
 }

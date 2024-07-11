@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TodoCell: View {
     let title: String
-    @State var isChecked: Bool  
+    @Binding var isChecked: Bool
     
     var action: () -> Void
     
@@ -21,8 +21,8 @@ struct TodoCell: View {
                 HStack {
                     Button {
                         self.isChecked.toggle()
-                        action()
                         print(isChecked)
+                        action()
                     } label: {
                         Circle()
                             .frame(width: 18, height: 18)
@@ -157,7 +157,7 @@ struct ActionBuilder {
     ZStack {
         Color.black
         
-        TodoCell(title: "동바오동바오", isChecked: false) {
+        TodoCell(title: "동바오동바오", isChecked: .constant(false)) {
             
         }
     }
