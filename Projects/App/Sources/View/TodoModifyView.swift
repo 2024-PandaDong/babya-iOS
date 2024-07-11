@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct TodoModifyView: View {
+    @Binding var id: Int
+    @Binding var category: String
     @Binding var content: String
+    @Binding var planedDt: String
     let action: () -> Void
     
     @FocusState var showKeyboard: Bool
@@ -17,8 +20,11 @@ struct TodoModifyView: View {
     
     @EnvironmentObject var viewModel: TodoViewModel
     
-    init(content: Binding<String>, action: @escaping () -> Void) {
+    init(id: Binding<Int>, category: Binding<String>, content: Binding<String>, planedDt: Binding<String>, action: @escaping () -> Void) {
+        self._id = id
+        self._category = category
         self._content = content
+        self._planedDt = planedDt
         self.action = action
     }
     
@@ -56,7 +62,7 @@ struct TodoModifyView: View {
 }
 
 #Preview {
-    TodoModifyView(content: .constant("")) {
+    TodoModifyView(id: .constant(0), category: .constant(""), content: .constant(""), planedDt: .constant("")) {
         
     }
 }

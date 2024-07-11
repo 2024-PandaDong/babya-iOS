@@ -14,6 +14,9 @@ struct TodoListView: View {
     @State var isClick: Bool = false
     @State var isEditing: Bool = false
     @State private var editingContent: String = ""
+    @State private var editingTodoId: Int = 0
+    @State private var editingCategory: String = ""
+    @State private var editingPlanedDt: String = ""
     @State private var isCheck: Bool = false
     
     @EnvironmentObject var viewModel: TodoViewModel
@@ -82,12 +85,14 @@ struct TodoListView: View {
                                                 SwipeAction(cornerRadius: 10, direction: .trailing) {
                                                     TodoCell(title: $item.content.wrappedValue, isChecked: $item.isChecked) {
                                                         viewModel.todoCheck(isChecked: $item.isChecked.wrappedValue, id: $item.todoId.wrappedValue)
-                                                        
                                                     }
                                                 } actions: {
                                                     Action(tint: Color.yellow0, icon: "square.and.pencil") {
                                                         print("modify")
                                                         self.editingContent = item.content
+                                                        self.editingTodoId = item.todoId
+                                                        self.editingCategory = item.category
+                                                        self.editingPlanedDt = item.planedDt
                                                         self.isEditing = true
                                                     }
                                                     Action(tint: .red, icon: "trash.fill") {
@@ -96,17 +101,20 @@ struct TodoListView: View {
                                                     }
                                                 }
                                                 .sheet(isPresented: $isEditing) {
-                                                    TodoModifyView(content: $editingContent) {
+                                                    TodoModifyView(id: $editingTodoId, category: $editingCategory, content: $editingContent, planedDt: $editingPlanedDt) {
                                                         viewModel.editTodo(
-                                                            id: item.todoId,
-                                                            category: item.category,
+                                                            id: editingTodoId,
+                                                            category: editingCategory,
                                                             content: editingContent,
-                                                            planedDt: item.planedDt)
-                                                        
+                                                            planedDt: editingPlanedDt
+                                                        )
+                                                        self.isEditing = false
                                                     }
+                                                    .environmentObject(viewModel)
                                                 }
                                             }
                                         }
+
                                     }
                                     .padding()
                                 }
