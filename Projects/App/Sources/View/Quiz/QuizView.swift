@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct QuizView : View {
-    //    @State var isTrue : Bool = false
-    //    @State var isFalse : Bool = false
     @StateObject var vm : QuizViewModel
     var body: some View {
         NavigationView{
@@ -39,19 +37,12 @@ struct QuizView : View {
                     }
                 }
                 
-                //            NavigationLink(destination: HomeView()) {
-                //            Text("건너뛰기")
-                //                .foregroundColor(Color.gray3)
-                //                .font(.system(size: 20))
-                //                .padding(.top,45)
-                //            }
-                // 바꾸기
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                NavigationLink(destination: HomeView()) {
                     Text("건너뛰기")
                         .foregroundColor(Color.gray3)
                         .font(.system(size: 20))
                         .padding(.top,45)
-                })
+                }
                 
                 Spacer()
             }

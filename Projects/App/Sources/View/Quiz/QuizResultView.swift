@@ -54,13 +54,9 @@ struct QuizResultiew : View {
                 
                 Spacer()
                 
-                //            NavigationLink(destination: HomeView()) {
-                //                NextButton()
-                //            }
-                // 바꾸기
-                Button(action: {}, label: {
+                NavigationLink(destination: HomeView()) {
                     NextButton()
-                })
+                }
                 .padding()
             }
         }
