@@ -64,22 +64,24 @@ struct CustomPicker: View {
                         let fileURL: URL? = fileURLString != nil ? URL(string: fileURLString!) : nil
                         
                         if fileURL != nil {
-                            AsyncImage(url: fileURL) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 355, height: 200)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-                                    }
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(height: 240)
-                            .onAppear {
-                                print(fileURLString)
+                            Link(destination: URL(string: viewModel.bannerResponse.data[index].url)!) {
+                                AsyncImage(url: fileURL) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 355, height: 200)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
+                                        }
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(height: 240)
+                                .onAppear {
+                                    print(fileURLString)
 
+                                }
                             }
                         } else {
                             RoundedRectangle(cornerRadius: 10)
