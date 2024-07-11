@@ -20,7 +20,9 @@ struct DiaryCeil : View {
                     image
                         .resizable()
                 } placeholder: {
-                    ProgressView()
+                    Image("baseDiaryImage")
+                        .resizable()
+                        .scaledToFit()
                 }
                 .frame(width: 166,height: 103)
             }

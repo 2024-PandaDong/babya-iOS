@@ -34,7 +34,7 @@ struct DiaryWritingView : View {
     @State private var showingDatePicker = false
     @State private var formattedDate = ""
     @State private var openPhoto = false
-    @State private var image = UIImage()
+    @State private var image: UIImage?
     @State private var imageUrl: URL? = nil
     @State private var imageData: Data? = nil
     @StateObject var vm : DiaryViewModel
@@ -60,7 +60,7 @@ struct DiaryWritingView : View {
                                             }
                                     }
                                     
-                                    Image(uiImage: image)
+                                    Image(uiImage: image ?? .init())
                                         .resizable()
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 200)
@@ -226,7 +226,7 @@ struct DiaryWritingView : View {
             }
             .sheet(isPresented: $openPhoto,onDismiss: {
                 Task{
-                    await vm.upload(image: self.image)
+                    await vm.upload(image: self.image ?? .init())
                 }
             }) {
 //                ImagePicker(image: self.$image)

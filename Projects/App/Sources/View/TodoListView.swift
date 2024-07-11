@@ -118,8 +118,19 @@ struct TodoListView: View {
                                     }
                                     .padding()
                                 }
+                            } else {
+                                VStack(alignment: .center) {
+                                    Spacer()
+                                        .frame(height: 150)
+                                    
+                                    Image("baseTodoImage")
+                                        .resizable()
+                                        .scaledToFit()
+                                    
+                                    Text("할 일이 존재하지 않아요.")
+                                        .font(.system(size: 20, weight: .bold))
+                                }
                             }
-                            
                         }
                         
                         Spacer()
