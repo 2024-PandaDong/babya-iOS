@@ -69,6 +69,11 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Circle()
                         .frame(width: 25, height: 25)
+                        .overlay {
+                            Image("baseProfile")
+                                .resizable()
+                                .scaledToFit()
+                        }
                 }
             }
             CustomTabBar()

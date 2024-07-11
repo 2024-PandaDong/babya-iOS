@@ -32,6 +32,11 @@ struct PostPreviewCell: View {
                                 
                                 Circle()
                                     .frame(width: 18, height: 18)
+                                    .overlay {
+                                        Image("baseProfile")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                             }
                             .padding(.horizontal, 20)
                             

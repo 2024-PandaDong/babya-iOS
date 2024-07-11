@@ -20,6 +20,11 @@ struct NoticeBoardDetailView: View {
                 HStack(spacing: 10) {
                     Circle()
                         .frame(width: 45, height: 45)
+                        .overlay {
+                            Image("baseProfile")
+                                .resizable()
+                                .scaledToFit()
+                        }
                     
                     VStack(spacing: 3) {
                         HStack {
@@ -102,6 +107,11 @@ struct NoticeBoardDetailView: View {
                     Circle()
                         .frame(width: 30, height: 30)
                         .padding(.horizontal, 10)
+                        .overlay {
+                            Image("baseProfile")
+                                .resizable()
+                                .scaledToFit()
+                        }
                     
                     TextField("댓글 쓰기", text: $viewModel.commentModel.comment)
                         .frame(height: 45)

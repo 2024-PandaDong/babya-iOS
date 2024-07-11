@@ -57,6 +57,11 @@ struct ProfileView: View {
                                 VStack(alignment: .trailing) {
                                     Circle()
                                         .frame(width: 100, height: 100)
+                                        .overlay {
+                                            Image("baseProfile")
+                                                .resizable()
+                                                .scaledToFit()
+                                        }
                                 }
                             }
                             .padding(.horizontal, 40)
