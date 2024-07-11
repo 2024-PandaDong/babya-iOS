@@ -10,6 +10,7 @@ import Foundation
 
 struct QuizResponse : Decodable{
     let quizId: Int
+    let title: String
     let quizCn: String
     let answer: String
     let regDt: String

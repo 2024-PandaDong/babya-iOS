@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import UIKit
+
+protocol QuizService {
+    func getQuiz() async throws -> Response<QuizResponse>
+    
+}

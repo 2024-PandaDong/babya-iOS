@@ -22,7 +22,7 @@ extension Color {
     static let yellow1 = Color(hex: "#F6A723")
     static let red0 = Color(hex: "#FF4B4B")
     static let blue0 = Color(hex: "#7896FF")
-
+    static let green0 = Color(hex: "#00DB1C")
 }
 
 extension Color {
