@@ -27,13 +27,18 @@ struct UserDetailDiaryView : View {
                 VStack(alignment: .leading){
                     ScrollView{
                         VStack{
-                            Image(Diary.files.first??.url ?? "Image")
-                                .resizable()
+                            if let fileImage = Diary.files.first??.url,let imageUrl = URL(string: fileImage){
+                                AsyncImage(url: imageUrl) { image in
+                                    image
+                                        .resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 200)
                                 .cornerRadius(10)
                                 .padding(.horizontal,15)
-                                .padding(.vertical,20)
+                            }
                             
                             VStack(alignment: .leading ,spacing: 15){
                                 HStack{
