@@ -64,3 +64,5 @@ struct CommentData: Codable {
     var profileImg: String?
     var subCommentCnt: Int = 0
 }
+
+

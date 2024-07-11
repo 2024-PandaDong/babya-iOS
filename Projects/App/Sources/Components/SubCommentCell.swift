@@ -1,13 +1,13 @@
 //
-//  CommentCell.swift
+//  SubCommentCell.swift
 //  babya
 //
-//  Created by hyk on 6/7/24.
+//  Created by hyk on 7/11/24.
 //
 
 import SwiftUI
 
-struct CommentCell: View {
+struct SubCommentCell: View {
     let model: PostCommentResponse
     let index: Int
     
@@ -38,14 +38,6 @@ struct CommentCell: View {
                 .font(.system(size: 12))
                 .padding(.horizontal, 55)
             
-            Button {
-                
-            } label: {
-                Text("답글달기")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.gray)
-            }
-            
             Rectangle()
                 .frame(height: 1)
                 .foregroundStyle(.gray)
@@ -53,3 +45,7 @@ struct CommentCell: View {
         }
     }
 }
+
+//#Preview {
+//    SubCommentCell()
+//}

@@ -126,6 +126,11 @@ struct MyStateCell: View {
                     HStack {
                         Circle()
                             .frame(width: 70, height: 70)
+                            .overlay {
+                                Image("baseProfile")
+                                    .resizable()
+                                    .scaledToFit()
+                            }
                         
                         VStack {
                             Text("현재 \(viewModel.model.data.nickname) 님의 상태 입니다.")
