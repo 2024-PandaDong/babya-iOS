@@ -30,6 +30,11 @@ struct MyStateCell: View {
                         VStack {
                             Circle()
                                 .frame(width: 45, height: 45)
+                                .overlay {
+                                    Image("happy")
+                                        .resizable()
+                                        .scaledToFit()
+                                }
                             
                             Text("좋음")
                                 .font(.system(size: 15))
@@ -37,47 +42,77 @@ struct MyStateCell: View {
                         .padding(.horizontal, 30)
                         
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("이번 주 박규민 님의 상태는 좋음 입니다.")
+                            Text("이번 주 \(viewModel.model.data.nickname) 님의 상태는 좋음 입니다.")
                                 .font(.system(size: 15))
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("happy")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 50, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("normal")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 0, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("pain")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 25, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("tired")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 0, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("anxious")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 25, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                         }
                     }

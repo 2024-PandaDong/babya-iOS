@@ -16,6 +16,11 @@ struct CommentCell: View {
             HStack {
                 Circle()
                     .frame(width: 25, height: 25)
+                    .overlay {
+                        Image("baseProfile")
+                            .resizable()
+                            .scaledToFit()
+                    }
                     .offset(x: 0, y: 10)
                 
                 Text(model.data[index].nickname)

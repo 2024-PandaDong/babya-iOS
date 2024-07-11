@@ -71,7 +71,7 @@ struct DetailDiaryView : View {
                                         let cnt = (count != 0) ? subcommentList.count : vm.comment[count].subCommentCnt
                                         let aa = (count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt) : 0
                                         ForEach(aa..<cnt , id: \.self) { index in
-                                            SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "Image",
+                                            SubCommentCeil(ProfileImage: subcommentList[index].profileImg ?? "baseProfile",
                                                            UserName: subcommentList[index].nickname,
                                                            Days: subcommentList[index].createdAt,
                                                            Content: subcommentList[index].content)
@@ -92,7 +92,7 @@ struct DetailDiaryView : View {
                     }
                     ZStack{
                         HStack(spacing: 1){
-                            Image("Image")
+                            Image("baseProfile")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(Circle())

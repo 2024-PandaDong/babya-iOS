@@ -21,7 +21,7 @@ struct CommentCeil : View {
             HStack{
                 VStack(alignment: .leading){
                     HStack(spacing: 2){
-                        Image(Comment.profileImg ?? "Image")
+                        Image(Comment.profileImg ?? "baseProfile")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .clipShape(Circle())
