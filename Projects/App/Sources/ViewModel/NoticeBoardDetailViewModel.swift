@@ -39,8 +39,14 @@ class NoticeBoardDetailViewModel: ObservableObject {
         }
         
         AF.request("\(ApiContent.url)/post/comment", method: .post, parameters: params, encoding: JSONEncoding.default, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
-            .responseJSON { json in
-                print(json)
+            .response { response in
+                switch response.result {
+                case .success(_):
+                    self.getComment(page: 1, size: 10, postId: postId)
+                    self.getPostDetail(postId: postId)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
     }
     
