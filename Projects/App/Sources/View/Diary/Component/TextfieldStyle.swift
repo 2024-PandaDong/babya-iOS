@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TextfieldStyle: TextFieldStyle {
-    @Binding var isClick : Bool 
+    @Binding var isClick : Bool
     func _body(configuration: TextField<Self._Label>) -> some View {
         HStack{
             ZStack {
