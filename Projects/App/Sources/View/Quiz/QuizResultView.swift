@@ -55,7 +55,7 @@ struct QuizResultiew : View {
                 Spacer()
                 
                 NavigationLink(destination: HomeView()) {
-                    NextButton()
+                    BackButton()
                 }
                 .padding()
             }

@@ -11,7 +11,7 @@ import Alamofire
 
 final class RemoteQuizService: QuizService {
     func getQuiz() async throws -> Response<QuizResponse>{
-        let url = "quiz"
+        let url = "/quiz"
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
                 .responseDecodable(of: Response<QuizResponse>.self){ response in

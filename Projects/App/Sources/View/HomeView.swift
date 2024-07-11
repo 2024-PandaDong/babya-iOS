@@ -78,6 +78,7 @@ struct HomeView: View {
             }
             CustomTabBar()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

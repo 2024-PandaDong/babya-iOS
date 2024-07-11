@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct NextButton : View {
+struct BackButton : View {
     var body: some View {
         ZStack{
             Rectangle()
@@ -25,5 +25,5 @@ struct NextButton : View {
     }
 }
 #Preview {
-    NextButton()
+    BackButton()
 }
