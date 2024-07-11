@@ -41,7 +41,7 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: Text("회사찾기")) {
+                    NavigationLink(destination: CompanySearchView()) {
                         Text("더보기")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundStyle(.black)
