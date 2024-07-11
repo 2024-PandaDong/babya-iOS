@@ -81,28 +81,39 @@ struct DiaryView : View {
                     .padding(.horizontal,20)
                     Divider()
                     ScrollView(showsIndicators: false) {
-                        LazyVGrid(columns: columns) {
-                            ForEach((0..<vm.diarycount), id: \.self) { count in
-                                NavigationLink(
-                                    destination: {
-                                        if All {
-                                            DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                                
-                                        } else {
-                                            UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
-                                        }
-                                    })
-                                {
-                                    DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "Image", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
-                                        .padding(.vertical, 5)
-                                        .onAppear{
-                                            print("카운트 :: \(count)")
-                                            if count % 10 == 9 {
-                                                nowPage += 1
-                                                print("page :: \(nowPage)")
+                        if vm.diarycount != 0 {
+                            LazyVGrid(columns: columns) {
+                                ForEach((0..<vm.diarycount), id: \.self) { count in
+                                    NavigationLink(
+                                        destination: {
+                                            if All {
+                                                DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
+                                                    
+                                            } else {
+                                                UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                             }
-                                        }
+                                        })
+                                    {
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
+                                            .padding(.vertical, 5)
+                                            .onAppear{
+                                                print("카운트 :: \(count)")
+                                                if count % 10 == 9 {
+                                                    nowPage += 1
+                                                    print("page :: \(nowPage)")
+                                                }
+                                            }
+                                    }
                                 }
+                            }
+                        } else {
+                            VStack {
+                                Image("baseDiaryImage")
+                                    .resizable()
+                                    .scaledToFit()
+                                
+                                Text("산모일기가 존재하지 않아요.")
+                                    .font(.system(size: 20, weight: .bold))
                             }
                         }
                     }

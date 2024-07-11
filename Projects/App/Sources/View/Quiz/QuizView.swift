@@ -29,10 +29,10 @@ struct QuizView : View {
                     .padding(.bottom,35)
                 
                 VStack(alignment: .center, spacing: 35){
-                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "")) {
+                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
                         OButton()
                     }
-                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "" )) {
+                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
                         XButton()
                     }
                 }

@@ -13,29 +13,35 @@ struct CompanySearchView: View {
     var body: some View {
         ZStack {
             VStack {
-                ScrollView {
-                    HStack {
-                        Text("회사추천")
-                            .font(.system(size: 20, weight: .bold))
-                        
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundStyle(.black)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    
-                    CompanyRowCell(rank: "1위", image: "", title: "삼성전자")
-                    
-                    Spacer()
-                        .frame(height: 100)
-                }
-                .frame(width: UIScreen.main.bounds.width)
-                .background(Color(red: 245/255, green: 245/255, blue: 245/255))
+                Image("notWorking")
+                    .resizable()
+                    .scaledToFit()
+                
+                Text("아직 준비중인 기능 입니다.")
+                    .font(.system(size: 20, weight: .bold))
+//                ScrollView {
+//                    HStack {
+//                        Text("회사추천")
+//                            .font(.system(size: 20, weight: .bold))
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                        } label: {
+//                            Image(systemName: "magnifyingglass")
+//                                .foregroundStyle(.black)
+//                        }
+//                    }
+//                    .padding(.horizontal, 20)
+//                    
+//                    CompanyRowCell(rank: "1위", image: "", title: "삼성전자")
+//                    
+//                    Spacer()
+//                        .frame(height: 100)
+//                }
+//                .frame(width: UIScreen.main.bounds.width)
+//                .background(Color(red: 245/255, green: 245/255, blue: 245/255))
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
