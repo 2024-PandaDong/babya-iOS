@@ -52,7 +52,6 @@ class TodoViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 self.todoResponse = data
-                
                 self.updateUniqueDates()
                 print("Todo 불러오기 성공")
             case .failure(let error):
