@@ -11,6 +11,7 @@ import SwiftUI
 struct QuizResultiew : View {
     let quizCn : String
     let answer : String
+    let quizTitle: String
     var body: some View {
         NavigationView{
             VStack(alignment: .center){
@@ -19,7 +20,7 @@ struct QuizResultiew : View {
                     .foregroundStyle(.black)
                     .padding(.bottom,40)
                 
-                Text("Q.일일퀴즈 질문 내용 넣기")
+                Text("Q.\(quizTitle)")
                     .font(.system(size: 24,weight:.bold))
                     .foregroundStyle(.black)
                     .padding(.bottom,35)
