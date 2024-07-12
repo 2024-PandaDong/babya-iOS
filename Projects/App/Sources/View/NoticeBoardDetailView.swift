@@ -116,7 +116,7 @@ struct NoticeBoardDetailView: View {
                     if vm.comment[count].subCommentCnt != 0 && loding {
                         let cnt = (count != 0) ? subCommentList.count : vm.comment[count].subCommentCnt
                         let aa = (count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt) : 0
-                        ForEach(aa..<cnt , id: \.self) { index in
+                        ForEach(aa..<min(cnt, subCommentList.count) , id: \.self) { index in
                             SubCommentCeil(ProfileImage: subCommentList[index].profileImg ?? "baseProfile",
                                            UserName: subCommentList[index].nickname,
                                            Days: subCommentList[index].createdAt,
@@ -172,6 +172,15 @@ struct NoticeBoardDetailView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .refreshable {
+            vm.getPostDetail(postId: postId)
+            Task{
+                nowPage = 1
+                await vm.getCommentPost(pageRequest: PageRequest(page: nowPage, size: 50), id: postId)
+                subCommentList = vm.subComment
+                loding = true
+            }
+        }
         .onAppear{
             vm.getPostDetail(postId: postId)
             Task{
