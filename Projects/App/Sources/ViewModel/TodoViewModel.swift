@@ -83,6 +83,7 @@ class TodoViewModel: ObservableObject {
         .response { response in
             switch response.result {
             case .success(_):
+                self.getCategory()
                 self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
             case .failure(let error):
                 print(error.localizedDescription)
