@@ -111,6 +111,9 @@ struct DiaryView : View {
                                 Image("baseDiaryImage")
                                     .resizable()
                                     .scaledToFit()
+                                    .frame(width: 180)
+                                    .padding(.top,50)
+                                    
                                 
                                 Text("산모일기가 존재하지 않아요.")
                                     .font(.system(size: 20, weight: .bold))
