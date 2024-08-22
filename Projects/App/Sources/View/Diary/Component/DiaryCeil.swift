@@ -25,31 +25,37 @@ struct DiaryCeil : View {
                         .stroke(Color.LineNormal,lineWidth:2)
                   )
                 .overlay{
-                    VStack(alignment: .leading,spacing: 6){
-                        if let imageUrl = URL(string: ProfileImage){
-                            AsyncImage(url: imageUrl) { image in
-                                image
-                                    .resizable()
-                                    .overlay(overlayView)
-                            } placeholder: {
-                                Image("baseDiaryImage")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .overlay(overlayView)
+                    ZStack{
+                        VStack(alignment: .leading){
+                            if let imageUrl = URL(string: ProfileImage){
+                                AsyncImage(url: imageUrl) { image in
+                                    image
+                                        .resizable()
+                                        .overlay(overlayView)
+                                } placeholder: {
+                                    Image("baseDiaryImage")
+                                        .resizable()
+//                                    .scaledToFit()
+                                        .overlay(overlayView)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 100)
+                                .cornerRadius(10)
+                                //TODO: 이미지 수정
                             }
-                            .frame(width: 154,height: 100)
+           
+                            Text(Title)
+                                .bold()
+                                .font(.system(size: 16))
+                                .foregroundColor(.LabelNormal)
+                                .padding(.horizontal,6)
+                            
+                            Text(UserName)
+                                .font(.system(size: 14))
+                                .foregroundColor(.LabelAlternative)
                         }
-                        
-                        Text(Title)
-                            .bold()
-                            .font(.system(size: 16))
-                            .foregroundColor(.LabelNormal)
-                        
-                        Text(UserName)
-                            .font(.system(size: 14))
-                            .foregroundColor(.LabelAlternative)
+                        .padding(.horizontal,35)
                     }
-                    .padding(.horizontal,35)
                 }
         }
     }

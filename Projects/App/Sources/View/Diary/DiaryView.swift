@@ -37,50 +37,9 @@ struct DiaryView : View {
                                     .padding(.horizontal)
                                     .padding(.trailing,65)
                                     .foregroundColor(.BackgroundNormal)
-                                
-//                                HStack(spacing: 10){
-//                                    Spacer()
-//                                    Image("character")
-//                                        .padding(.top,50)
-//                                        .padding(.horizontal,15)
-//                                }
                             }
                         }
-                    HStack(spacing: 20){
-                        Button(action: {
-                            All = true
-                            myDiary = false
-                        }, label: {
-                            Text("전체")
-                                .foregroundColor(All ? Color.yellow : Color.black)
-                                .underline(All)
-                            
-                        })
-                        Button(action: {
-                            myDiary = true
-                            All = false
-                        }, label: {
-                            Text("나의 일기")
-                                .foregroundColor(myDiary ? Color.yellow : Color.black)
-                                .underline(myDiary)
-                        })
-                        Spacer()
-                        
-                        if myDiary{
-                            HStack(spacing: 2){
-                                Button(action: {
-                                    Diary.toggle()
-                                }, label: {
-                                    Text(Diary ? "공개" : "비공개")
-                                        .foregroundStyle(.black)
-                                })
-                                Image(systemName: Diary ? "lock.open" : "lock" )
-                            }
-                        }
-                    }
-                    .padding(.vertical,10)
-                    .padding(.horizontal,20)
-                    Divider()
+                    
                     ScrollView(showsIndicators: false) {
                         if vm.diarycount != 0 {
                             LazyVGrid(columns: columns) {
@@ -89,7 +48,6 @@ struct DiaryView : View {
                                         destination: {
                                             if All {
                                                 DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                                    
                                             } else {
                                                 UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                             }
@@ -101,9 +59,8 @@ struct DiaryView : View {
                                                 print("카운트 :: \(count)")
                                                 if count % 10 == 9 {
                                                     nowPage += 1
-                                                    print("page :: \(nowPage)")
                                                 }
-                                            }
+                                            } 
                                     }
                                 }
                             }
@@ -171,17 +128,6 @@ struct DiaryView : View {
                     }
                 }
             })
-            .onChange(of: Diary) { value in
-                nowPage = 1
-                Task {
-                    if Diary {
-                        await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
-                    }else {
-                        await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
-                        
-                    }
-                }
-            }
         }
         .navigationBarBackButtonHidden()
     }

@@ -179,6 +179,7 @@ struct DiaryWritingView : View {
                                     .font(.system(size: 20))
                                     .bold()
                                     .padding(.bottom,10)
+                                
                                 HStack(spacing: 30) {
                                     ForEach(Emotion.allCases, id: \.self) { emotion in
                                         IconButtons(emotion: emotion, isSelected: selectedEmotion == emotion) { selected in
@@ -195,9 +196,9 @@ struct DiaryWritingView : View {
                                         .frame(width: 25,height: 25)
                                     Toggle(isOn: $privateToggle, label: {
                                         Text("비공개 : 당신외엔 볼 수 없어요."
-                                        ).foregroundStyle(Color.yellow0)
+                                        ).foregroundStyle(Color.PrimaryLight)
                                             .font(.system(size: 14))
-                                    }) .toggleStyle(SwitchToggleStyle(tint: Color.yellow))
+                                    }) .toggleStyle(SwitchToggleStyle(tint: Color.PrimaryLight))
                                 }
                                 Divider()
                             }
@@ -275,12 +276,12 @@ struct DiaryWritingView : View {
                 }, label: {
                     ZStack{
                         RoundedRectangle(cornerRadius: 3)
-                            .stroke(complete ? Color.gray : Color.yellow0, lineWidth: 1)
+                            .stroke(complete ? Color.gray : Color.PrimaryLight, lineWidth: 1)
                             .frame(width: 41,height: 25)
                             .foregroundColor(.white)
                         
-                        Text("등록")
-                            .foregroundStyle(complete ? Color.gray : Color.yellow0)
+                        Text("저장")
+                            .foregroundStyle(complete ? Color.gray : Color.PrimaryLight)
                             .font(.system(size: 11))
                     }
                 })
