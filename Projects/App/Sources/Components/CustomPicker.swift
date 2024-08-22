@@ -13,8 +13,9 @@ enum CurrentTab {
 
 struct CustomPicker: View {
     @State var currentTab: CurrentTab = .before
+    @StateObject var viewModel = HomeViewModel()
     
-    func changeView(currenTab: CurrentTab) -> AnyView {
+    func changeView(currentTab: CurrentTab) -> AnyView {
         switch currentTab {
         case .before:
             return AnyView(Text("출산전"))
@@ -32,9 +33,9 @@ struct CustomPicker: View {
                     .onTapGesture {
                         withAnimation {
                             self.currentTab = .before
+                            viewModel.getBanner(type: "1")
                         }
                     }
-                
                 
                 Text("출산후")
                     .font(.system(size: 16, weight: .bold))
@@ -42,6 +43,7 @@ struct CustomPicker: View {
                     .onTapGesture {
                         withAnimation {
                             self.currentTab = .after
+                            viewModel.getBanner(type: "2")
                         }
                     }
                 
@@ -57,51 +59,92 @@ struct CustomPicker: View {
             
             if self.currentTab == .before {
                 TabView {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 355, height: 200)
-                        .foregroundStyle(.white)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-                            
-                            Text("출산 혜택")
+                    ForEach(0..<viewModel.bannerResponse.data.count, id: \.self) { index in
+                        let fileURLString: String? = viewModel.bannerResponse.data[index].image?.url
+                        let fileURL: URL? = fileURLString != nil ? URL(string: fileURLString!) : nil
+                        
+                        if fileURL != nil {
+                            Link(destination: URL(string: viewModel.bannerResponse.data[index].url)!) {
+                                AsyncImage(url: fileURL) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 355, height: 200)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
+                                        }
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(height: 240)
+                                .onAppear {
+                                    print(fileURLString)
+
+                                }
+                            }
+                        } else {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: 355, height: 200)
+                                .foregroundStyle(.white)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
+                                    
+                                    Text("이미지를 불러올 수 없어요")
+                                        .font(.system(size: 15, weight: .bold))
+                                        .foregroundStyle(.gray)
+                                }
                         }
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 355, height: 200)
-                        .foregroundStyle(.white)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-                            
-                            Text("저출산 정책")
-                        }
+                    }
                 }
                 .tabViewStyle(PageTabViewStyle())
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 .frame(width: UIScreen.main.bounds.width, height: 220)
             } else {
                 TabView {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 355, height: 200)
-                        .foregroundStyle(.white)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-                            
-                            Text("다자녀 혜택")
+                    ForEach(0..<viewModel.bannerResponse.data.count, id: \.self) { index in
+                        let fileURLString: String? = viewModel.bannerResponse.data[index].image?.url
+                        let fileURL: URL? = fileURLString != nil ? URL(string: fileURLString!) : nil
+                        
+                        if fileURL != nil {
+                            AsyncImage(url: fileURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 355, height: 200)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
+                                    }
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(height: 240)
+                            .onAppear {
+                                print(fileURLString)
+
+                            }
+                        } else {
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(width: 355, height: 200)
+                                .foregroundStyle(.white)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
+                                    
+                                    Text("이미지를 불러올 수 없어요")
+                                        .font(.system(size: 15, weight: .bold))
+                                        .foregroundStyle(.gray)
+                                }
                         }
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 355, height: 200)
-                        .foregroundStyle(.white)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10).stroke(.gray, lineWidth: 1)
-                            
-                            Text("지원금")
-                        }
+                    }
                 }
                 .tabViewStyle(PageTabViewStyle())
                 .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 .frame(width: UIScreen.main.bounds.width, height: 220)
             }
+        }
+        .onAppear {
+            viewModel.getBanner(type: "1")
         }
     }
 }

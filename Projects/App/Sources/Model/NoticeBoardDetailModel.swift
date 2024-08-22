@@ -43,13 +43,13 @@ struct File: Codable {
     }
 }
 
-struct CommentModel: Codable {
+struct PostCommentModel: Codable {
     var comment: String = ""
     var parentCommentId: Int = 0
     var postId: Int = 0
 }
 
-struct CommentResponse: Codable {
+struct PostCommentResponse: Codable {
     var status: Int = 0
     var message: String = ""
     var data: [CommentData] = []
@@ -64,3 +64,5 @@ struct CommentData: Codable {
     var profileImg: String?
     var subCommentCnt: Int = 0
 }
+
+

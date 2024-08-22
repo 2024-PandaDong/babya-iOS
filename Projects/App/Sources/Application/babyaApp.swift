@@ -19,7 +19,7 @@ struct babyaApp: App {
                 if (LoginUserHashCache.shared.checkAccessToken() != nil) {
                     SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
                 } else {
-                    HomeView()
+                    QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))
                 }
             }
         }

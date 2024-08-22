@@ -10,10 +10,10 @@ import SwiftUI
 struct PostPreviewCell: View {
     let model: PostListResponse
     let index: Int
-    @StateObject var detailViewModel = NoticeBoardDetailViewModel()
+    @StateObject var detailViewModel = NoticeBoardDetailViewModel(noticeBoardService: RemoteNoticeBoardService())
     
     var body: some View {
-        NavigationLink(destination: NoticeBoardDetailView(postId: model.data[index].postId)) {
+        NavigationLink(destination: NoticeBoardDetailView(vm: detailViewModel, postId: model.data[index].postId)) {
             VStack(spacing: 0) {
                 Rectangle()
                     .frame(height: 130)
@@ -32,6 +32,11 @@ struct PostPreviewCell: View {
                                 
                                 Circle()
                                     .frame(width: 18, height: 18)
+                                    .overlay {
+                                        Image("baseProfile")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                             }
                             .padding(.horizontal, 20)
                             

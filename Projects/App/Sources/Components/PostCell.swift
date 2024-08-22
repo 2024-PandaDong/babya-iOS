@@ -8,53 +8,32 @@
 import SwiftUI
 
 struct PostCell: View {
+    let createdAt: String
+    let title: String
+    
     var body: some View {
         VStack {
             HStack {
-                Capsule()
-                    .frame(width: 50, height: 15)
-                    .foregroundStyle(Color(red: 255/255, green: 227/255, blue: 139/255))
-                    .overlay {
-                        Text("3/27")
-                            .font(.system(size: 12))
-                            .foregroundStyle(Color(red: 255/255, green: 138/255, blue: 0/255))
-                    }
-                
-                Capsule()
-                    .frame(width: 50, height: 15)
-                    .foregroundStyle(.white)
-                    .overlay {
-                        Capsule().stroke(.gray)
-                        
-                        HStack {
-                            Image(systemName: "eye.fill")
-                                .font(.system(size: 10))
-                            
-                            Text("154")
-                                .font(.system(size: 10))
+                if createdAt.count >= 10 {
+                    let start = createdAt.index(createdAt.startIndex, offsetBy: 5)
+                    let end = createdAt.index(createdAt.startIndex, offsetBy: 10)
+                    let monthDay = createdAt.substring(with: start..<end)
+                                    
+                    Capsule()
+                        .frame(width: 60, height: 20)
+                        .foregroundColor(Color(red: 255/255, green: 227/255, blue: 139/255))
+                        .overlay {
+                            Text(monthDay)
+                                .font(.system(size: 12))
+                                .foregroundColor(Color(red: 255/255, green: 138/255, blue: 0/255))
                         }
-                    }
-                
-                Capsule()
-                    .frame(width: 50, height: 15)
-                    .foregroundStyle(.white)
-                    .overlay {
-                        Capsule().stroke(.gray)
-                        
-                        HStack {
-                            Image(systemName: "bubble")
-                                .font(.system(size: 10))
-                            
-                            Text("12")
-                                .font(.system(size: 10))
-                        }
-                    }
+                }
                 
                 Spacer()
             }
             
             HStack {
-                Text("임산부한테 좋은 약 알려주세요.")
+                Text(title)
                 
                 Spacer()
                 
@@ -74,5 +53,5 @@ struct PostCell: View {
 }
 
 #Preview {
-    PostCell()
+    PostCell(createdAt: "", title: "")
 }

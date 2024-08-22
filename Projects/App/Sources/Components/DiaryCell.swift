@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct DiaryCell: View {
+    let writtenDt: String
+    let title: String
+    
     var body: some View {
         VStack {
             HStack {
-                Capsule()
-                    .frame(width: 50, height: 15)
-                    .foregroundStyle(Color(red: 255/255, green: 227/255, blue: 139/255))
-                    .overlay {
-                        Text("3/27")
-                            .font(.system(size: 12))
-                            .foregroundStyle(Color(red: 255/255, green: 138/255, blue: 0/255))
+                if writtenDt.count >= 10 {
+                    let start = writtenDt.index(writtenDt.startIndex, offsetBy: 5)
+                    let end = writtenDt.index(writtenDt.startIndex, offsetBy: 10)
+                    let monthDay = writtenDt.substring(with: start..<end)
+                                    
+                    Capsule()
+                        .frame(width: 60, height: 20)
+                        .foregroundColor(Color(red: 255/255, green: 227/255, blue: 139/255))
+                        .overlay {
+                            Text(monthDay)
+                                .font(.system(size: 12))
+                                .foregroundColor(Color(red: 255/255, green: 138/255, blue: 0/255))
+                        }
                 }
                 
                 Circle()
@@ -27,7 +36,7 @@ struct DiaryCell: View {
             }
             
             HStack {
-                Text("동동이 심장소리 들어본 날!")
+                Text(title)
                 
                 Spacer()
                 
@@ -47,5 +56,5 @@ struct DiaryCell: View {
 }
 
 #Preview {
-    DiaryCell()
+    DiaryCell(writtenDt: "", title: "")
 }

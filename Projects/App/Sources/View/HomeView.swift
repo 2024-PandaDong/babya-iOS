@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel = HomeViewModel()
+    
     var body: some View {
         ZStack {
             VStack {
@@ -20,7 +22,7 @@ struct HomeView: View {
                                 .foregroundStyle(.black)
                             
                             Text("대구광역시 출산 정책 이렇게 달라집니다.")
-                                .font(.pretendardMedium12)
+                                .font(.system(size: 12))
                             
                             Spacer()
                             
@@ -39,19 +41,21 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: Text("회사찾기")) {
+                    NavigationLink(destination: CompanySearchView()) {
                         Text("더보기")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundStyle(.black)
                     }
                 }
                 .padding(.horizontal, 20)
+                .padding(.top, -30)
                 
                 HStack(spacing: 15) {
                     CompanyCell(title: "부영그룹", image: "")
                     CompanyCell(title: "금호석유화학", image: "")
                     CompanyCell(title: "Posco", image: "")
                 }
+                .padding(.top, -15)
                 
                 Spacer()
             }
@@ -65,10 +69,16 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Circle()
                         .frame(width: 25, height: 25)
+                        .overlay {
+                            Image("baseProfile")
+                                .resizable()
+                                .scaledToFit()
+                        }
                 }
             }
             CustomTabBar()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CommentCell: View {
-    let model: CommentResponse
+    let model: PostCommentResponse
     let index: Int
     
     var body: some View {
@@ -16,6 +16,11 @@ struct CommentCell: View {
             HStack {
                 Circle()
                     .frame(width: 25, height: 25)
+                    .overlay {
+                        Image("baseProfile")
+                            .resizable()
+                            .scaledToFit()
+                    }
                     .offset(x: 0, y: 10)
                 
                 Text(model.data[index].nickname)
@@ -32,6 +37,14 @@ struct CommentCell: View {
             Text(model.data[index].content)
                 .font(.system(size: 12))
                 .padding(.horizontal, 55)
+            
+            Button {
+                
+            } label: {
+                Text("답글달기")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.gray)
+            }
             
             Rectangle()
                 .frame(height: 1)

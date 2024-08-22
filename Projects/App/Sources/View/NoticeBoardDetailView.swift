@@ -11,8 +11,17 @@ struct NoticeBoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.refresh) private var refresh
     @FocusState private var isFocused: Bool
-    @StateObject var viewModel = NoticeBoardDetailViewModel()
+    @StateObject var vm: NoticeBoardDetailViewModel
     let postId: Int
+    @State var inputText : String = ""
+    @State var nowPage : Int = 1
+    @State var nowCommentPage : Int = 1
+    @State var subResponse = [SubCommentResponse]()
+    @State var isClick : Bool = false
+    @State var postSubComment : Bool = false
+    @State var parentCommentId : Int = 0
+    @State var subCommentList = [SubCommentResponse]()
+    @State var loding : Bool = false
     
     var body: some View {
         VStack {
@@ -20,10 +29,15 @@ struct NoticeBoardDetailView: View {
                 HStack(spacing: 10) {
                     Circle()
                         .frame(width: 45, height: 45)
+                        .overlay {
+                            Image("baseProfile")
+                                .resizable()
+                                .scaledToFit()
+                        }
                     
                     VStack(spacing: 3) {
                         HStack {
-                            Text(viewModel.model.data.nickname)
+                            Text(vm.model.data.nickname)
                                 .font(.system(size: 16, weight: .bold))
                             Button {
                                 // Button action here
@@ -40,12 +54,12 @@ struct NoticeBoardDetailView: View {
                             Image(systemName: "eye.fill")
                                 .foregroundColor(.gray)
                             
-                            Text("\(viewModel.model.data.view)")
+                            Text("\(vm.model.data.view)")
                             
                             Image(systemName: "bubble")
                                 .foregroundColor(.gray)
                             
-                            Text("\(viewModel.model.data.commentCnt)")
+                            Text("\(vm.model.data.commentCnt)")
                             
                             Spacer()
                         }
@@ -54,7 +68,7 @@ struct NoticeBoardDetailView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                if let fileURLString = viewModel.model.data.files?.first?.url, let fileURL = URL(string: fileURLString) {
+                if let fileURLString = vm.model.data.files?.first?.url, let fileURL = URL(string: fileURLString) {
                         AsyncImage(url: fileURL) { image in
                             image
                                 .resizable()
@@ -67,7 +81,7 @@ struct NoticeBoardDetailView: View {
                     }
                 
                 HStack {
-                    Text(viewModel.model.data.content)
+                    Text(vm.model.data.content)
                     
                     Spacer()
                 }
@@ -76,7 +90,7 @@ struct NoticeBoardDetailView: View {
                 HStack {
                     Spacer()
                     
-                    Text(viewModel.model.data.createdAt.prefix(10))
+                    Text(vm.model.data.createdAt.prefix(10))
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                         .padding(.top)
@@ -88,8 +102,35 @@ struct NoticeBoardDetailView: View {
                     .foregroundColor(.gray)
                     .padding(.vertical, 10)
 
-                ForEach(0..<viewModel.commentResponse.data.count, id: \.self) { index in
-                    CommentCell(model: viewModel.commentResponse, index: index)
+                ForEach((0..<vm.commentCount), id: \.self) { count in
+                    CommentCeil(Comment: vm.comment[count], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
+                        .padding(.vertical,5)
+                        .onAppear{
+                            if count == 9 {
+                                nowPage += 1
+                                print("page :: \(nowPage)")
+                            }
+                            print("count : \(count)")
+                            
+                        }
+                    if vm.comment[count].subCommentCnt != 0 && loding {
+                        let cnt = (count != 0) ? subCommentList.count : vm.comment[count].subCommentCnt
+                        let aa = (count != 0) && (vm.comment[count - 1].subCommentCnt != 0) ? (vm.comment[count - 1].subCommentCnt) : 0
+                        ForEach(aa..<min(cnt, subCommentList.count) , id: \.self) { index in
+                            SubCommentCeil(ProfileImage: subCommentList[index].profileImg ?? "baseProfile",
+                                           UserName: subCommentList[index].nickname,
+                                           Days: subCommentList[index].createdAt,
+                                           Content: subCommentList[index].content)
+                            .padding(.leading, 10)
+                            .onAppear {
+                                if index % 10 == 9 {
+                                    nowCommentPage += 1
+                                    print("page :: \(nowCommentPage)")
+                                }
+                            }
+                        }
+                    }
+                    Divider()
                 }
             }
             
@@ -98,32 +139,16 @@ struct NoticeBoardDetailView: View {
                     .frame(height: 1)
                     .foregroundColor(.gray)
 
-                HStack(spacing: 0) {
-                    Circle()
-                        .frame(width: 30, height: 30)
-                        .padding(.horizontal, 10)
+                HStack(spacing: 1){
+                    Image("baseProfile")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .frame(minWidth: 25,maxHeight: 25)
                     
-                    TextField("댓글 쓰기", text: $viewModel.commentModel.comment)
-                        .frame(height: 45)
-                        .focused($isFocused)
+                    TextField("댓글달기", text: $inputText)
+                        .textFieldStyle(TextfieldStyle(isClick: $isClick))
                     
-                    Button {
-                        isFocused = false
-                        viewModel.postComment(postId: postId)
-                        viewModel.commentModel.comment = ""
-                        Task {
-                            await refresh?()
-                        }
-                    } label: {
-                        Rectangle()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(viewModel.commentModel.comment == "" ? .gray : .yellow0)
-                            .overlay {
-                                Image(systemName: "paperplane")
-                                    .foregroundColor(.white)
-                            }
-                    }
-                    .disabled(viewModel.commentModel.comment == "" ? true : false)
                 }
       
                 Rectangle()
@@ -142,23 +167,54 @@ struct NoticeBoardDetailView: View {
             }
             
             ToolbarItem(placement: .principal) {
-                Text(viewModel.model.data.title)
+                Text(vm.model.data.title)
                     .font(.system(size: 20, weight: .bold))
             }
         }
         .navigationBarBackButtonHidden()
-        .onAppear {
-            viewModel.getPostDetail(postId: postId)
-            viewModel.getComment(page: 1, size: 10, postId: postId)
-        }
         .refreshable {
-            viewModel.getPostDetail(postId: postId)
-            viewModel.getComment(page: 1, size: 10, postId: postId)
+            vm.getPostDetail(postId: postId)
+            Task{
+                nowPage = 1
+                await vm.getCommentPost(pageRequest: PageRequest(page: nowPage, size: 50), id: postId)
+                subCommentList = vm.subComment
+                loding = true
+            }
+        }
+        .onAppear{
+            vm.getPostDetail(postId: postId)
+            Task{
+                nowPage = 1
+                await vm.getCommentPost(pageRequest: PageRequest(page: nowPage, size: 50), id: postId)
+                subCommentList = vm.subComment
+                loding = true
+            }
+        }
+        .onChange(of: isClick){
+            if isClick{
+                if postSubComment{
+                    vm.subCommentCount = 0
+                    vm.subComment = []
+                }else{
+                    vm.commentCount = 0
+                }
+                Task{
+                    loding = false
+                    await vm.postComment(comment: inputText, postId: postId, parentCommentId: postSubComment ? parentCommentId : 0)
+                    inputText = ""
+                    await vm.getCommentPost(pageRequest: PageRequest(page: nowPage, size: 50), id: postId)
+                    if postSubComment{
+                        subCommentList = vm.subComment
+                    }
+                    postSubComment = false
+                    loding = true
+                }
+            }
         }
     }
 }
 #Preview {
     NavigationView {
-        NoticeBoardDetailView(postId: 1)
+        NoticeBoardDetailView(vm: NoticeBoardDetailViewModel(noticeBoardService: RemoteNoticeBoardService()), postId: 1)
     }
 }

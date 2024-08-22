@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MyStateCell: View {
+    @StateObject var viewModel = ProfileViewModel()
+    
     var body: some View {
         HStack() {
             Text("나의 상태")
@@ -28,6 +30,11 @@ struct MyStateCell: View {
                         VStack {
                             Circle()
                                 .frame(width: 45, height: 45)
+                                .overlay {
+                                    Image("happy")
+                                        .resizable()
+                                        .scaledToFit()
+                                }
                             
                             Text("좋음")
                                 .font(.system(size: 15))
@@ -35,47 +42,77 @@ struct MyStateCell: View {
                         .padding(.horizontal, 30)
                         
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("이번 주 박규민 님의 상태는 좋음 입니다.")
+                            Text("이번 주 \(viewModel.model.data.nickname) 님의 상태는 좋음 입니다.")
                                 .font(.system(size: 15))
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("happy")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 50, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("normal")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 0, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("pain")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 25, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("tired")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 0, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                             
                             HStack {
                                 Circle()
                                     .frame(width: 13, height: 13)
+                                    .overlay {
+                                        Image("anxious")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
                                 
                                 Rectangle()
                                     .frame(width: 25, height: 6)
+                                    .foregroundStyle(Color.yellow0)
                             }
                         }
                     }
@@ -89,9 +126,14 @@ struct MyStateCell: View {
                     HStack {
                         Circle()
                             .frame(width: 70, height: 70)
+                            .overlay {
+                                Image("baseProfile")
+                                    .resizable()
+                                    .scaledToFit()
+                            }
                         
                         VStack {
-                            Text("현재 박규민 님의 상태 입니다.")
+                            Text("현재 \(viewModel.model.data.nickname) 님의 상태 입니다.")
                                 .font(.system(size: 15))
                             
                             HStack(spacing: 30) {
@@ -103,9 +145,9 @@ struct MyStateCell: View {
                             .padding(.vertical, 10)
                             
                             HStack(spacing: 30) {
-                                Text("86일")
-                                Text("26살")
-                                Text("3년차")
+                                Text(viewModel.model.data.dDay != nil ? "\(viewModel.model.data.dDay)일" : "X")
+                                Text("\(viewModel.model.data.age)살")
+                                Text(viewModel.model.data.marriedYears != nil ? "\(viewModel.model.data.marriedYears)년차" : "X")
                             }
                             .font(.system(size: 15))
                         }
@@ -115,7 +157,11 @@ struct MyStateCell: View {
         }
         .tabViewStyle(PageTabViewStyle())
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-        .frame(width: UIScreen.main.bounds.width, height: 130)
+        .frame(width: UIScreen.main.bounds.width, height: 220)
+        .onAppear {
+            viewModel.getMyProfile()
+        }
+        .padding(.top, -45)
     }
 }
 
