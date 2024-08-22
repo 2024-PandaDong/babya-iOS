@@ -26,7 +26,7 @@ struct DiaryView : View {
             ZStack{
                 VStack{
                     Rectangle()
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.PrimaryLight)
                         .frame(maxWidth: .infinity)
                         .frame(height: 130)
                         .overlay {
@@ -36,13 +36,14 @@ struct DiaryView : View {
                                     .font(.system(size: 20))
                                     .padding(.horizontal)
                                     .padding(.trailing,65)
+                                    .foregroundColor(.BackgroundNormal)
                                 
-                                HStack(spacing: 10){
-                                    Spacer()
-                                    Image("character")
-                                        .padding(.top,50)
-                                        .padding(.horizontal,15)
-                                }
+//                                HStack(spacing: 10){
+//                                    Spacer()
+//                                    Image("character")
+//                                        .padding(.top,50)
+//                                        .padding(.horizontal,15)
+//                                }
                             }
                         }
                     HStack(spacing: 20){
@@ -94,7 +95,7 @@ struct DiaryView : View {
                                             }
                                         })
                                     {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname,Date: vm.diaryList[count].writtenDt)
                                             .padding(.vertical, 5)
                                             .onAppear{
                                                 print("카운트 :: \(count)")
@@ -125,15 +126,6 @@ struct DiaryView : View {
                 .navigationTitle("산모일기")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar{
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Button {
-                            //
-                        } label: {
-                            Image("reset")
-                                .resizable()
-                                .frame(width: 18,height: 18)
-                        }
-                    }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             self.presentationMode.wrappedValue.dismiss()
@@ -142,8 +134,6 @@ struct DiaryView : View {
                                 .resizable()
                                 .frame(width: 18,height: 18)
                         }
-                        
-                        
                     }
                 }
                 VStack{

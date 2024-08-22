@@ -14,7 +14,7 @@ struct PencilButton : View {
             destination: DiaryWritingView(title: "test", PostName: "test", DiaryImage: "Image", vm: DiaryViewModel(diaryService: RemoteDiaryService())),
             label: {
                 Circle()
-                    .foregroundColor(.yellow0)
+                    .foregroundColor(.PrimaryLight)
                     .frame(width: 50,height: 50)
                     .overlay{
                         Image(systemName: "pencil")
