@@ -11,47 +11,43 @@ import SwiftUI
 struct QuizView : View {
     @StateObject var vm : QuizViewModel
     var body: some View {
-        NavigationView{
-            VStack(alignment: .center){
-                Text("일일퀴즈")
-                    .font(.system(size: 24,weight:.bold))
-                    .foregroundStyle(.black)
-                    .padding(.bottom,50)
-                
-                Text("Q." + (vm.quizList?.title ?? ""))
-                    .font(.system(size: 24,weight:.bold))
-                    .foregroundStyle(.black)
-                    .padding(.bottom,35)
-                
-                Image("quizIcon")
-                    .resizable()
-                    .aspectRatio(6/4, contentMode: .fit)
-                    .padding(.bottom,35)
-                
-                VStack(alignment: .center, spacing: 35){
-                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
-                        OButton()
-                    }
-                    NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
-                        XButton()
-                    }
+        VStack(alignment: .center){
+            Text("일일퀴즈")
+                .font(.system(size: 24,weight:.bold))
+                .foregroundStyle(.black)
+                .padding(.bottom,50)
+            
+            Text("Q." + (vm.quizList?.title ?? ""))
+                .font(.system(size: 24,weight:.bold))
+                .foregroundStyle(.black)
+                .padding(.bottom,35)
+            
+            Image("quizIcon")
+                .resizable()
+                .aspectRatio(6/4, contentMode: .fit)
+                .padding(.bottom,35)
+            
+            VStack(alignment: .center, spacing: 35){
+                NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
+                    OButton()
                 }
-                
-                NavigationLink(destination: HomeView()) {
-                    Text("건너뛰기")
-                        .foregroundColor(Color.gray3)
-                        .font(.system(size: 20))
-                        .padding(.top,45)
+                NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
+                    XButton()
                 }
-                
-                Spacer()
             }
-            .padding(.horizontal,5)
-            .task {
-                await vm.getQuiz()
+            
+            NavigationLink(destination: HomeView()) {
+                Text("건너뛰기")
+                    .foregroundColor(Color.gray3)
+                    .font(.system(size: 20))
+                    .padding(.top,45)
             }
+            
+            Spacer()
         }
-        .navigationBarBackButtonHidden()
+        .padding(.horizontal,5)
+        .task {
+            await vm.getQuiz()
+        }
     }
 }
-
