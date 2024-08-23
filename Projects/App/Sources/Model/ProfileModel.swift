@@ -24,8 +24,8 @@ struct MyData: Codable {
 
 struct Childs: Codable {
     var childId: Int = 0
-    var name: String = ""
-    var birthName: String = ""
+    var name: String? = ""
+    var birthName: String? = ""
     var type: String = ""
 }
 

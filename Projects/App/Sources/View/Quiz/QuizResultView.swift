@@ -24,6 +24,7 @@ struct QuizResultiew : View {
                     .font(.system(size: 24,weight:.bold))
                     .foregroundStyle(.black)
                     .padding(.bottom,35)
+                    .padding(.horizontal)
                 
                 Image("quizIcon")
                     .resizable()

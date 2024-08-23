@@ -229,7 +229,7 @@ struct DiaryWritingView : View {
                     await vm.upload(image: self.image ?? .init())
                 }
             }) {
-//                ImagePicker(image: self.$image)
+                ImagePicker(image: self.$image)
 //                ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image, imageUrl: $imageUrl, imageData: $imageData)
             }
         }
