@@ -16,44 +16,44 @@ struct QuizResultiew : View {
         NavigationView{
             VStack(alignment: .center){
                 Text("일일퀴즈")
-                    .font(.system(size: 24,weight:.bold))
+                    .font(.system(size: 16,weight: .medium))
                     .foregroundStyle(.black)
-                    .padding(.bottom,40)
+                    .padding(.vertical,10)
+                
+                Divider()
                 
                 Text("Q.\(quizTitle)")
-                    .font(.system(size: 24,weight:.bold))
+                    .font(.system(size: 20,weight:.bold))
                     .foregroundStyle(.black)
-                    .padding(.bottom,35)
-                    .padding(.horizontal)
+                    .padding(.vertical,25)
+                    .padding(.horizontal,7)
                 
                 Image("quizIcon")
                     .resizable()
-                    .aspectRatio(6/4, contentMode: .fit)
+                    .scaledToFit()
+                    .aspectRatio(6/3.3, contentMode: .fit)
                     .padding(.bottom,35)
-                
-                HStack(spacing: 5){
-                    Text("정답 : ")
-                        .font(.system(size: 24))
-                        .foregroundStyle(.black)
-                    if  answer == "Y"{
-                        Text("O")
-                            .font(.system(size: 24))
-                            .foregroundStyle(Color.green0)
-                    }else{
-                        Text("X")
-                            .font(.system(size: 24))
-                            .foregroundStyle(Color.red0)
+                VStack(alignment: .leading){
+                    HStack{
+                        if  answer == "Y"{
+                            Text("정답입니다!")
+                                .font(.system(size: 20,weight: .medium))
+                                .foregroundStyle(Color.StatusPositive)
+                        }else{
+                            Text("오답입니다!")
+                                .font(.system(size: 20,weight: .medium))
+                                .foregroundStyle(Color.StatusDestructive)
+                        }
+                        Spacer()
                     }
-                    Spacer()
+                    
+                    Text(quizCn)
+                        .font(.system(size: 16))
+                        .foregroundStyle(.black)
+                        .padding(.vertical,15)
                 }
                 .padding(.horizontal,15)
-                
-                Text(quizCn)
-                    .font(.system(size: 18))
-                    .foregroundStyle(.black)
-                    .padding(.vertical,25)
-                    .padding(.horizontal,10)
-                
+
                 Spacer()
                 
                 NavigationLink(destination: HomeView()) {
