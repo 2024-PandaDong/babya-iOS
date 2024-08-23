@@ -54,7 +54,8 @@ struct DiaryView : View {
                                         })
                                     {
                                         DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname,Date: vm.diaryList[count].writtenDt)
-                                            .padding(.vertical, 5)
+                                            .padding(.vertical, 9)
+                                            .padding(.horizontal,10)
                                             .onAppear{
                                                 print("카운트 :: \(count)")
                                                 if count % 10 == 9 {

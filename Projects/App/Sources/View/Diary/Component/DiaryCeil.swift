@@ -35,7 +35,7 @@ struct DiaryCeil : View {
                                 } placeholder: {
                                     Image("baseDiaryImage")
                                         .resizable()
-//                                    .scaledToFit()
+                                        .scaledToFill()
                                         .overlay(overlayView)
                                 }
                                 .frame(maxWidth: .infinity)
@@ -43,18 +43,22 @@ struct DiaryCeil : View {
                                 .cornerRadius(10)
                                 //TODO: 이미지 수정
                             }
-           
-                            Text(Title)
-                                .bold()
-                                .font(.system(size: 16))
-                                .foregroundColor(.LabelNormal)
-                                .padding(.horizontal,6)
                             
-                            Text(UserName)
-                                .font(.system(size: 14))
-                                .foregroundColor(.LabelAlternative)
+                            VStack(alignment: .leading){
+                                Text(Title)
+                                    .bold()
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.LabelNormal)
+                                
+                                Text(UserName)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.LabelAlternative)
+                            }
+                            .padding(.horizontal,6)
+                            .padding(.vertical,10)
+                            
+                            Spacer()
                         }
-                        .padding(.horizontal,35)
                     }
                 }
         }
