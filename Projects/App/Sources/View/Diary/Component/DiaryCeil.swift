@@ -40,8 +40,7 @@ struct DiaryCeil : View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 100)
-                                .cornerRadius(10)
-                                //TODO: 이미지 수정
+                                .cornerRadius(10, corners: [.topLeft, .topRight])
                             }
                             
                             VStack(alignment: .leading){
@@ -49,6 +48,7 @@ struct DiaryCeil : View {
                                     .bold()
                                     .font(.system(size: 16))
                                     .foregroundColor(.LabelNormal)
+                                    .padding(.bottom,1)
                                 
                                 Text(UserName)
                                     .font(.system(size: 14))
@@ -71,6 +71,7 @@ struct DiaryCeil : View {
                 Text(formattedDate)
                     .font(.system(size: 14))
                     .foregroundColor(.white)
+                    .padding(5)
                 Spacer()
             }
             Spacer()
@@ -86,3 +87,19 @@ struct DiaryCeil : View {
     }
 }
 
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        
+        return Path(path.cgPath)
+    }
+}
