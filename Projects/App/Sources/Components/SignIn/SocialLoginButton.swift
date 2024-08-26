@@ -24,11 +24,15 @@ struct SocialLoginButton: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 45)
                     .cornerRadius(30)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 40)
+                            .stroke(Color.LineAlternative,lineWidth:1.5)
+                    )
                 
                 HStack(spacing: 50) {
                     Image(imageName)
                         .resizable()
-                        .frame(width: 28, height: 28)
+                        .frame(width: 26, height: 22)
                     
                     Text(title)
                         .font(.system(size: 14))
