@@ -113,16 +113,6 @@ struct SignInView : View {
                 }
                 .padding(.horizontal, 40)
             }
-            
         }
-    }
-}
-
-extension View {
-    func underlineTextField() -> some View {
-        self
-            .padding(.vertical, 10)
-            .overlay(Rectangle().frame(height: 2).padding(.top, 35))
-            .foregroundColor(.gray)
     }
 }
