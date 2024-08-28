@@ -35,12 +35,14 @@ struct TodoListView: View {
                             viewModel.changeCategory()
                         } label: {
                             Capsule()
-                                .frame(width: 53, height: 23)
-                                .foregroundStyle(viewModel.currentTab == "" ? Color.yellow0 : .gray)
+                                .frame(width: 46, height: 25)
+                                .foregroundStyle(.clear)
                                 .overlay {
                                     Text("전체")
-                                        .font(.system(size: 15, weight: .bold))
-                                        .foregroundStyle(.white)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundStyle(viewModel.currentTab == "" ? Color.PrimaryLight : .black)
+                                    
+                                    Capsule().stroke(viewModel.currentTab == "" ? Color.PrimaryLight : .gray)
                                 }
                         }
                         
@@ -50,12 +52,14 @@ struct TodoListView: View {
                                 
                             } label: {
                                 Capsule()
-                                    .frame(width: 53, height: 23)
-                                    .foregroundStyle(viewModel.currentTab == viewModel.categoryResponse.data.category[index] ? Color.yellow0 : .gray)
+                                    .frame(width: 46, height: 25)
+                                    .foregroundStyle(.clear)
                                     .overlay {
                                         Text(viewModel.categoryResponse.data.category[index])
-                                            .font(.system(size: 15, weight: .bold))
-                                            .foregroundStyle(.white)
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundStyle(viewModel.currentTab == viewModel.categoryResponse.data.category[index] ? Color.PrimaryLight : .black)
+                                        
+                                        Capsule().stroke(viewModel.currentTab == viewModel.categoryResponse.data.category[index] ? Color.PrimaryLight : .gray)
                                     }
                             }
                         }
@@ -148,7 +152,7 @@ struct TodoListView: View {
                         self.isClick = true
                     } label: {
                         Circle()
-                            .foregroundStyle(Color.yellow0)
+                            .foregroundStyle(Color.PrimaryLight)
                             .frame(width: 50, height: 50)
                             .overlay {
                                 Image(systemName: "plus")
