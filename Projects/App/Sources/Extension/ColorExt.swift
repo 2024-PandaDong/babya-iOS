@@ -50,6 +50,8 @@ extension Color {
     static let ComponentFillStrong = Color(hex: "F7F7F7")
     static let ComponentFillAlternative = Color(hex: "F7F7F7")
     static let ComponentMaterialDimmer = Color(hex: "DCDCDC")
+    static let pink70 = Color(hex: "FFA7A6")
+    static let blue70 = Color(hex: "69AEE3")
 }
 
 extension Color {
