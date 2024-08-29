@@ -15,192 +15,126 @@ struct ProfileView: View {
     @StateObject var viewModel = ProfileViewModel()
     @StateObject var signInViewModel = SignInViewModel(authService: RemoteAuthService())
     
+    @State var isQuiz: Bool = false
+    
     var body: some View {
-        ZStack {
-            Color(red: 245/255, green: 245/255, blue: 245/255)
+        VStack(spacing: 0) {
+            Divider()
+                .padding(.top, -50)
             
-            ScrollView {
+            AsyncImage(url: URL(string: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")) { image in
+                image
+                    .image?
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .scaledToFit()
+                    .clipShape(Circle())
+            }
+            
+            Text("ㅇㅇㅇ 아빠님 반가워요!")
+                .font(.system(size: 20, weight: .medium))
+                .padding(.vertical)
+            
+            Divider()
+            
+            NavigationLink(destination: Text("프로필 수정")) {
                 Rectangle()
-                    .frame(height: 240)
-                    .foregroundStyle(Color(red: 255/255, green: 203/255, blue: 41/255))
+                    .frame(height: 60)
+                    .foregroundStyle(.clear)
                     .overlay {
-                        VStack {
+                        HStack {
+                            Text("프로필 수정")
+                                .foregroundStyle(.black)
+                                .font(.system(size: 16, weight: .medium))
+                            
                             Spacer()
                             
-                            HStack {
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text("\(viewModel.model.data.nickname)님 반가워요!")
-                                        .font(.system(size: 20, weight: .bold))
-                                        .padding(.vertical, 5)
-                                    
-                                    Text(viewModel.model.data.dDay == nil ? "D-Day: X" : "D-Day: \(viewModel.model.data.dDay)일")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 12))
-                                    
-                                    HStack {
-                                        Text("나이: \(viewModel.model.data.age)살")
-                                        Text(viewModel.model.data.marriedYears == nil ? "결혼: X" : "결혼: \(viewModel.model.data.marriedYears)년차")
-                                    }
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 12))
-                                    
-//                                    HStack {
-//                                        Text(viewModel.model.data.children?[0]?.birthName == nil ? "산모일기: X" : "\(viewModel.model.data.children?[0]?.birthName) 산모일기")
-//                                        Image(systemName: "lock.fill")
-//                                    }
-//                                    .foregroundStyle(.white)
-//                                    .font(.system(size: 12))
-                                }
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .trailing) {
-                                    Circle()
-                                        .frame(width: 100, height: 100)
-                                        .overlay {
-                                            Image("baseProfile")
-                                                .resizable()
-                                                .scaledToFit()
-                                        }
-                                }
-                            }
-                            .padding(.horizontal, 40)
-                            .padding(.vertical, 25)
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(Color.LineNormal)
                         }
+                        .padding(.horizontal, 25)
                     }
-                
-//                HStack {
-//                    Text("즐겨찾기 목록")
-//                        .font(.system(size: 15, weight: .bold))
-//                    
-//                    Spacer()
-//                    
-//                    NavigationLink(destination: FavoritesView()) {
-//                        Image(systemName: "arrow.right")
-//                            .foregroundStyle(.black)
-//                    }
-//                }
-//                .padding(.horizontal, 30)
-//                .padding(.vertical, 10)
-//                
-//                RoundedRectangle(cornerRadius: 10)
-//                    .frame(width: 350, height: 65)
-//                    .foregroundStyle(.white)
-//                    .overlay {
-//                        HStack(alignment: .firstTextBaseline) {
-//                            FavoritesPreviewCell()
-//                            FavoritesPreviewCell()
-//                            FavoritesPreviewCell()
-//                        }
-//                    }
-                
-                HStack {
-                    Text("산모일기")
-                        .font(.system(size: 15, weight: .bold))
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
-                    
-                    Spacer()
-                }
-                
-                ScrollView {
-                    if viewModel.myDiary.data.isEmpty {
-                        Text("아직 산모일기를 작성하지 않았어요")
-                            .font(.system(size: 12))
-                            .foregroundStyle(.gray)
-                            .padding(.vertical)
-                    } else {
-                        ForEach(0..<viewModel.myDiary.data.count, id: \.self) { index in
-                            DiaryCell(writtenDt: viewModel.myDiary.data[index].writtenDt, title: viewModel.myDiary.data[index].title)
-                        }
-                    }
-                }
-                .frame(width: 350, height: 200)
-                .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                HStack {
-                    Text("게시물")
-                        .font(.system(size: 15, weight: .bold))
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
-                    
-                    Spacer()
-                }
-                
-                ScrollView {
-                    if viewModel.myPost.data.isEmpty {
-                        Text("아직 게시물을 작성하지 않았어요")
-                            .font(.system(size: 12))
-                            .foregroundStyle(.gray)
-                            .padding(.vertical)
-                    } else {
-                        ForEach(0..<viewModel.myPost.data.count, id: \.self) { index in
-                            PostCell(createdAt: viewModel.myPost.data[index].createdAt, title: viewModel.myPost.data[index].title)
-                        }
-                    }
-                }
-                .frame(width: 350, height: 200)
-                .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                Spacer()
-                    .frame(height: 120)
             }
-            .ignoresSafeArea()
+            
+            Divider()
+            
+            Rectangle()
+                .frame(height: 60)
+                .foregroundStyle(.clear)
+                .overlay {
+                    HStack {
+                        Text("일일퀴즈 설정")
+                        
+                        Spacer()
+                        
+                        Toggle(isOn: $isQuiz) {
+                            
+                        }
+                        .tint(Color.PrimaryLight)
+                    }
+                    .padding(.horizontal, 25)
+                }
+            
+            Rectangle()
+                .frame(height: 10)
+                .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
+            
+            LinkCell(title: "약관 및 개인정보 처리 동의", link: "www.youtube.com", isLast: false)
+            LinkCell(title: "개인정보 처리 방침", link: "www.google.com", isLast: true)
+            
+            Rectangle()
+                .frame(height: 10)
+                .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
+            
+            Rectangle()
+                .frame(height: 60)
+                .foregroundStyle(.clear)
+                .overlay {
+                    HStack {
+                        Text("앱 버전")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 16, weight: .medium))
+                        
+                        Spacer()
+                        
+                        Text("최신 버전")
+                            .foregroundStyle(Color.LineNormal)
+                    }
+                    .padding(.horizontal, 25)
+                }
+            
+            
+            Rectangle()
+                .frame(height: 10)
+                .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
+            
+            OutingCell(title: "로그아웃") {
+                
+            }
+            
+            OutingCell(title: "회원탈퇴") {
+                
+            }
+            
+            
+            
+            Spacer()
         }
-        .navigationBarBackButtonHidden()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Image(systemName: "xmark")
+                    Image(systemName: "arrow.left")
                         .foregroundStyle(.black)
-                        .font(.system(size: 20, weight: .light))
+                        .fontWeight(.medium)
                 }
             }
             
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Toggle(isOn: $showDiary) {
-                        Text("일일퀴즈")
-                    }
-                    NavigationLink(destination: Text("프로필 수정")) {
-                        Text("프로필 수정하기")
-                    }
-                    NavigationLink(destination: Text("프로필 수정")) {
-                        Text("개인정보 약관 상세")
-                    }
-                    NavigationLink(destination: Text("프로필 수정")) {
-                        Text("문의하기")
-                    }
-                    NavigationLink(destination: Text("프로필 수정")) {
-                        Text("FAQ")
-                    }
-                    Button(role: .destructive) {
-                        print("로그아웃")
-                        LoginUserHashCache.shared.logout()
-                    } label: {
-                        Text("로그아웃")
-                            .tint(.red)
-                    }
-                    Button(role: .destructive) {
-                        
-                    } label: {
-                        Text("탈퇴하기")
-                            .tint(.red)
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(.black)
-                }
+            ToolbarItem(placement: .principal) {
+                Text("프로필")
+                    .font(.system(size: 16, weight: .medium))
             }
-        }
-        .onAppear {
-            viewModel.getMyProfile()
-            viewModel.getMyPosts(page: 1, size: 10)
-            viewModel.getMyDiary(page: 1, size: 10)
         }
     }
 }
