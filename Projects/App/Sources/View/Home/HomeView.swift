@@ -12,31 +12,35 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                Rectangle()
-                    .frame(width: UIScreen.main.bounds.width, height: 40)
-                    .foregroundStyle(.yellow)
-                    .overlay {
-                        HStack(spacing: 20) {
-                            Image(systemName: "speaker.wave.1")
-                                .foregroundStyle(.black)
-                            
-                            Text("대구광역시 출산 정책 이렇게 달라집니다.")
-                                .font(.system(size: 12))
-                            
-                            Spacer()
-                            
-                            Image(systemName: "play")
-                        }
-                        .padding(.horizontal)
-                    }
+            ScrollView() {
                 
                 CustomPicker()
                 
-                MyStateCell()
+                Divider()
                 
                 HStack {
-                    Text("현재 인기 회사")
+                    Text("정책")
+                        .font(.system(size: 16, weight: .black))
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: PolicyView()) {
+                        Text("더보기")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.black)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                
+                Divider()
+                
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                
+                HStack {
+                    Text("인기 있는 회사")
                         .font(.system(size: 16, weight: .black))
                     
                     Spacer()
@@ -48,33 +52,19 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, -30)
+                .padding(.vertical, 10)
+                
+                Divider()
                 
                 HStack(spacing: 15) {
                     CompanyCell(title: "부영그룹", image: "")
                     CompanyCell(title: "금호석유화학", image: "")
                     CompanyCell(title: "Posco", image: "")
                 }
-                .padding(.top, -15)
+                .padding(.top, 10)
                 
                 Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("애기야")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(LinearGradient(colors: [.yellow, .mint], startPoint: .leading, endPoint: .trailing))
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Circle()
-                        .frame(width: 25, height: 25)
-                        .overlay {
-                            Image("baseProfile")
-                                .resizable()
-                                .scaledToFit()
-                        }
-                }
+                    .frame(height: 100)
             }
             CustomTabBar()
         }

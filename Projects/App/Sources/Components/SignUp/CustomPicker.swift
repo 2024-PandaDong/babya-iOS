@@ -53,7 +53,7 @@ struct CustomPicker: View {
             
             Rectangle()
                 .frame(width: 45, height: 2)
-                .foregroundStyle(.yellow)
+                .foregroundStyle(Color.PrimaryLight)
                 .padding(.horizontal, 18)
                 .offset(x: self.currentTab == .after ? 50 : 0)
             
