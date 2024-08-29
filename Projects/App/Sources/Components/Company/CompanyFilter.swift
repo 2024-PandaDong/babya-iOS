@@ -11,6 +11,7 @@ struct CompanyFilter : View {
     var title: String
     
     var body: some View {
+        //TODO: 버튼으로 변경하기
         RoundedRectangle(cornerRadius: 10)
             .frame(width: 58, height: 25)
             .foregroundStyle(.white)
