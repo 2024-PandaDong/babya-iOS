@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct CompanyInfoCell: View {
+    var address : String
     var body: some View {
         VStack(alignment: .leading ,spacing: 9){
             HStack(alignment:.top,spacing: 70) {
@@ -17,7 +19,7 @@ struct CompanyInfoCell: View {
                 Text("한종희")
                     .textContentStyle()
             }
-
+            
             HStack(alignment:.top,spacing: 70) {
                 Text("고객 서비스")
                     .textNormalStyle()
@@ -25,26 +27,30 @@ struct CompanyInfoCell: View {
                 Text("080-022-3000")
                     .textContentStyle()
             }
-
-        
+            
             HStack(alignment:.top,spacing: 70) {
                 Text("본사 위치")
                     .textNormalStyle()
                 VStack(alignment: .leading,spacing: 3){
-                    Text("서울특별시 강동구 상일로6길 26 (상일동)")
+                    Text(address)
                         .textContentStyle()
-                    HStack(spacing: 2){
-                        Image("copy")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 17,height: 17)
-                        
-                        Text("주소복사")
-                            .font(.system(size: 12,weight: .medium))
-                            .foregroundStyle(Color.PrimaryLight)
+                    
+                    Button(action: {
+                        let pasteboard = UIPasteboard.general
+                        pasteboard.string = address
+                    }) {
+                        HStack(spacing: 2) {
+                            Image("copy")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 17, height: 17)
+                            
+                            Text("주소복사")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(Color.PrimaryLight)
+                        }
                     }
-                    //TODO: 주소 복사 구현
-                    //TODO: 컴포넌트화 
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             
@@ -91,5 +97,5 @@ extension View {
     }
 }
 #Preview {
-    CompanyInfoCell()
+    CompanyInfoCell(address: "서울특별시 강동구 상일로6길 26 (상일동)")
 }
