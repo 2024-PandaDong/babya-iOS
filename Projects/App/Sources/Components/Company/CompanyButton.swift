@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CompanyButton: View {
+    var content: String
     var body: some View {
         Button(action: {
             
@@ -18,7 +19,7 @@ struct CompanyButton: View {
                 .foregroundColor(Color.PrimaryLight)
                 .cornerRadius(10)
                 .overlay{
-                    Text("회사 더 알아보기")
+                    Text(content)
                         .font(.system(size: 16,weight: .bold))
                         .foregroundColor(.white)
                 }
@@ -26,7 +27,4 @@ struct CompanyButton: View {
                 .padding(.bottom,10)
         })
     }
-}
-#Preview {
-    CompanyButton()
 }

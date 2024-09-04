@@ -58,6 +58,7 @@ struct CompanyDetailView: View {
                                 Text(isExpanded ? "닫기" : "더보기")
                                     .font(.system(size: 14, weight: .regular))
                                     .foregroundColor(Color.Opacity35)
+                                    
                             }
                             .padding(.top, 5)
                         }
@@ -104,11 +105,11 @@ struct CompanyDetailView: View {
                     }
                     .padding(.horizontal, 18)
                     .padding(.top, 20)
-                    
+                    .padding(.bottom,80)
                     Spacer()
                 }
             }
-            CompanyButton()
+            CompanyButton(content: "회사 더 알아보기")
         }
         .ignoresSafeArea()
         .toolbar {
