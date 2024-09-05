@@ -13,14 +13,14 @@ struct BackButton : View {
         ZStack{
             Rectangle()
                 .cornerRadius(10)
-                .foregroundColor(Color.yellow0)
+                .foregroundColor(Color.PrimaryLight)
                 .frame(maxWidth: .infinity)
-                .frame(height: 50)
+                .frame(height: 43)
                 .padding(.horizontal,15)
             
-            Text("메인화면으로 가기")
+            Text("넘어가기")
                 .foregroundStyle(.white)
-                .font(.system(size: 20))
+                .font(.system(size: 16,weight: .medium))
         }
     }
 }

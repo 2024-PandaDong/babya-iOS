@@ -13,9 +13,9 @@ struct OButton : View {
         ZStack{
             Rectangle()
                 .cornerRadius(10)
-                .foregroundColor(Color.blue0)
+                .foregroundColor(Color.Blue60)
                 .frame(maxWidth: .infinity)
-                .frame(height: 50)
+                .frame(height: 43)
                 .padding(.horizontal,15)
             
             Text("O")

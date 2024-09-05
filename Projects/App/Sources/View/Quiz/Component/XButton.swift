@@ -13,9 +13,9 @@ struct XButton : View {
         ZStack{
             Rectangle()
                 .cornerRadius(10)
-                .foregroundColor(Color.red0)
+                .foregroundColor(Color.Red60)
                 .frame(maxWidth: .infinity)
-                .frame(height: 50)
+                .frame(height: 43)
                 .padding(.horizontal,15)
             
             Text("X")
