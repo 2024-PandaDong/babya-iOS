@@ -12,13 +12,13 @@ import SwiftUI
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
-//            NavigationView {
-//                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
-//                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-//                } else {
+            NavigationView {
+                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
+                    SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+                } else {
                     QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))
-//                }
-//            }
+                }
+            }
         }
     }
 }

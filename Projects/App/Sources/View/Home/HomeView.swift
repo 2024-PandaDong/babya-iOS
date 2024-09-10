@@ -35,9 +35,9 @@ struct HomeView: View {
                 
                 Divider()
                 
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
                 
                 HStack {
                     Text("인기 있는 회사")

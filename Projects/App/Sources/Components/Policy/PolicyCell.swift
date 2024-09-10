@@ -13,7 +13,6 @@ struct PolicyCell: View {
     let locationDetail: String
     let startDt: String
     let endDt: String
-    let liked: Int
     let imgUrl: String
     
     var body: some View {
@@ -39,21 +38,6 @@ struct PolicyCell: View {
                                 Text("\(startDt) ~ \(endDt)")
                                     .font(.system(size: 14, weight: .medium))
                             }
-                            
-                            Capsule()
-                                .foregroundStyle(.clear)
-                                .frame(width: 55, height: 20)
-                                .overlay {
-                                    Capsule().stroke(Color.LineNormal)
-                                    
-                                    HStack {
-                                        Image(systemName: "heart")
-                                            .font(.system(size: 14))
-                                        
-                                        Text("\(liked)")
-                                            .font(.system(size: 12, weight: .medium))
-                                    }
-                                }
                         }
                         
                         Spacer()
@@ -70,18 +54,19 @@ struct PolicyCell: View {
                     .padding(.horizontal, 15)
                 }
             
-            Rectangle()
-                .frame(height: 5)
-                .foregroundStyle(Color.LineNormal)
+            Divider()
         }
+        .tint(.black)
     }
 }
 
 #Preview {
-    ZStack {
-        Color.black
-        
-        PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", liked: 77, imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+    NavigationView {
+        ZStack {
+            Color.black
+            
+            PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+        }
     }
         
 }
