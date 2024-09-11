@@ -12,7 +12,7 @@ struct CompanySearchView: View {
     @State private var showingSheet = false
     
     var body: some View {
-        NavigationStack{
+        NavigationView{
             ZStack {
                 Color.BackgroundStrong.ignoresSafeArea()
                 VStack(spacing: 0) {
@@ -82,11 +82,11 @@ struct CompanySearchView: View {
                             }
                         }
                     }
-                    Spacer()
                 }
+                Spacer()
             }
-            .navigationBarBackButtonHidden()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
