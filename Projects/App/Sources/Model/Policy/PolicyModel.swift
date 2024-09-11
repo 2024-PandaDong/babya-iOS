@@ -12,3 +12,10 @@ struct PolicyListModel: Codable {
     let title: String
     let editDate: String
 }
+
+struct PolicyDetailModel: Codable {
+    var title: String = ""
+    var content: String = ""
+    var editDate: String = ""
+    var link: String = ""
+}
