@@ -23,19 +23,19 @@ struct LocationView: View {
             Text("지역을 선택해주세요.")
             
             LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(viewModel.states, id: \.self) { item in
+                ForEach(LocalCode.allCases, id: \.self) { item in
                     Button {
                         withAnimation {
                             viewModel.selectedState = item
                         }
                     } label: {
                         Capsule()
-                            .frame(width: viewModel.calculateWidth(for: item), height: 25)
+                            .frame(width: viewModel.calculateWidth(for: item.name), height: 25)
                             .foregroundStyle(.clear)
                             .overlay {
                                 Capsule().stroke(viewModel.selectedState == item ? Color.PrimaryLight : .LineAlternative, lineWidth: 1.3)
                                 
-                                Text(item)
+                                Text(item.name)
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundStyle(viewModel.selectedState == item ? Color.PrimaryLight : .LineAlternative)
                             }
@@ -46,11 +46,14 @@ struct LocationView: View {
             
             Text("군을 선택해주세요.")
             
-            if let selectedDistricts = viewModel.districts[viewModel.selectedState] {
+            
+            if let state = viewModel.selectedState,
+                !(state.country.isEmpty) {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(selectedDistricts, id: \.self) { item in
+                    ForEach(state.country, id: \.self) { item in
                         Button {
                             withAnimation {
+                                print(item)
                                 viewModel.selectedDistrict = item
                             }
                         } label: {
@@ -74,6 +77,10 @@ struct LocationView: View {
             
             Button {
                 self.presentationMode.wrappedValue.dismiss()
+                
+                viewModel.regionCode = String(codeConverter(code: "\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)"))
+                
+                viewModel.getPolicyList(region: viewModel.regionCode)
             } label: {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 320, height: 45)
