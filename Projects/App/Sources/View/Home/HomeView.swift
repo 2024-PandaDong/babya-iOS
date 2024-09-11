@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var viewModel = HomeViewModel()
+    @StateObject var homeVM = HomeViewModel()
+    @StateObject var policyVM = PolicyViewModel.shared
+    @StateObject var profileVM = ProfileViewModel.shared
     
     var body: some View {
         ZStack {
@@ -35,9 +37,9 @@ struct HomeView: View {
                 
                 Divider()
                 
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘", locationDetail: "알파메일", startDt: "2007-12-02", endDt: "2024-08-28", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
                 
                 HStack {
                     Text("인기 있는 회사")
@@ -69,6 +71,9 @@ struct HomeView: View {
             CustomTabBar()
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            profileVM.getMyProfile()
+        }
     }
 }
 

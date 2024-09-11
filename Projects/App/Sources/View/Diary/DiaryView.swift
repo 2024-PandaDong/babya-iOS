@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DiaryView : View {
-    @StateObject var vm : DiaryViewModel
+    @StateObject var vm : DiaryViewModel = .init(diaryService: RemoteDiaryService())
     let columns = [GridItem(.fixed(180)),
                    GridItem(.fixed(180))]
     @State var All : Bool = true

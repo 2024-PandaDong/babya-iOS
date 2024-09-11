@@ -19,7 +19,7 @@ struct TodoListView: View {
     @State private var editingPlanedDt: String = ""
     @State private var isCheck: Bool = false
     
-    @EnvironmentObject var viewModel: TodoViewModel
+    @StateObject var viewModel = TodoViewModel()
     
     var body: some View {
         ZStack {
@@ -199,6 +199,5 @@ struct TodoListView: View {
 #Preview {
     NavigationView {
         TodoListView()
-            .environmentObject(TodoViewModel())
     }
 }

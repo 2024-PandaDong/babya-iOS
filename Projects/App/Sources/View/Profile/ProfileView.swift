@@ -12,8 +12,7 @@ struct ProfileView: View {
     
     @State var showDiary: Bool = true
     
-    @StateObject var viewModel = ProfileViewModel()
-    @StateObject var signInViewModel = SignInViewModel(authService: RemoteAuthService())
+    @StateObject var viewModel = ProfileViewModel.shared
     
     @State var isQuiz: Bool = false
     
@@ -22,16 +21,24 @@ struct ProfileView: View {
             Divider()
                 .padding(.top, -50)
             
-            AsyncImage(url: URL(string: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")) { image in
-                image
-                    .image?
+            if let img = viewModel.model.data.profileImg {
+                AsyncImage(url: URL(string: img)) { image in
+                    image
+                        .image?
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .scaledToFit()
+                        .clipShape(Circle())
+                }
+            } else {
+                Image("baseProfile")
                     .resizable()
                     .frame(width: 100, height: 100)
                     .scaledToFit()
                     .clipShape(Circle())
             }
             
-            Text("ㅇㅇㅇ 아빠님 반가워요!")
+            Text("\(viewModel.model.data.nickname)님 반가워요!")
                 .font(.system(size: 20, weight: .medium))
                 .padding(.vertical)
             
@@ -135,6 +142,10 @@ struct ProfileView: View {
                 Text("프로필")
                     .font(.system(size: 16, weight: .medium))
             }
+        }
+        .navigationBarBackButtonHidden()
+        .onAppear {
+            viewModel.getMyProfile()
         }
     }
 }
