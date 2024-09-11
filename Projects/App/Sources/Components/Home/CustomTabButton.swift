@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct CustomTabButton<Destination: View>: View {
+struct CustomTabButton: View {
     let image: String
     let title: String
-    let destination: Destination
+    let destination: TabItem
     
-    init(image: String, title: String, destination: Destination) {
+    init(image: String, title: String, destination: TabItem) {
         self.image = image
         self.title = title
         self.destination = destination
     }
     
     var body: some View {
-        NavigationLink(destination: destination) {
+        NavigationLink(destination: destination.view) {
             VStack {
                 Image(systemName: image)
                     .resizable()
@@ -37,5 +37,5 @@ struct CustomTabButton<Destination: View>: View {
 }
 
 #Preview {
-    CustomTabButton(image: "house", title: "홈", destination: Text("홈"))
+    CustomTabButton(image: "house", title: "홈", destination: .diary)
 }
