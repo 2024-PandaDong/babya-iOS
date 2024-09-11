@@ -13,6 +13,8 @@ class ProfileViewModel: ObservableObject {
     @Published var myPost = MyPostResponse()
     @Published var myDiary = MyDiaryResponse()
     
+    static let shared = ProfileViewModel()
+    
     func getMyProfile() {
         let url = "\(ApiContent.url)/member/profile/my"
         let headers: HTTPHeaders = [

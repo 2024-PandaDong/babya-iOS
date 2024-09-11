@@ -14,6 +14,10 @@ let dependencies = Dependencies(
         .remote(
             url: "https://github.com/Alamofire/Alamofire",
             requirement: .upToNextMajor(from: "5.9.1")
+        ),
+        .remote(
+            url: "https://github.com/NuPlay/RichText",
+            requirement: .upToNextMajor(from: "2.0.0")
         )
     ],
     platforms: [.iOS]
