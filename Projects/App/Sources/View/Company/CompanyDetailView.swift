@@ -14,18 +14,44 @@ struct CompanyDetailView: View {
     var content: String
     
     @State private var isExpanded: Bool = false
+    @State private var currentIndex = 0
     
     var body: some View {
         ZStack(alignment:.bottom){
             ScrollView {
                 VStack {
-                    Image("dummy")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 190)
-                        .frame(maxWidth: .infinity)
-                        .clipped()
-                        .ignoresSafeArea(edges: .top)
+                    TabView(selection: $currentIndex){
+                        ForEach(0..<3, id: \.self) { index in
+                            Image("dummy")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 190)
+                                .frame(maxWidth: .infinity)
+                                .clipped()
+                                .ignoresSafeArea(edges: .top)
+                        }
+                    }
+                    
+                    .frame(height: 190)
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    .overlay{
+                        VStack{
+                            Spacer()
+                            HStack{
+                                Spacer()
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(width: 33,height: 21)
+                                    .opacity(0.6)
+                                    .padding(10)
+                                    .overlay{
+                                        Text("\(currentIndex + 1)/3")
+                                            .foregroundStyle(Color.white)
+                                            .font(.system(size: 12,weight: .medium))
+                                    }
+                            }
+                        }
+                    }
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text(title)
@@ -58,7 +84,6 @@ struct CompanyDetailView: View {
                                 Text(isExpanded ? "닫기" : "더보기")
                                     .font(.system(size: 14, weight: .regular))
                                     .foregroundColor(Color.Opacity35)
-                                    
                             }
                             .padding(.top, 5)
                         }
@@ -118,15 +143,13 @@ struct CompanyDetailView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color.white)
                 }
             }
         }
         .navigationBarBackButtonHidden()
     }
 }
-
-
 #Preview {
     NavigationView {
         CompanyDetailView(title: "삼성전자",

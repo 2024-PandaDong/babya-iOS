@@ -12,21 +12,9 @@ struct CompanyInfoCell: View {
     var address : String
     var body: some View {
         VStack(alignment: .leading ,spacing: 9){
-            HStack(alignment:.top,spacing: 70) {
-                Text("대표자명")
-                    .textNormalStyle()
-                
-                Text("한종희")
-                    .textContentStyle()
-            }
+            infoLayout(text1: "대표자명", text2: "한종희")
             
-            HStack(alignment:.top,spacing: 70) {
-                Text("고객 서비스")
-                    .textNormalStyle()
-                
-                Text("080-022-3000")
-                    .textContentStyle()
-            }
+            infoLayout(text1: "고객 서비스", text2: "080-022-3000")
             
             HStack(alignment:.top,spacing: 70) {
                 Text("본사 위치")
@@ -54,29 +42,11 @@ struct CompanyInfoCell: View {
                 }
             }
             
-            HStack(alignment:.top,spacing: 70) {
-                Text("연혁")
-                    .textNormalStyle()
-                
-                Text("17년(2007년설립)")
-                    .textContentStyle()
-            }
+            infoLayout(text1:"연혁", text2: "17년(2007년설립)")
             
-            HStack(alignment:.top,spacing: 70) {
-                Text("사업 내용")
-                    .textNormalStyle()
-                
-                Text("삼성그룹 계열 종합물류/무역/레저/건설 회사[2]이자 삼성의 모태가 되는 회사.")
-                    .textContentStyle()
-            }
+            infoLayout(text1: "사업 내용", text2: "삼성그룹 계열 종합물류/무역/레저/건설 회사[2]이자 삼성의 모태가 되는 회사.")
             
-            HStack(alignment:.top,spacing: 70) {
-                Text("기업 유형")
-                    .textNormalStyle()
-                
-                Text("대기업")
-                    .textContentStyle()
-            }
+            infoLayout(text1: "기업 유형", text2: "대기업")
         }
     }
 }
@@ -94,6 +64,16 @@ extension View {
             .font(.system(size: 12,weight: .medium))
             .foregroundStyle(Color.Opacity35)
             .padding(.bottom,9)
+    }
+    
+    func infoLayout(text1: String, text2: String) -> some View {
+        HStack(alignment:.top,spacing: 70) {
+            Text(text1)
+                .textNormalStyle()
+            
+            Text(text2)
+                .textContentStyle()
+        }
     }
 }
 #Preview {

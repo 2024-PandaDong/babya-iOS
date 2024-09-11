@@ -8,47 +8,48 @@
 import SwiftUI
 
 struct CompanySheet : View {
+    @State private var clickedIndices = Array(repeating: false, count: 13)
+    let region = ["대구광역시", "수원시", "인천광역시", "포항시", "대전광역시", "논산시",
+                 "광주광역시","서울특별시","세종특별자치시","남양주시","울산광역시","공주시","부산광역시"]
+    let county = ["동구","서구","남구","달성군","북구"]
+    let residence = ["구지"]
     var body: some View {
-        VStack{
+        let columns = Array(repeating: GridItem(.flexible(), spacing: 7), count: 4)
+        
+        VStack(alignment: .leading,spacing: 25){
             Text("지역을 선택해주세요.")
                 .font(.system(size: 16,weight: .semibold))
                 .foregroundStyle(Color.black)
-            
-            Button {
-
-            } label: {
-//                RoundedRectangle(cornerRadius: 10)
-//                    .frame(height: 25)
-//                    .frame(maxWidth: 110)
-//                    .foregroundStyle(.white)
-//                    .overlay {
-//                        ZStack{
-//                            RoundedRectangle(cornerRadius: 8).stroke(Color.LabelDisable)
-//                            Text("대구광역시")
-//                               .font(.system(size: 14,weight: .medium))
-//                                .foregroundColor(Color.LabelDisable)
-//                        }
-//                    }
-                
-                Text("대구광역시")
-                    .font(.system(size: 14,weight: .medium))
-                    .foregroundColor(Color.LabelDisable)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(style: Color.LabelDisable)
+            LazyVGrid(columns: columns, spacing: 7) {
+                ForEach(region.indices, id: \.self) { index in
+                    Button {
+                        clickedIndices[index].toggle()
+                        print("클릭한 도시: \(region[index])")
+                        
+                    } label: {
+                            Text(region[index])
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(clickedIndices[index] ? Color.PrimaryLight : Color.LabelDisable)
+                                .padding(5)
+                                .lineLimit(1)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(clickedIndices[index] ? Color.PrimaryLight : Color.LabelDisable, lineWidth: 1)
+                                }
                     }
-                //7 간격
+                }
             }
-            
             Text("군을 선택해주세요.")
                 .font(.system(size: 16,weight: .semibold))
                 .foregroundStyle(Color.black)
+            
             Text("거주 지역을 선택해주세요.")
                 .font(.system(size: 16,weight: .semibold))
                 .foregroundStyle(Color.black)
-            
-            CompanyButton(content: "검색하기")
         }
+        .padding(29)
+        
+        CompanyButton(content: "검색하기")
     }
 }
 
