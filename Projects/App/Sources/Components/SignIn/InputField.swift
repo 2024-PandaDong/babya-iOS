@@ -15,43 +15,48 @@ struct InputFieldView: View {
     var errorMessage: String?
     var placeholder: String
     var isSecure: Bool
-
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(placeholder)
-                .font(.system(size: 13))
-                .padding(.top, 10)
-                .foregroundColor(Color.gray1)
-
             HStack {
                 if isSecure {
                     if showPassword {
-                        TextField("", text: $securetext)
+                        TextField(placeholder, text: $securetext)
+                            .customTextField()
+
+                     
                     } else {
-                        SecureField("", text: $securetext)
+                        SecureField(placeholder, text: $securetext)
+                            .customTextField()
+
                     }
                 } else {
-                    TextField("", text: $text)
-                }
-                if isSecure {
-                    Button {
-                        self.showPassword.toggle()
-                    } label: {
-                        Image(systemName: "eye")
-                            .resizable()
-                            .frame(width: 15, height: 10)
-                            .foregroundColor(.secondary)
-                    }
+                    TextField(placeholder, text: $text)
+                        .customTextField()
+
                 }
             }
-            .underlineTextField()
             .textInputAutocapitalization(.never)
-
+            
             if let errorMessage = errorMessage {
                 Text(errorMessage)
                     .font(.system(size: 13))
                     .foregroundColor(Color.red)
             }
         }
+    }
+}
+
+extension View {
+    func customTextField() -> some View {
+        self
+            .textFieldStyle(PlainTextFieldStyle())
+            .padding()
+            .background(Color.white)
+            .cornerRadius(5)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.LineAlternative, lineWidth: 1.5)
+            )
     }
 }
