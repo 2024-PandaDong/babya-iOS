@@ -13,6 +13,7 @@ import Alamofire
 @MainActor
 class DiaryViewModel: ObservableObject {
     private let diaryService: DiaryService
+    
     @Published var success: Bool = false
     @Published var diaryList = [DiaryResponse]()
     @Published var comment = [CommentResponse]()

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DiaryView : View {
-    @StateObject var vm : DiaryViewModel
+    @StateObject var vm : DiaryViewModel = .init(diaryService: RemoteDiaryService())
     let columns = [GridItem(.fixed(180)),
                    GridItem(.fixed(180))]
     @State var All : Bool = true
@@ -26,7 +26,7 @@ struct DiaryView : View {
             ZStack{
                 VStack{
                     Rectangle()
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.PrimaryLight)
                         .frame(maxWidth: .infinity)
                         .frame(height: 130)
                         .overlay {
@@ -36,50 +36,10 @@ struct DiaryView : View {
                                     .font(.system(size: 20))
                                     .padding(.horizontal)
                                     .padding(.trailing,65)
-                                
-                                HStack(spacing: 10){
-                                    Spacer()
-                                    Image("character")
-                                        .padding(.top,50)
-                                        .padding(.horizontal,15)
-                                }
+                                    .foregroundColor(.BackgroundNormal)
                             }
                         }
-                    HStack(spacing: 20){
-                        Button(action: {
-                            All = true
-                            myDiary = false
-                        }, label: {
-                            Text("전체")
-                                .foregroundColor(All ? Color.yellow : Color.black)
-                                .underline(All)
-                            
-                        })
-                        Button(action: {
-                            myDiary = true
-                            All = false
-                        }, label: {
-                            Text("나의 일기")
-                                .foregroundColor(myDiary ? Color.yellow : Color.black)
-                                .underline(myDiary)
-                        })
-                        Spacer()
-                        
-                        if myDiary{
-                            HStack(spacing: 2){
-                                Button(action: {
-                                    Diary.toggle()
-                                }, label: {
-                                    Text(Diary ? "공개" : "비공개")
-                                        .foregroundStyle(.black)
-                                })
-                                Image(systemName: Diary ? "lock.open" : "lock" )
-                            }
-                        }
-                    }
-                    .padding(.vertical,10)
-                    .padding(.horizontal,20)
-                    Divider()
+                    
                     ScrollView(showsIndicators: false) {
                         if vm.diarycount != 0 {
                             LazyVGrid(columns: columns) {
@@ -88,21 +48,20 @@ struct DiaryView : View {
                                         destination: {
                                             if All {
                                                 DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                                    
                                             } else {
                                                 UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                             }
                                         })
                                     {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname)
-                                            .padding(.vertical, 5)
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname,Date: vm.diaryList[count].writtenDt)
+                                            .padding(.vertical, 9)
+                                            .padding(.horizontal,10)
                                             .onAppear{
                                                 print("카운트 :: \(count)")
                                                 if count % 10 == 9 {
                                                     nowPage += 1
-                                                    print("page :: \(nowPage)")
                                                 }
-                                            }
+                                            } 
                                     }
                                 }
                             }
@@ -125,15 +84,6 @@ struct DiaryView : View {
                 .navigationTitle("산모일기")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar{
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Button {
-                            //
-                        } label: {
-                            Image("reset")
-                                .resizable()
-                                .frame(width: 18,height: 18)
-                        }
-                    }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             self.presentationMode.wrappedValue.dismiss()
@@ -142,8 +92,6 @@ struct DiaryView : View {
                                 .resizable()
                                 .frame(width: 18,height: 18)
                         }
-                        
-                        
                     }
                 }
                 VStack{
@@ -181,17 +129,6 @@ struct DiaryView : View {
                     }
                 }
             })
-            .onChange(of: Diary) { value in
-                nowPage = 1
-                Task {
-                    if Diary {
-                        await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
-                    }else {
-                        await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
-                        
-                    }
-                }
-            }
         }
         .navigationBarBackButtonHidden()
     }

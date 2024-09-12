@@ -28,7 +28,7 @@ struct TextfieldStyle: TextFieldStyle {
                 ZStack{
                    Rectangle()
                         .frame(width: 52,height: 52)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.PrimaryLight)
                     Image("Send")
                 }
             })
