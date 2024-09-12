@@ -21,14 +21,38 @@ struct DiaryView : View {
     @FocusState private var isTextFieldFocused: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var fetchDiary : Bool = false
+    @State var TextVariable: String = ""
     var body: some View {
         NavigationView{
             ZStack{
                 VStack{
                     HStack{
-                        Image("arrow")
+                        Button {
+                            self.presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Image("arrow")
+                                .resizable()
+                                .frame(width: 20,height: 20)
+                        }
+                        Spacer()
                         
+                        TextField("원하는 정책을 입력해주세요", text: $TextVariable)
+                            .font(.system(size: 13))
+                            .padding(10)
+                            .background(Color.BackgroundStrong)
+                            .cornerRadius(10)
+                            .frame(height: 32)
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal)
+                        
+                        
+                        Spacer()
+                        
+                        Image(systemName: "magnifyingglass")
+                            .resizable()
+                            .frame(width: 20,height: 20)
                     }
+                    .padding(.horizontal,24)
                     HStack(spacing: 23) {
                         ZStack {
                             Button(action: {
@@ -40,7 +64,7 @@ struct DiaryView : View {
                             })
                             .disabled(Diary)
                             .padding(.bottom,5)
-
+                            
                             if Diary {
                                 Rectangle()
                                     .frame(width:42 ,height: 1.5)
@@ -49,7 +73,7 @@ struct DiaryView : View {
                                     .edgesIgnoringSafeArea(.all)
                             }
                         }
-
+                        
                         ZStack {
                             Button(action: {
                                 Diary = false
@@ -116,17 +140,17 @@ struct DiaryView : View {
                 }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
-//                .toolbar{
-//                    ToolbarItem(placement: .navigationBarLeading) {
-//                        Button {
-//                            self.presentationMode.wrappedValue.dismiss()
-//                        } label: {
-//                            Image("arrow")
-//                                .resizable()
-//                                .frame(width: 18,height: 18)
-//                        }
-//                    }
-//                }
+                //                .toolbar{
+                //                    ToolbarItem(placement: .navigationBarLeading) {
+                //                        Button {
+                //                            self.presentationMode.wrappedValue.dismiss()
+                //                        } label: {
+                //                            Image("arrow")
+                //                                .resizable()
+                //                                .frame(width: 18,height: 18)
+                //                        }
+                //                    }
+                //                }
                 VStack{
                     Spacer()
                     HStack{
@@ -141,7 +165,7 @@ struct DiaryView : View {
                 Task {
                     if Diary {
                         await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
-
+                        
                     }else {
                         await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
                         
