@@ -64,14 +64,12 @@ struct DiaryView : View {
                             })
                             .disabled(Diary)
                             .padding(.bottom,5)
-                            
-                            if Diary {
+
                                 Rectangle()
                                     .frame(width:42 ,height: 1.5)
-                                    .foregroundColor(Color.PrimaryNormal)
+                                    .foregroundColor(Diary ? Color.PrimaryNormal : .white)
                                     .padding(.top, 20)
                                     .edgesIgnoringSafeArea(.all)
-                            }
                         }
                         
                         ZStack {
@@ -84,14 +82,12 @@ struct DiaryView : View {
                             })
                             .disabled(!Diary)
                             .padding(.bottom,5)
-                            
-                            if !Diary {
+
                                 Rectangle()
                                     .frame(width:42 ,height: 1.5)
-                                    .foregroundColor(Color.PrimaryNormal)
+                                    .foregroundColor(!Diary ? Color.PrimaryNormal : .white)
                                     .padding(.top, 20)
                                     .edgesIgnoringSafeArea(.all)
-                            }
                         }
                         Spacer()
                     }
