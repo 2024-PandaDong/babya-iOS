@@ -26,20 +26,13 @@ struct CompanyRowCell: View {
                         .foregroundStyle(.black)
                     
                     HStack(spacing: 2){
-                        Image("star")
-                            .resizable()
-                            .frame(width: 16,height: 14)
-                        Text("4.5")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.black)
-                        
-                        Text("수원시")
+                        Text("서울특별시 강동구 상일로6길 26 (상일동)")
                             .font(.system(size: 14))
                             .foregroundStyle(Color.LabelNeutral)
-                            .padding(.horizontal,5)
-                        
                     }
                 }
+                .padding(.horizontal,5)
+                
                 Spacer()
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: 60, height: 60)
@@ -57,6 +50,6 @@ struct CompanyRowCell: View {
 
 #Preview {
     NavigationView {
-        CompanyRowCell(title: "", image: "")
+        CompanyRowCell(title: "d", image: "")
     }
 }

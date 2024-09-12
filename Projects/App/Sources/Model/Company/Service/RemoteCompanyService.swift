@@ -1,0 +1,28 @@
+//
+//  RemoteCompanyService.swift
+//  babya
+//
+//  Created by dgsw8th61 on 9/11/24.
+//
+
+import Foundation
+import Alamofire
+import SwiftUI
+
+final class RemoteCompanyService : CompanyService{
+    func getCompany(pageRequest: PageRequest) async throws -> Response<[CompanyResponse]> {
+        let url = "/company?page=\(pageRequest.page)&size=\(pageRequest.size)"
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor())
+                .responseDecodable(of: Response<[CompanyResponse]>.self) { response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
+    }
+}

@@ -14,68 +14,35 @@ struct CompanySearchView: View {
     var body: some View {
         NavigationView{
             ZStack {
-                Color.BackgroundStrong.ignoresSafeArea()
+                Color.white.ignoresSafeArea()
                 VStack(spacing: 0) {
                     HStack {
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image(systemName: "arrow.left")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
-                                .foregroundColor(.black)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("회사찾기")
-                            .font(.system(size: 16, weight: .medium))
+                        Text("님의 지역")
+                            .font(.system(size: 16, weight: .semibold))
                         
                         Spacer()
                         
                         Button {
                             
                         } label: {
-                            Image(systemName: "arrow.clockwise")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
-                                .foregroundColor(.black)
+                            Text("편집하기")
+                                .foregroundStyle(Color.LabelAlternative)
+                                .font(.system(size: 11, weight: .medium))
                         }
                     }
-                    .padding()
-                    .background(Color.white)
-                    .padding(.bottom,5)
-                    ZStack{
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 33)
-                        
-                        HStack(spacing:5){
-                            Button {
-                                showingSheet = true
-                            } label: {
-                                CompanyFilter(title: "지역")
-                            }
-                            .sheet(isPresented: $showingSheet) {
-                                CompanySheet()
-                            }
-                            
-                            CompanyFilter(title: "태그")
-                            
-                            Spacer()
-                        }
-                        .padding(.horizontal,7)
-                    }
-                    .padding(.bottom,5)
+                    .padding(.horizontal)
+                    .padding(.vertical)
+                    
+                    Rectangle()
+                        .frame(height: 5)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(Color.gray0)
                     
                     ScrollView {
                         VStack(spacing: 3) {
                             ForEach(0..<3) { index in
                                 NavigationLink {
-                                    CompanyDetailView(title: "test", category: "tset", content: "tests")
+                                    CompanyDetailView(title: "test", category: "tset", content: "test")
                                 } label: {
                                     CompanyRowCell(title: "삼성전자", image: "")
                                 }
@@ -86,13 +53,36 @@ struct CompanySearchView: View {
                 Spacer()
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                VStack(alignment: .leading) {
+                    Button {
+                        self.presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "arrow.left")
+                            .resizable()
+                            .frame(width: 20,height: 20)
+                            .foregroundStyle(.black)
+                    }
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .frame(width: 20,height: 20)
+                        .foregroundColor(.black)
+                }
+            }
+        }
         .navigationBarBackButtonHidden()
     }
 }
 
 
 #Preview {
-    NavigationView {
-        CompanySearchView()
-    }
+    CompanySearchView()
 }

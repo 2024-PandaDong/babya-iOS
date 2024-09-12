@@ -8,27 +8,26 @@
 import SwiftUI
 
 struct CompanyFilter : View {
+    @State var isSelect: Bool
     var title: String
     
     var body: some View {
         //TODO: 버튼으로 변경하기
-        RoundedRectangle(cornerRadius: 10)
-            .frame(width: 58, height: 25)
-            .foregroundStyle(.white)
-            .overlay {
-                RoundedRectangle(cornerRadius: 10).stroke(Color.LabelDisable)
-                HStack{
-                    Text(title)
-                        .foregroundStyle(Color.black)
-                        .font(.system(size: 14))
-                    Image("Vector")
-                        .resizable()
-                        .frame(width: 5,height: 2.5)
-                }
-            }
+        Text(title)
+            .font(.system(size: 14,weight: .medium))
+            .foregroundColor(isSelect ? Color.PrimaryLight : Color.LabelDisable)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(.white)
+            .cornerRadius(16)
+            .overlay(
+              RoundedRectangle(cornerRadius: 10)
+                .stroke(isSelect ? Color.PrimaryLight : Color.LabelDisable, lineWidth: 1)
+            )
+            .frame(height: 25)
     }
 }
 
 #Preview {
-    CompanyFilter(title: "지역")
+    CompanyFilter(isSelect: true, title: "지역")
 }
