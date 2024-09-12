@@ -53,6 +53,11 @@ extension Color {
     static let pink70 = Color(hex: "FFA7A6")
     static let blue70 = Color(hex: "69AEE3")
     static let Opacity35 = Color(hex: "A7A7A8")
+    static let Blue60 = Color(hex: "53A3DF")
+    static let Red60 = Color(hex: "FF4433")
+    static let StatusPositive = Color(hex: "64CD32")
+    static let StatusDestructive = Color(hex: "FF1600")
+    static let StatusCautionary = Color(hex: "FFD600")
 }
 
 extension Color {
