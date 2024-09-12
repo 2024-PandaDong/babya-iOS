@@ -1,27 +1,27 @@
 //
-//  TodoModifyView.swift
+//  TodoPostView.swift
 //  babya
 //
-//  Created by hyk on 7/10/24.
+//  Created by hyk on 6/27/24.
 //
 
 import SwiftUI
 
-struct TodoModifyView: View {
-    @Binding var id: Int
+struct TodoPostView: View {
     @Binding var category: String
     @Binding var content: String
-    @Binding var planedDt: String
+    @Binding var planedDt: Date
     let action: () -> Void
     
     @FocusState var showKeyboard: Bool
+    
+    
     
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: TodoViewModel
     
-    init(id: Binding<Int>, category: Binding<String>, content: Binding<String>, planedDt: Binding<String>, action: @escaping () -> Void) {
-        self._id = id
+    init(category: Binding<String>, content: Binding<String>, planedDt: Binding<Date>, action: @escaping () -> Void) {
         self._category = category
         self._content = content
         self._planedDt = planedDt
@@ -31,26 +31,48 @@ struct TodoModifyView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
+                Text("카테고리:")
+                    .font(.system(size: 18))
+                TextField("", text: $category, prompt: Text("카테고리를 입력해주세요."))
+                    .focused($showKeyboard)
+                    .onSubmit {
+                        print(category)
+                    }
+            }
+            .padding(.vertical, 10)
+            
+            HStack {
                 Text("할 일:")
+                    .font(.system(size: 18))
                 TextField("", text: $content, prompt: Text("새로운 할 일을 입력해주세요."))
+            }
+            
+            HStack {
+                Text("시작일:")
+                Image(systemName: "clock")
+                DatePicker("", selection: $planedDt, displayedComponents: .date)
+                    .labelsHidden()
+                    .presentationDetents([.fraction(0.2)])
+                    .tint(Color.yellow0)
                 
                 Spacer()
                 
                 Button {
                     self.presentationMode.wrappedValue.dismiss()
                     action()
+                    category = ""
                     content = ""
                 } label: {
                     Circle()
                         .frame(width: 30, height: 30)
-                        .foregroundStyle(Color.yellow0)
+                        .foregroundStyle(viewModel.isPostAvailable ? Color.PrimaryLight : .gray)
                         .overlay {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.white)
                         }
                 }
+                .disabled(!viewModel.isPostAvailable)
             }
-            .presentationDetents([.fraction(0.1)])
             .font(.system(size: 18))
             .padding(.vertical, 20)
         }
@@ -62,7 +84,8 @@ struct TodoModifyView: View {
 }
 
 #Preview {
-    TodoModifyView(id: .constant(0), category: .constant(""), content: .constant(""), planedDt: .constant("")) {
+    TodoPostView(category: .constant(""), content: .constant(""), planedDt: .constant(.init())) {
         
     }
+    .environmentObject(TodoViewModel())
 }

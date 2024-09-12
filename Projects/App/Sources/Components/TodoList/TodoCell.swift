@@ -26,7 +26,7 @@ struct TodoCell: View {
                     } label: {
                         Circle()
                             .frame(width: 18, height: 18)
-                            .foregroundStyle(isChecked ? Color.yellow0 :  .white)
+                            .foregroundStyle(isChecked ? Color.PrimaryLight :  .white)
                             .overlay {
                                 Circle().stroke(.gray, lineWidth: 1)
                                 

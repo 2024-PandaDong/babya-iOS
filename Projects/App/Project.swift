@@ -5,7 +5,8 @@ let project = Project(
     name: "babya",
     packages: [
         .remote(url: "https://github.com/Alamofire/Alamofire", requirement: .upToNextMajor(from: "5.9.1")),
-        .remote(url: "https://github.com/Alamofire/AlamofireImage", requirement: .upToNextMajor(from: "4.3.0"))
+        .remote(url: "https://github.com/Alamofire/AlamofireImage", requirement: .upToNextMajor(from: "4.3.0")),
+        .remote(url: "https://github.com/NuPlay/RichText", requirement: .upToNextMajor(from: "2.0.0"))
     ],
     targets: [
         Target(
@@ -16,7 +17,7 @@ let project = Project(
             infoPlist: .file(path: "Support/Info.plist"),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
-            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage")]
+            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage"), .package(product: "RichText")]
         )
     ]
 )
