@@ -59,7 +59,7 @@ struct ThirdSignUpView: View {
                                 .font(.system(size: 16, weight: .bold))
                         }
                 }
-//                .disabled(!viewModel.isThirdSignUpAvailable)
+                .disabled(!viewModel.isThirdSignUpAvailable)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 40)
             }
