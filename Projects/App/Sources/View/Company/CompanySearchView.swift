@@ -10,24 +10,34 @@ import SwiftUI
 struct CompanySearchView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showingSheet = false
+    @State var showLocationView: Bool = false
+    @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             ZStack {
                 Color.white.ignoresSafeArea()
                 VStack(spacing: 0) {
-                    HStack {
-                        Text("님의 지역")
-                            .font(.system(size: 16, weight: .semibold))
-                        
-                        Spacer()
-                        
-                        Button {
+                    VStack{
+                        HStack {
+                            Text("이윤채님의 지역")
+                                .font(.system(size: 16, weight: .semibold))
                             
-                        } label: {
-                            Text("편집하기")
-                                .foregroundStyle(Color.LabelAlternative)
-                                .font(.system(size: 11, weight: .medium))
+                            Spacer()
+                            
+                            Button {
+                                
+                            } label: {
+                                Text("편집하기")
+                                    .foregroundStyle(Color.LabelAlternative)
+                                    .font(.system(size: 11, weight: .medium))
+                            }
+                        }
+                        
+                        HStack(spacing: 12){
+                            CompanyFilter(isSelect: true, title: "대구광역시")
+                            CompanyFilter(isSelect: true, title: "달성군")
+                            Spacer()
                         }
                     }
                     .padding(.horizontal)
@@ -40,11 +50,12 @@ struct CompanySearchView: View {
                     
                     ScrollView {
                         VStack(spacing: 3) {
-                            ForEach(0..<3) { index in
+                            ForEach(vm.companyList, id: \.companyId) { company in
                                 NavigationLink {
-                                    CompanyDetailView(title: "test", category: "tset", content: "test")
+                                    CompanyDetailView(companyId: company.companyId)
+                                        .navigationBarBackButtonHidden()
                                 } label: {
-                                    CompanyRowCell(title: "삼성전자", image: "")
+                                    CompanyRowCell(title: company.companyName, images: (company.logoImg.first ?? "dummy") ?? "dummy", address: company.address)
                                 }
                             }
                         }
@@ -78,7 +89,10 @@ struct CompanySearchView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden()
+        .task {
+            await vm.getCompany(pageRequest: PageRequest(page: 1, size: 10))
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct CompanyDetailView: View {
     @Environment(\.presentationMode) var presentationMode
-    var title: String
-    var category: String
-    var content: String
+    var companyId: Int
+    @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
     
     @State private var isExpanded: Bool = false
     @State private var currentIndex = 0
@@ -54,10 +53,10 @@ struct CompanyDetailView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(title)
+                        Text("tes")
                             .font(.system(size: 24, weight: .semibold))
                         HStack {
-                            Text(category)
+                            Text("tes")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundStyle(Color.black)
                             
@@ -73,11 +72,11 @@ struct CompanyDetailView: View {
                         }
                         .padding(.vertical, 6)
                         
-                        Text(isExpanded ? content : String(content.prefix(50)) + (content.count > 50 ? "..." : ""))
+                        Text(isExpanded ? vm.companyInfo.description : String(vm.companyInfo.description.prefix(50)) + (vm.companyInfo.description.count > 50 ? "..." : ""))
                             .font(.system(size: 14, weight: .regular))
                             .foregroundStyle(Color.black)
                         
-                        if content.count > 50 {
+                        if vm.companyInfo.description.count > 50 {
                             Button(action: {
                                 isExpanded.toggle()
                             }) {
@@ -136,6 +135,10 @@ struct CompanyDetailView: View {
             }
             CompanyButton(content: "회사 더 알아보기")
         }
+        .task {
+            await vm.detailCompany(Id: companyId)
+        }
+        .navigationBarBackButtonHidden(true)
         .ignoresSafeArea()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -147,13 +150,6 @@ struct CompanyDetailView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden()
     }
 }
-#Preview {
-    NavigationView {
-        CompanyDetailView(title: "삼성전자",
-                          category: "IT, 동영상 | 서울 수원시",
-                          content: "삼성전자는 사람과 사회를 생각하는 글로벌 일류기업을 추구합니다. ‘경영이념, 핵심가치, 경영원칙’의 원칙이 많다")
-    }
-}
+

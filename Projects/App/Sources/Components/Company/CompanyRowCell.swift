@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CompanyRowCell: View {
     let title: String
-    let image: String
+    let images: String
+    let address: String
     
     var body: some View {
         ZStack{
@@ -26,7 +27,7 @@ struct CompanyRowCell: View {
                         .foregroundStyle(.black)
                     
                     HStack(spacing: 2){
-                        Text("서울특별시 강동구 상일로6길 26 (상일동)")
+                        Text(address)
                             .font(.system(size: 14))
                             .foregroundStyle(Color.LabelNeutral)
                     }
@@ -39,17 +40,36 @@ struct CompanyRowCell: View {
                     .foregroundStyle(.white)
                     .overlay {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
+                        if let imageUrl = URL(string: images){
+                            AsyncImage(url: imageUrl) { image in
+                                image
+                                    .resizable()
+                            } placeholder: {
+                                Image("dummy")
+                                    .resizable()
+                            }
+                            .frame(width: 60, height: 60)
+                            .cornerRadius(8, corners: .allCorners)
+                        }
                         
-                        Image("\(image)")
+//                        if let imageUrl = URL(string: ProfileImage){
+//                            AsyncImage(url: imageUrl) { image in
+//                                image
+//                                    .resizable()
+//                                    .overlay(overlayView)
+//                            } placeholder: {
+//                                Image("baseDiaryImage")
+//                                    .resizable()
+//                                    .scaledToFill()
+//                                    .overlay(overlayView)
+//                            }
+//                            .frame(maxWidth: .infinity)
+//                            .frame(height: 100)
+//                            .cornerRadius(10, corners: [.topLeft, .topRight])
+//                        }
                     }
             }
-            .padding(.horizontal,15)
+            .padding(.horizontal,29)
         }
-    }
-}
-
-#Preview {
-    NavigationView {
-        CompanyRowCell(title: "d", image: "")
     }
 }
