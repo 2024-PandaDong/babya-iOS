@@ -30,7 +30,6 @@ struct CompanyDetailView: View {
                                 .ignoresSafeArea(edges: .top)
                         }
                     }
-                    
                     .frame(height: 190)
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
@@ -53,7 +52,7 @@ struct CompanyDetailView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("tes")
+                        Text(vm.companyInfo?.name ?? "회사를 찾을 수 없음")
                             .font(.system(size: 24, weight: .semibold))
                         HStack {
                             Text("tes")
@@ -72,11 +71,14 @@ struct CompanyDetailView: View {
                         }
                         .padding(.vertical, 6)
                         
-                        Text(isExpanded ? vm.companyInfo.description : String(vm.companyInfo.description.prefix(50)) + (vm.companyInfo.description.count > 50 ? "..." : ""))
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundStyle(Color.black)
-                        
-                        if vm.companyInfo.description.count > 50 {
+                        Text(isExpanded ? (vm.companyInfo?.description ?? "") :
+                            (vm.companyInfo?.description.prefix(50) ?? "") +
+                            (vm.companyInfo?.description.count ?? 0 > 50 ? "..." : "")
+                        )
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundStyle(Color.black)
+
+                        if vm.companyInfo?.description.count ?? 0 > 50 {
                             Button(action: {
                                 isExpanded.toggle()
                             }) {
@@ -104,10 +106,8 @@ struct CompanyDetailView: View {
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        
                         CompanyCharts(data: System.dummyData(salaries: ["50%", "50%"]), salaries: ["100명", "50%", "50%"])
                             .padding(.horizontal,20)
-                        
                         
                         Text("기업 정보")
                             .font(.system(size: 16,weight: .semibold))
@@ -152,4 +152,3 @@ struct CompanyDetailView: View {
         }
     }
 }
-

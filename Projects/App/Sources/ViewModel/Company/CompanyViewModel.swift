@@ -12,13 +12,13 @@ import Alamofire
 class CompanyViewModel: ObservableObject {
     private let companyService: CompanyService
     @Published var companyList = [CompanyResponse]()
-    @Published var companyInfo = [CompanyDetailResponse]()
+    @Published var companyInfo: CompanyDetailResponse?
     
     init(companyService: CompanyService) {
         self.companyService = companyService
     }
     
-    func getCompany(pageRequest : PageRequest) async {
+    func getCompany(pageRequest: PageRequest) async {
         do {
             let response = try await companyService.getCompany(pageRequest: pageRequest)
             print(response)
@@ -27,7 +27,6 @@ class CompanyViewModel: ObservableObject {
             } else {
                 companyList = []
             }
-            
             
         } catch {
             print(error)
@@ -41,7 +40,7 @@ class CompanyViewModel: ObservableObject {
             if let data = response.data {
                 companyInfo = data
             } else {
-                companyInfo = []
+                companyInfo = nil
             }
 
         } catch {
@@ -49,3 +48,4 @@ class CompanyViewModel: ObservableObject {
         }
     }
 }
+
