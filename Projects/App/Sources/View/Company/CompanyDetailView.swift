@@ -110,7 +110,8 @@ struct CompanyDetailView: View {
                         }
                         .padding(.vertical,17)
                         
-                        SalaryInfoCell(salaries: ["\(String(describing: vm.companyInfo?.minSalary))만원", "\(String(describing: vm.companyInfo?.avgSalary))만원", "\(String(describing: vm.companyInfo?.maxSalary))만원"])
+                        SalaryInfoCell(salaries: ["\(vm.companyInfo?.minSalary ?? 0)만원", "\(vm.companyInfo?.avgSalary ?? 0)만원", "\(vm.companyInfo?.maxSalary ?? 0)만원"])
+  
                         
                         Text("인원")
                             .font(.system(size: 16,weight: .semibold))
@@ -120,9 +121,9 @@ struct CompanyDetailView: View {
                         CompanyCharts(data: System.dummyData(salaries: [
                             "\(String(describing: vm.companyInfo?.malePeople))%",
                             "\(String(describing: vm.companyInfo?.femalePeople))%"]),
-                                      salaries: ["\(String(describing: (vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0)))명",
-                                                 "\(String(describing: vm.companyInfo?.malePeople))%",
-                                                 "\(String(describing: vm.companyInfo?.femalePeople))%"])
+                                      salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
+                                "\(vm.companyInfo?.malePeople ?? 0)%",
+                                "\(vm.companyInfo?.femalePeople ?? 0)%"])
                         .padding(.horizontal,20)
                         
                         Text("기업 정보")

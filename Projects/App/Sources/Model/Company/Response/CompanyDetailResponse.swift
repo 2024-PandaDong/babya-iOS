@@ -33,6 +33,6 @@ struct CompanyDetailResponse: Decodable,Hashable {
     let historyYear: String
     let businessContent: String
     let companyType: String
+    let businessType: String?
     let contentImg: String?
-    let businessType: String
 }
