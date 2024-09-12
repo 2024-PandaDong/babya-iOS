@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
+    @StateObject var viewModel = SignUpViewModel()
     @State var showLogin: Bool = false
     
     var body: some View {
@@ -24,7 +25,7 @@ struct RootView: View {
             
             Image("mockup")
             
-            NavigationLink(destination: Text("새로운 회원가입 뷰")) {
+            NavigationLink(destination: FirstSignUpView().environmentObject(viewModel), isActive: $viewModel.rootActive) {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 340, height: 50)
                     .foregroundStyle(Color.PrimaryNormal)
@@ -50,6 +51,7 @@ struct RootView: View {
         }
         .sheet(isPresented: $showLogin) {
             SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+                .environmentObject(viewModel)
         }
     }
 }

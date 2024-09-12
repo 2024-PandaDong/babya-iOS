@@ -15,7 +15,7 @@ struct SignInView : View {
     @State private var showPassword: Bool = false
 
     @StateObject var vm : SignInViewModel
-    @StateObject var signUpViewModel = SignUpViewModel()
+    @EnvironmentObject var signUpViewModel : SignUpViewModel
     
     var body: some View {
 //        ZStack{
@@ -136,18 +136,19 @@ struct SignInView : View {
         VStack(alignment: .leading, spacing: 10) {
             Text("애기야에 로그인하세요")
                 .font(.system(size: 20, weight: .medium))
+                .padding(.vertical)
             
-            HStack {
-                Text("회원이 아니신가요?")
-                
-                NavigationLink(destination: Text("새 회원가입 뷰")) {
-                    Text("회원가입하기")
-                        .foregroundStyle(Color.PrimaryNormal)
-                        .fontWeight(.medium)
-                }
-            }
-            .font(.system(size: 13))
-            .padding(.vertical)
+//            HStack {
+//                Text("회원이 아니신가요?")
+//                
+//                NavigationLink(destination: Text("새 회원가입 뷰")) {
+//                    Text("회원가입하기")
+//                        .foregroundStyle(Color.PrimaryNormal)
+//                        .fontWeight(.medium)
+//                }
+//            }
+//            .font(.system(size: 13))
+//            .padding(.vertical)
             
             InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
             
