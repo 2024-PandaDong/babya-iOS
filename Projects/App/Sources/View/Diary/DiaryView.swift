@@ -25,20 +25,54 @@ struct DiaryView : View {
         NavigationView{
             ZStack{
                 VStack{
-                    Rectangle()
-                        .foregroundColor(.PrimaryLight)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 130)
-                        .overlay {
-                            ZStack{
-                                Text("이번주 건강상태는 좋음입니다.\n오늘도 좋은하루 보내세요!")
-                                    .bold()
-                                    .font(.system(size: 20))
-                                    .padding(.horizontal)
-                                    .padding(.trailing,65)
-                                    .foregroundColor(.BackgroundNormal)
+                    HStack{
+                        Image("arrow")
+                        
+                    }
+                    HStack(spacing: 23) {
+                        ZStack {
+                            Button(action: {
+                                Diary = true
+                            }, label: {
+                                Text("공개")
+                                    .font(.system(size: 16,weight: .semibold))
+                                    .foregroundStyle(.black)
+                            })
+                            .disabled(Diary)
+                            .padding(.bottom,5)
+
+                            if Diary {
+                                Rectangle()
+                                    .frame(width:42 ,height: 1.5)
+                                    .foregroundColor(Color.PrimaryNormal)
+                                    .padding(.top, 20)
+                                    .edgesIgnoringSafeArea(.all)
                             }
                         }
+
+                        ZStack {
+                            Button(action: {
+                                Diary = false
+                            }, label: {
+                                Text("비공개")
+                                    .font(.system(size: 16,weight: .semibold))
+                                    .foregroundStyle(.black)
+                            })
+                            .disabled(!Diary)
+                            .padding(.bottom,5)
+                            
+                            if !Diary {
+                                Rectangle()
+                                    .frame(width:42 ,height: 1.5)
+                                    .foregroundColor(Color.PrimaryNormal)
+                                    .padding(.top, 20)
+                                    .edgesIgnoringSafeArea(.all)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(.vertical,5)
+                    .padding(.horizontal,23)
                     
                     ScrollView(showsIndicators: false) {
                         if vm.diarycount != 0 {
@@ -53,7 +87,7 @@ struct DiaryView : View {
                                             }
                                         })
                                     {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname,Date: vm.diaryList[count].writtenDt)
+                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
                                             .padding(.vertical, 9)
                                             .padding(.horizontal,10)
                                             .onAppear{
@@ -61,7 +95,7 @@ struct DiaryView : View {
                                                 if count % 10 == 9 {
                                                     nowPage += 1
                                                 }
-                                            } 
+                                            }
                                     }
                                 }
                             }
@@ -72,7 +106,7 @@ struct DiaryView : View {
                                     .scaledToFit()
                                     .frame(width: 180)
                                     .padding(.top,50)
-                                    
+                                
                                 
                                 Text("산모일기가 존재하지 않아요.")
                                     .font(.system(size: 20, weight: .bold))
@@ -81,25 +115,36 @@ struct DiaryView : View {
                     }
                 }
                 .navigationBarBackButtonHidden()
-                .navigationTitle("산모일기")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar{
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image("arrow")
-                                .resizable()
-                                .frame(width: 18,height: 18)
-                        }
-                    }
-                }
+//                .toolbar{
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        Button {
+//                            self.presentationMode.wrappedValue.dismiss()
+//                        } label: {
+//                            Image("arrow")
+//                                .resizable()
+//                                .frame(width: 18,height: 18)
+//                        }
+//                    }
+//                }
                 VStack{
                     Spacer()
                     HStack{
                         Spacer()
                         PencilButton()
                             .padding()
+                    }
+                }
+            }
+            .onChange(of: Diary) { value in
+                nowPage = 1
+                Task {
+                    if Diary {
+                        await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
+
+                    }else {
+                        await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                        
                     }
                 }
             }
