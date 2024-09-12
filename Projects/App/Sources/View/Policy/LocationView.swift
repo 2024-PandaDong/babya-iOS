@@ -80,6 +80,8 @@ struct LocationView: View {
                 
                 viewModel.regionCode = String(codeConverter(code: "\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)"))
                 
+                print(viewModel.regionCode)
+                
                 viewModel.getPolicyList(region: viewModel.regionCode)
             } label: {
                 RoundedRectangle(cornerRadius: 10)
