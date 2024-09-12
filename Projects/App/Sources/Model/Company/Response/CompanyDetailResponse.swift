@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CompanyDetailResponse: Decodable {
+struct CompanyDetailResponse: Decodable,Hashable {
     let name: String
     let link: String
     let description: String
@@ -33,5 +33,6 @@ struct CompanyDetailResponse: Decodable {
     let historyYear: String
     let businessContent: String
     let companyType: String
-    let contentImg: String
+    let contentImg: String?
+    let businessType: String
 }

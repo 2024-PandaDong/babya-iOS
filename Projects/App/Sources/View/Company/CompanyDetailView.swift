@@ -19,43 +19,54 @@ struct CompanyDetailView: View {
         ZStack(alignment:.bottom){
             ScrollView {
                 VStack {
-                    TabView(selection: $currentIndex){
-                        ForEach(0..<3, id: \.self) { index in
+                    //                    TabView(selection: $currentIndex){
+                    //                        ForEach(0..<3, id: \.self) { index in
+                    //                            Image("dummy")
+                    //                                .resizable()
+                    //                                .aspectRatio(contentMode: .fill)
+                    //                                .frame(height: 190)
+                    //                                .frame(maxWidth: .infinity)
+                    //                                .clipped()
+                    //                                .ignoresSafeArea(edges: .top)
+                    //                        }
+                    //                    }
+                    //                    .frame(height: 190)
+                    //                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    //                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    if let imageUrl = URL(string: vm.companyInfo?.contentImg ?? "dummy"){
+                        AsyncImage(url: imageUrl) { image in
+                            image
+                                .resizable()
+                        } placeholder: {
                             Image("dummy")
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(height: 190)
-                                .frame(maxWidth: .infinity)
-                                .clipped()
-                                .ignoresSafeArea(edges: .top)
                         }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 190)
                     }
-                    .frame(height: 190)
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                    .overlay{
-                        VStack{
-                            Spacer()
-                            HStack{
-                                Spacer()
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 33,height: 21)
-                                    .opacity(0.6)
-                                    .padding(10)
-                                    .overlay{
-                                        Text("\(currentIndex + 1)/3")
-                                            .foregroundStyle(Color.white)
-                                            .font(.system(size: 12,weight: .medium))
-                                    }
-                            }
-                        }
-                    }
+//                        .overlay{
+//                            VStack{
+//                                Spacer()
+//                                HStack{
+//                                    Spacer()
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .frame(width: 33,height: 21)
+//                                        .opacity(0.6)
+//                                        .padding(10)
+//                                        .overlay{
+//                                            Text("\(currentIndex + 1)/3")
+//                                                .foregroundStyle(Color.white)
+//                                                .font(.system(size: 12,weight: .medium))
+//                                        }
+//                                }
+//                            }
+//                        }
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text(vm.companyInfo?.name ?? "회사를 찾을 수 없음")
                             .font(.system(size: 24, weight: .semibold))
                         HStack {
-                            Text("tes")
+                            Text(vm.companyInfo?.businessType ?? "")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundStyle(Color.black)
                             
@@ -72,12 +83,12 @@ struct CompanyDetailView: View {
                         .padding(.vertical, 6)
                         
                         Text(isExpanded ? (vm.companyInfo?.description ?? "") :
-                            (vm.companyInfo?.description.prefix(50) ?? "") +
-                            (vm.companyInfo?.description.count ?? 0 > 50 ? "..." : "")
+                                (vm.companyInfo?.description.prefix(50) ?? "") +
+                             (vm.companyInfo?.description.count ?? 0 > 50 ? "..." : "")
                         )
                         .font(.system(size: 14, weight: .regular))
                         .foregroundStyle(Color.black)
-
+                        
                         if vm.companyInfo?.description.count ?? 0 > 50 {
                             Button(action: {
                                 isExpanded.toggle()
@@ -93,35 +104,45 @@ struct CompanyDetailView: View {
                                 .font(.system(size: 16,weight: .semibold))
                                 .foregroundStyle(Color.black)
                             
-                            Text("9314년 기준")
+                            Text("2024년 기준")
                                 .font(.system(size:14,weight: .medium ))
                                 .foregroundStyle(Color.Opacity35)
                         }
                         .padding(.vertical,17)
                         
-                        SalaryInfoCell(salaries: ["11,760만원", "11,765만원", "11,730만원"])
+                        SalaryInfoCell(salaries: ["\(String(describing: vm.companyInfo?.minSalary))만원", "\(String(describing: vm.companyInfo?.avgSalary))만원", "\(String(describing: vm.companyInfo?.maxSalary))만원"])
                         
                         Text("인원")
                             .font(.system(size: 16,weight: .semibold))
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        CompanyCharts(data: System.dummyData(salaries: ["50%", "50%"]), salaries: ["100명", "50%", "50%"])
-                            .padding(.horizontal,20)
+                        CompanyCharts(data: System.dummyData(salaries: [
+                            "\(String(describing: vm.companyInfo?.malePeople))%",
+                            "\(String(describing: vm.companyInfo?.femalePeople))%"]),
+                                      salaries: ["\(String(describing: (vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0)))명",
+                                                 "\(String(describing: vm.companyInfo?.malePeople))%",
+                                                 "\(String(describing: vm.companyInfo?.femalePeople))%"])
+                        .padding(.horizontal,20)
                         
                         Text("기업 정보")
                             .font(.system(size: 16,weight: .semibold))
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        CompanyInfoCell(address: "서울특별시 강동구 상일로6길 26 (상일동)")
+                        CompanyInfoCell(address: vm.companyInfo?.address ?? "주소를 찾을 수 없음",
+                                        ceo: vm.companyInfo?.ceo ?? "대표자 없음",
+                                        tel: vm.companyInfo?.tel ?? "전화번호 정보가 없음",
+                                        historyYear: vm.companyInfo?.historyYear ?? "설립일을 알수없음",
+                                        businessContent: vm.companyInfo?.businessContent ?? "사업 내용 정보 없음",
+                                        companyType: vm.companyInfo?.companyType ?? "회사유형이 없음")
                         
                         Text("혜택 및 복지")
                             .font(.system(size: 16,weight: .semibold))
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        Text("첫째 500만 원, 둘째 1천만 원, 셋째 2천만 원 출산 지원")
+                        Text(vm.companyInfo?.subsdType ?? "혜택이 없음")
                             .font(.system(size: 14,weight: .regular))
                             .foregroundStyle(Color.black)
                         
@@ -133,7 +154,12 @@ struct CompanyDetailView: View {
                     Spacer()
                 }
             }
-            CompanyButton(content: "회사 더 알아보기")
+            
+            if let url = URL(string: vm.companyInfo?.link ?? "https://www.google.com") {
+                Link(destination: url) {
+                    CompanyButton(content: "회사 더 알아보기")
+                }
+            }
         }
         .task {
             await vm.detailCompany(Id: companyId)

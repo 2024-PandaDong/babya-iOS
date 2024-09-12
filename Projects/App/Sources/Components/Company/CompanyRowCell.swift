@@ -51,22 +51,6 @@ struct CompanyRowCell: View {
                             .frame(width: 60, height: 60)
                             .cornerRadius(8, corners: .allCorners)
                         }
-                        
-//                        if let imageUrl = URL(string: ProfileImage){
-//                            AsyncImage(url: imageUrl) { image in
-//                                image
-//                                    .resizable()
-//                                    .overlay(overlayView)
-//                            } placeholder: {
-//                                Image("baseDiaryImage")
-//                                    .resizable()
-//                                    .scaledToFill()
-//                                    .overlay(overlayView)
-//                            }
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: 100)
-//                            .cornerRadius(10, corners: [.topLeft, .topRight])
-//                        }
                     }
             }
             .padding(.horizontal,29)

@@ -10,9 +10,6 @@ import SwiftUI
 struct CompanyButton: View {
     var content: String
     var body: some View {
-        Button(action: {
-            
-        }, label: {
             Rectangle()
                 .frame(maxWidth: .infinity)
                 .frame(height: 43)
@@ -25,6 +22,5 @@ struct CompanyButton: View {
                 }
                 .padding()
                 .padding(.bottom,10)
-        })
     }
 }

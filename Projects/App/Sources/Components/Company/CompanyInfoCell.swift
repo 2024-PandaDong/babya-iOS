@@ -9,12 +9,18 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct CompanyInfoCell: View {
-    var address : String
+    let address : String
+    let ceo : String
+    let tel: String
+    let historyYear: String
+    let businessContent: String
+    let companyType: String
+    
     var body: some View {
         VStack(alignment: .leading ,spacing: 9){
-            infoLayout(text1: "대표자명", text2: "한종희")
+            infoLayout(text1: "대표자명", text2: ceo)
             
-            infoLayout(text1: "고객 서비스", text2: "080-022-3000")
+            infoLayout(text1: "고객 서비스", text2: tel)
             
             HStack(alignment:.top,spacing: 70) {
                 Text("본사 위치")
@@ -42,11 +48,11 @@ struct CompanyInfoCell: View {
                 }
             }
             
-            infoLayout(text1:"연혁", text2: "17년(2007년설립)")
+            infoLayout(text1:"연혁", text2: historyYear)
             
-            infoLayout(text1: "사업 내용", text2: "삼성그룹 계열 종합물류/무역/레저/건설 회사[2]이자 삼성의 모태가 되는 회사.")
+            infoLayout(text1: "사업 내용", text2: businessContent)
             
-            infoLayout(text1: "기업 유형", text2: "대기업")
+            infoLayout(text1: "기업 유형", text2: companyType)
         }
     }
 }
@@ -75,7 +81,4 @@ extension View {
                 .textContentStyle()
         }
     }
-}
-#Preview {
-    CompanyInfoCell(address: "서울특별시 강동구 상일로6길 26 (상일동)")
 }
