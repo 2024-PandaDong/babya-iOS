@@ -33,12 +33,14 @@ struct PolicyDetailView: View {
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundStyle(Color.LabelAssistive)
                                 
-                                HStack(spacing: 5) {
-                                    Text("시행기관:")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    
-                                    Text("\(policyVM.selectedState!.name) \(policyVM.selectedDistrict) 보건소")
-                                        .font(.system(size: 14, weight: .medium))
+                                if let state = policyVM.selectedState?.name {
+                                    HStack(spacing: 5) {
+                                        Text("시행기관:")
+                                            .font(.system(size: 14, weight: .semibold))
+                                        
+                                        Text("\(state) \(policyVM.selectedDistrict) 보건소")
+                                            .font(.system(size: 14, weight: .medium))
+                                    }
                                 }
                             }
                             Spacer()

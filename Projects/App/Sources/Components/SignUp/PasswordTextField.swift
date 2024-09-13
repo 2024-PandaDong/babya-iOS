@@ -9,45 +9,32 @@ import SwiftUI
 
 struct PasswordTextField: View {
     @Binding var password: String
-    @Binding var isAvailable: Bool
-    let action: () -> Void
-    
+    let prompt: String
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("비밀번호")
-                .fontWeight(.bold)
-            
-            HStack {
-                TextField("", text: $password, prompt: Text("비밀번호를 입력해주세요").font(.system(size: 14, weight: .semibold)))
-                    .tint(.yellow)
-                    .textInputAutocapitalization(.never)
-                    .onSubmit {
-                        action()
-                        print(password)
-                        print(isAvailable)
-                    }
+        RoundedRectangle(cornerRadius: 10)
+            .frame(maxWidth: .infinity, maxHeight: 55)
+            .foregroundStyle(.white)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.LineAlternative)
                 
-                Text(isAvailable ? "사용 가능" : "사용 불가능")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(isAvailable ? .green : .red)
+                HStack(alignment: .center) {
+                    VStack {
+                        SecureField("", text: $password, prompt: Text(prompt).font(.system(size: 16, weight: .semibold)))
+                            .frame(width: 230)
+                            .tint(Color.PrimaryNormal)
+                            .textInputAutocapitalization(.never)
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    Spacer()
+                }
             }
-            
-            Rectangle()
-                .frame(width: 330, height: 1)
-                .foregroundStyle(Color(red: 203/255, green: 203/255, blue: 203/255))
-            
-            Text("영문 대소문자, 특수문자, 숫자를 조합하여 6~20자로 입력해주세요")
-                .font(.system(size: 11, weight: .ultraLight))
-                .padding(.top, 10)
-        }
-        .padding(.horizontal, 30)
-        .padding(.vertical, 5)
     }
 }
 
 #Preview {
-    PasswordTextField(password: .constant(""), isAvailable: .constant(false)) {
-        
-    }
+    PasswordTextField(password: .constant(""), prompt: "비밀번호")
+        .padding(.horizontal, 30)
 }

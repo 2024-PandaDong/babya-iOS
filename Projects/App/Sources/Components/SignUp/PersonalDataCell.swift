@@ -60,7 +60,6 @@ struct PersonalDataCell: View {
         .sheet(isPresented: $isPresented) {
             Text(label)
         }
-        .padding(.horizontal, 30)
     }
 }
 

@@ -1,16 +1,15 @@
 //
-//  LocationView.swift
+//  SignUpLocationView.swift
 //  babya
 //
-//  Created by hyk on 8/29/24.
+//  Created by hyk on 9/12/24.
 //
 
 import SwiftUI
 
-struct LocationView: View {
+struct SignUpLocationView: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @EnvironmentObject var viewModel: PolicyViewModel
+    @EnvironmentObject var viewModel: SignUpViewModel
     
     let columns: [GridItem] = [
         GridItem(.flexible(), alignment: .leading),
@@ -78,17 +77,15 @@ struct LocationView: View {
             Button {
                 self.presentationMode.wrappedValue.dismiss()
                 
-                viewModel.regionCode = String(codeConverter(code: "\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)"))
+                viewModel.model.locationCode = String(codeConverter(code: "\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)"))
                 
-                print(viewModel.regionCode)
-                
-                viewModel.getPolicyList(region: viewModel.regionCode)
+                print(viewModel.model.locationCode)
             } label: {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 320, height: 45)
                     .foregroundStyle(Color.PrimaryLight)
                     .overlay {
-                        Text("검색하기")
+                        Text("확인")
                             .foregroundStyle(.white)
                     }
             }
@@ -100,6 +97,6 @@ struct LocationView: View {
 }
 
 #Preview {
-    LocationView()
-        .environmentObject(PolicyViewModel())
+    SignUpLocationView()
+        .environmentObject(SignUpViewModel())
 }

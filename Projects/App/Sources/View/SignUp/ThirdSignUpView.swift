@@ -1,14 +1,13 @@
 //
-//  SecondSignUpView.swift
+//  ThirdSignUpView.swift
 //  babya
 //
-//  Created by dgsw8th32 on 5/7/24.
-//  Copyright © 2024 kr.hs.dgsw.dongbao. All rights reserved.
+//  Created by hyk on 9/12/24.
 //
 
 import SwiftUI
 
-struct SecondSignUpView: View {
+struct ThirdSignUpView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: SignUpViewModel
@@ -19,42 +18,48 @@ struct SecondSignUpView: View {
                 Divider()
                 
                 Rectangle()
-                    .frame(width: geometry.size.width / 3, height: 2)
+                    .frame(width: geometry.size.width / 2, height: 2)
                     .foregroundStyle(Color.PrimaryNormal)
                 
                 Group {
-                    Text("이메일 & 비밀번호")
+                    Text("당신의 이름은?")
                         .font(.system(size: 20, weight: .bold))
                         .padding(.top, 50)
                     
-                    Text("인증한 이메일로 로그인을 할 수 있어요.")
-                        .font(.system(size: 14, weight: .medium))
-                        .padding(.vertical)
+                    SignUpTextField(content: $viewModel.model.nickName, placeholder: "ex) 박규민")
                     
-                    EmailTextFields(email: $viewModel.model.email, verifyCode: $viewModel.model.verifyCode, isAvailable: $viewModel.isEmailAvailable, isVerified: $viewModel.isEmailVerified, action1: viewModel.validateEmail, action2: viewModel.sendVerifyCode, action3: viewModel.verifyCode)
+                    Text("당신의 생일은?")
+                        .font(.system(size: 20, weight: .bold))
                     
-                    Divider()
-                        .padding(.vertical, 15)
+                    CustomDatePicker(target: $viewModel.model.birthDt)
                     
-                    PasswordTextField(password: $viewModel.model.pw1, prompt: "비밀번호")
-                    PasswordTextField(password: $viewModel.model.pw1, prompt: "비밀번호 확인")
-                        .padding(.vertical, 15)
+                    Text("당신의 결혼기념일은?")
+                        .font(.system(size: 20, weight: .bold))
+                    
+                    CustomDatePicker(target: $viewModel.model.marriedDt)
+                    
+                    Text("당신이 사는 지역은??")
+                        .font(.system(size: 20, weight: .bold))
+                    
+                    LocationPicker()
+                        .environmentObject(viewModel)
                 }
                 .padding(.horizontal, 20)
+                .padding(.vertical, 10)
                 
                 Spacer()
                 
-                NavigationLink(destination: ThirdSignUpView().environmentObject(viewModel)) {
+                NavigationLink(destination: FourthSignUpView().environmentObject(viewModel)) {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(maxWidth: .infinity, maxHeight: 50)
-                        .foregroundStyle(viewModel.isSecondSignUpAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
+                        .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50)
+                        .foregroundStyle(viewModel.isThirdSignUpAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
                         .overlay {
                             Text("다음으로")
                                 .foregroundStyle(.white)
                                 .font(.system(size: 16, weight: .bold))
                         }
                 }
-                .disabled(!viewModel.isSecondSignUpAvailable)
+                .disabled(!viewModel.isThirdSignUpAvailable)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 40)
             }
@@ -76,7 +81,7 @@ struct SecondSignUpView: View {
 
 #Preview {
     NavigationView {
-        SecondSignUpView()
+        ThirdSignUpView()
             .environmentObject(SignUpViewModel())
     }
 }
