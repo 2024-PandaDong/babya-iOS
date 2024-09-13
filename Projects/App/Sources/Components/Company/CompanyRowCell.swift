@@ -8,40 +8,52 @@
 import SwiftUI
 
 struct CompanyRowCell: View {
-    let rank: String
-    let image: String
     let title: String
+    let images: String
+    let address: String
     
     var body: some View {
-        Rectangle()
-            .frame(width: UIScreen.main.bounds.width, height: 65)
-            .foregroundStyle(.white)
-            .overlay {
-                HStack(spacing: 20) {
-                    Text(rank)
-                        .font(.system(size: 20, weight: .bold))
+        ZStack{
+            Rectangle()
+                .frame(maxWidth: .infinity)
+                .frame(height: 86)
+                .foregroundColor(.white)
+            
+            HStack(alignment: .center){
+                
+                VStack(alignment:.leading,spacing: 6){
+                    Text("\(title)")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.black)
                     
-                    AsyncImage(url: .init(string: ""))
-                    
-                    Text(title)
-                        .font(.system(size: 20, weight: .bold))
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: CompanyDetailView()) {
-                        Image(systemName: "arrow.right")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 20, weight: .bold))
+                    HStack(spacing: 2){
+                        Text(address)
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.LabelNeutral)
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal,5)
+                
+                Spacer()
+                RoundedRectangle(cornerRadius: 8)
+                    .frame(width: 60, height: 60)
+                    .foregroundStyle(.white)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
+                        if let imageUrl = URL(string: images){
+                            AsyncImage(url: imageUrl) { image in
+                                image
+                                    .resizable()
+                            } placeholder: {
+                                Image("dummy")
+                                    .resizable()
+                            }
+                            .frame(width: 60, height: 60)
+                            .cornerRadius(8, corners: .allCorners)
+                        }
+                    }
             }
-            .padding(.vertical, 5)
-    }
-}
-
-#Preview {
-    NavigationView {
-        CompanyRowCell(rank: "", image: "", title: "")
+            .padding(.horizontal,29)
+        }
     }
 }
