@@ -14,7 +14,6 @@ struct CompanySearchView: View {
     @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
     
     var body: some View {
-        NavigationStack{
             ZStack {
                 Color.white.ignoresSafeArea()
                 VStack(spacing: 0) {
@@ -63,7 +62,6 @@ struct CompanySearchView: View {
                 }
                 Spacer()
             }
-        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 VStack(alignment: .leading) {
