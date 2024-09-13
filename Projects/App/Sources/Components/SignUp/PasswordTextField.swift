@@ -13,7 +13,7 @@ struct PasswordTextField: View {
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .frame(maxWidth: .infinity, maxHeight: 55)
+            .frame(maxWidth: .infinity, minHeight: 55, maxHeight: 55)
             .foregroundStyle(.white)
             .overlay {
                 RoundedRectangle(cornerRadius: 10)

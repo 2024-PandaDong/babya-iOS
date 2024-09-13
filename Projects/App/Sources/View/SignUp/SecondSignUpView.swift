@@ -37,7 +37,7 @@ struct SecondSignUpView: View {
                         .padding(.vertical, 15)
                     
                     PasswordTextField(password: $viewModel.model.pw1, prompt: "비밀번호")
-                    PasswordTextField(password: $viewModel.model.pw1, prompt: "비밀번호 확인")
+                    PasswordTextField(password: $viewModel.model.pw2, prompt: "비밀번호 확인")
                         .padding(.vertical, 15)
                 }
                 .padding(.horizontal, 20)

@@ -31,6 +31,7 @@ struct FinalSignUpView: View {
                 
                 
                 Button {
+                    viewModel.signUp()
                     viewModel.rootActive = false
                 } label: {
                     RoundedRectangle(cornerRadius: 10)

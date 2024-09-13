@@ -21,7 +21,7 @@ struct EmailTextFields: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(maxWidth: .infinity, maxHeight: 55)
+                .frame(maxWidth: .infinity,minHeight: 55,  maxHeight: 55)
                 .foregroundStyle(.white)
                 .overlay {
                     RoundedRectangle(cornerRadius: 10)
@@ -61,7 +61,7 @@ struct EmailTextFields: View {
             
             if isClicked {
                 RoundedRectangle(cornerRadius: 10)
-                    .frame(maxWidth: .infinity, maxHeight: 55)
+                    .frame(maxWidth: .infinity,minHeight: 55, maxHeight: 55)
                     .foregroundStyle(.white)
                     .overlay {
                         RoundedRectangle(cornerRadius: 10)
@@ -80,9 +80,9 @@ struct EmailTextFields: View {
                             }, label: {
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(width: 55, height: 30)
-                                    .foregroundStyle(!isVerified ? Color.PrimaryNormal : .ComponentMaterialDimmer)
+                                    .foregroundStyle(!isVerified ? Color.PrimaryNormal : .green0)
                                     .overlay {
-                                        Text("인증")
+                                        Text(!isVerified ? "인증" : "완료")
                                             .foregroundStyle(.white)
                                             .font(.system(size: 15, weight: .bold))
                                     }
