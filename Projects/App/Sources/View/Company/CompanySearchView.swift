@@ -12,11 +12,12 @@ struct CompanySearchView: View {
     @State private var showingSheet = false
     @State var showLocationView: Bool = false
     @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
+    @StateObject var viewModel = PolicyViewModel.shared
     
     var body: some View {
             ZStack {
                 Color.white.ignoresSafeArea()
-                VStack(spacing: 0) {
+                VStack(alignment: .leading ,spacing: 0) {
                     VStack{
                         HStack {
                             Text("이윤채님의 지역")
@@ -25,22 +26,46 @@ struct CompanySearchView: View {
                             Spacer()
                             
                             Button {
-                                
+                                self.showLocationView = true
                             } label: {
                                 Text("편집하기")
                                     .foregroundStyle(Color.LabelAlternative)
                                     .font(.system(size: 11, weight: .medium))
                             }
                         }
-                        
-                        HStack(spacing: 12){
-                            CompanyFilter(isSelect: true, title: "대구광역시")
-                            CompanyFilter(isSelect: true, title: "달성군")
+                        .padding(.horizontal)
+
+                        HStack{
+                            if let state = viewModel.selectedState, !viewModel.selectedDistrict.isEmpty {
+                                HStack {
+                                    Capsule()
+                                        .frame(width: viewModel.calculateWidth(for: state.name), height: 25)
+                                        .foregroundStyle(.clear)
+                                        .overlay {
+                                            Capsule().stroke(Color.PrimaryLight)
+                                            
+                                            Text(state.name)
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundStyle(Color.PrimaryLight)
+                                        }
+                                    
+                                    Capsule()
+                                        .frame(width: viewModel.calculateWidth(for: viewModel.selectedDistrict), height: 25)
+                                        .foregroundStyle(.clear)
+                                        .overlay {
+                                            Capsule().stroke(Color.PrimaryLight)
+                                            
+                                            Text(viewModel.selectedDistrict)
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundStyle(Color.PrimaryLight)
+                                        }
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                            }
                             Spacer()
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical)
                     
                     Rectangle()
                         .frame(height: 5)
@@ -91,6 +116,10 @@ struct CompanySearchView: View {
             await vm.getCompany(pageRequest: PageRequest(page: 1, size: 10))
         }
         .navigationBarBackButtonHidden(true)
+        .sheet(isPresented: $showLocationView) {
+            LocationView()
+                .environmentObject(viewModel)
+        }
     }
 }
 

@@ -19,20 +19,6 @@ struct CompanyDetailView: View {
         ZStack(alignment:.bottom){
             ScrollView {
                 VStack {
-                    //                    TabView(selection: $currentIndex){
-                    //                        ForEach(0..<3, id: \.self) { index in
-                    //                            Image("dummy")
-                    //                                .resizable()
-                    //                                .aspectRatio(contentMode: .fill)
-                    //                                .frame(height: 190)
-                    //                                .frame(maxWidth: .infinity)
-                    //                                .clipped()
-                    //                                .ignoresSafeArea(edges: .top)
-                    //                        }
-                    //                    }
-                    //                    .frame(height: 190)
-                    //                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                    //                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                     if let imageUrl = URL(string: vm.companyInfo?.contentImg ?? "dummy"){
                         AsyncImage(url: imageUrl) { image in
                             image
@@ -44,23 +30,6 @@ struct CompanyDetailView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 190)
                     }
-//                        .overlay{
-//                            VStack{
-//                                Spacer()
-//                                HStack{
-//                                    Spacer()
-//                                    RoundedRectangle(cornerRadius: 10)
-//                                        .frame(width: 33,height: 21)
-//                                        .opacity(0.6)
-//                                        .padding(10)
-//                                        .overlay{
-//                                            Text("\(currentIndex + 1)/3")
-//                                                .foregroundStyle(Color.white)
-//                                                .font(.system(size: 12,weight: .medium))
-//                                        }
-//                                }
-//                            }
-//                        }
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text(vm.companyInfo?.name ?? "회사를 찾을 수 없음")
