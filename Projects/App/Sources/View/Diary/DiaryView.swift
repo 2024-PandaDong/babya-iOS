@@ -36,14 +36,14 @@ struct DiaryView : View {
                         }
                         Spacer()
                         
-                        TextField("원하는 정책을 입력해주세요", text: $TextVariable)
-                            .font(.system(size: 13))
-                            .padding(10)
-                            .background(Color.BackgroundStrong)
-                            .cornerRadius(10)
-                            .frame(height: 32)
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal)
+//                        TextField("원하는 정책을 입력해주세요", text: $TextVariable)
+//                            .font(.system(size: 13))
+//                            .padding(10)
+//                            .background(Color.BackgroundStrong)
+//                            .cornerRadius(10)
+//                            .frame(height: 32)
+//                            .frame(maxWidth: .infinity)
+//                            .padding(.horizontal)
                         
                         
                         Spacer()

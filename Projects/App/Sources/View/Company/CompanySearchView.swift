@@ -13,6 +13,7 @@ struct CompanySearchView: View {
     @State var showLocationView: Bool = false
     @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
     @StateObject var viewModel = PolicyViewModel.shared
+    @StateObject var profileVM = ProfileViewModel.shared
     
     var body: some View {
             ZStack {
@@ -20,7 +21,7 @@ struct CompanySearchView: View {
                 VStack(alignment: .leading ,spacing: 0) {
                     VStack{
                         HStack {
-                            Text("이윤채님의 지역")
+                            Text("\(profileVM.model.data.nickname)님의 지역")
                                 .font(.system(size: 16, weight: .semibold))
                             
                             Spacer()
@@ -114,6 +115,9 @@ struct CompanySearchView: View {
         }
         .task {
             await vm.getCompany(pageRequest: PageRequest(page: 1, size: 10))
+        }
+        .onAppear {
+            profileVM.getMyProfile()
         }
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showLocationView) {

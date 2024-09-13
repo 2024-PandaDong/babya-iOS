@@ -23,7 +23,10 @@ class PolicyViewModel: ObservableObject {
     
     func getPolicyList(region: String) {
         
-        AF.request("\(ApiContent.url)/policy?region=\(region)", method: .get, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
+        AF.request("\(ApiContent.url)/policy?region=\(region)", method: .get, encoding: JSONEncoding.default, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
+            .responseJSON { json in
+                print(json)
+            }
             .responseDecodable(of: Response<[PolicyListModel]>.self) { response in
                 switch response.result {
                 case .success(let result):

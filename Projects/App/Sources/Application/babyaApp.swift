@@ -13,11 +13,11 @@ struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-//                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
-//                    RootView()
-//                } else {
+                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
+                    RootView()
+                } else {
                     QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))
-//                }
+                }
             }
         }
     }

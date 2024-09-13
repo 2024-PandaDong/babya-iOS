@@ -11,6 +11,7 @@ struct HomeView: View {
     @StateObject var homeVM = HomeViewModel()
     @StateObject var policyVM = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
+    @StateObject var companyVM : CompanyViewModel = .init(companyService: RemoteCompanyService())
     
     var body: some View {
         ZStack {
@@ -37,9 +38,15 @@ struct HomeView: View {
                 
                 Divider()
                 
-                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
-                PolicyCell(title: "이승혁이승혁", location: "존잘",  editDate: "2007-12-02", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+                if !policyVM.model.isEmpty {
+                    ForEach(0..<3, id: \.self) { index in
+                        NavigationLink(
+                            destination: PolicyDetailView(index: policyVM.model[index].policyId)
+                        ) {
+                            PolicyCell(title: policyVM.model[index].title, location: "", editDate: policyVM.model[index].editDate, imgUrl: "")
+                        }
+                    }
+                }
                 
                 HStack {
                     Text("인기 있는 회사")
@@ -59,9 +66,14 @@ struct HomeView: View {
                 Divider()
                 
                 HStack(spacing: 15) {
-                    CompanyCell(title: "부영그룹", image: "")
-                    CompanyCell(title: "금호석유화학", image: "")
-                    CompanyCell(title: "Posco", image: "")
+                    ForEach(companyVM.companyList, id: \.companyId) { company in
+                        NavigationLink {
+                            CompanyDetailView(companyId: company.companyId)
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            CompanyCell(title: company.companyName, image: (company.logoImg.first ?? "dummy") ?? "dummy")
+                        }
+                    }
                 }
                 .padding(.top, 10)
                 
@@ -71,8 +83,12 @@ struct HomeView: View {
             CustomTabBar()
         }
         .navigationBarBackButtonHidden()
+        .task {
+            await companyVM.getCompany(pageRequest: PageRequest(page: 1, size: 3))
+        }
         .onAppear {
             profileVM.getMyProfile()
+            policyVM.getPolicyList(region: "104010")
         }
     }
 }
