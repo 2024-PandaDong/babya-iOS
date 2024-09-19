@@ -8,129 +8,182 @@
 import SwiftUI
 
 struct SignInView : View {
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showPassword: Bool = false
 
     @StateObject var vm : SignInViewModel
-    @StateObject var signUpViewModel = SignUpViewModel()
+    @EnvironmentObject var signUpViewModel : SignUpViewModel
     
     var body: some View {
-        ZStack{
-            Color.gray0.ignoresSafeArea()
-            circle()
-                .fill(Color.yellow)
-                .ignoresSafeArea()
+//        ZStack{
+//            Color.gray0.ignoresSafeArea()
+//            circle()
+//                .fill(Color.yellow)
+//                .ignoresSafeArea()
+//            
+//            VStack{
+//                HStack{
+//                    VStack(alignment: .leading, spacing : 5){
+//                        Text("애기야에 오신걸")
+//                            .bold()
+//                            .font(.system(size: 32))
+//                            .foregroundColor(.white)
+//                        Text("환영합니다")
+//                            .foregroundColor(.white)
+//                            .bold()
+//                            .font(.system(size: 32))
+//                        
+//                        Text("로그인 방식을 선택해 주세요")
+//                            .bold()
+//                            .foregroundColor(.white)
+//                            .font(.system(size: 16))
+//                            .padding(.vertical,23)
+//                        
+//                        Text("당신의 정보를 입력해주세요.")
+//                            .foregroundColor(Color.gray1)
+//                            .font(.system(size: 16))
+//                            .padding(.top,40)
+//                        
+//                    }
+//                    Spacer()
+//                }
+//                .padding([.horizontal, .top], 44)
+//                
+//                VStack(alignment: .leading) {
+//                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
+//                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
+//                }
+//                .padding(.top, 25)
+//                .padding(.horizontal, 40)
+//                
+//                Button{
+//                    self.hideKeyboard()
+//                    vm.is401Error = false
+//                    vm.is404Error = false
+//                    Task{
+//                         await vm.login(email: email,password:password)
+//                    }
+//                }label: {
+//                    ZStack{
+//                        Rectangle()
+//                            .frame(maxWidth : .infinity)
+//                            .frame(height: 54)
+//                            .foregroundColor(Color.yellow)
+//                            .cornerRadius(20)
+//                            .padding(.horizontal,40)
+//                            .cornerRadius(20)
+//                        
+//                        Text("로그인")
+//                            .foregroundColor(.white)
+//                            .font(.system(size: 20))
+//                    }
+//                }
+//                .padding(.top,45)
+//                
+//                HStack(spacing : 8){
+//                    Spacer()
+//                    Button{
+//                        
+//                    }label: {
+//                        Text("계정이 없으신가요?")
+//                            .foregroundColor(Color.gray1)
+//                            .font(.system(size: 12))
+//                    }
+//                    NavigationLink(isActive: $signUpViewModel.rootActive) {
+//                        FirstSignUpView()
+//                            .environmentObject(signUpViewModel)
+//                    } label: {
+//                        Text("회원가입")
+//                            .foregroundColor(Color.yellow1)
+//                            .font(.system(size: 12))
+//                    }
+//                    
+//                }
+//                .padding(.top,2)
+//                .padding(.horizontal,40)
+//                
+//                VStack(spacing: 5) {
+//                    SocialLoginButton(
+//                        imageName: "Google",
+//                        title: "Google 계정으로 로그인하기",
+//                        backgroundColor: .white,
+//                        textColor: .black,
+//                        action: {
+//                            
+//                        }
+//                    )
+//                    
+//                    SocialLoginButton(
+//                        imageName: "Apple",
+//                        title: "Apple 계정으로 로그인하기",
+//                        backgroundColor: .black,
+//                        textColor: .white,
+//                        action: {
+//                            
+//                        }
+//                    )
+//                }
+//                .padding(.top, 20)
+//                .padding(.horizontal, 40)
+//                
+//                Spacer()
+//            }
+//            
+//        }
+        VStack(alignment: .leading, spacing: 10) {
+            Text("애기야에 로그인하세요")
+                .font(.system(size: 20, weight: .medium))
+                .padding(.vertical)
             
-            VStack{
-                HStack{
-                    VStack(alignment: .leading, spacing : 5){
-                        Text("애기야에 오신걸")
-                            .bold()
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
-                        Text("환영합니다")
-                            .foregroundColor(.white)
-                            .bold()
-                            .font(.system(size: 32))
-                        
-                        Text("로그인 방식을 선택해 주세요")
-                            .bold()
-                            .foregroundColor(.white)
-                            .font(.system(size: 16))
-                            .padding(.vertical,23)
-                        
-                        Text("당신의 정보를 입력해주세요.")
-                            .foregroundColor(Color.gray1)
-                            .font(.system(size: 16))
-                            .padding(.top,40)
-                        
-                    }
-                    Spacer()
+//            HStack {
+//                Text("회원이 아니신가요?")
+//                
+//                NavigationLink(destination: Text("새 회원가입 뷰")) {
+//                    Text("회원가입하기")
+//                        .foregroundStyle(Color.PrimaryNormal)
+//                        .fontWeight(.medium)
+//                }
+//            }
+//            .font(.system(size: 13))
+//            .padding(.vertical)
+            
+            InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
+            
+            InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
+            
+            Button{
+                self.hideKeyboard()
+                vm.is401Error = false
+                vm.is404Error = false
+                Task{
+                    await vm.login(email: email,password:password)
                 }
-                .padding([.horizontal, .top], 44)
-                
-                VStack(alignment: .leading) {
-                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
-                    InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
-                }
-                .padding(.top, 25)
-                .padding(.horizontal, 40)
-                
-                Button{
-                    self.hideKeyboard()
-                    vm.is401Error = false
-                    vm.is404Error = false
-                    Task{
-                         await vm.login(email: email,password:password)
-                    }
-                }label: {
-                    ZStack{
-                        Rectangle()
-                            .frame(maxWidth : .infinity)
-                            .frame(height: 54)
-                            .foregroundColor(Color.yellow)
-                            .cornerRadius(20)
-                            .padding(.horizontal,40)
-                            .cornerRadius(20)
-                        
+                self.presentationMode.wrappedValue.dismiss()
+            } label: {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(maxWidth: .infinity, maxHeight: 55)
+                    .foregroundStyle(Color.PrimaryNormal)
+                    .overlay {
                         Text("로그인")
-                            .foregroundColor(.white)
-                            .font(.system(size: 20))
+                            .foregroundStyle(.white)
+                            .font(.system(size: 16, weight: .bold))
                     }
-                }
-                .padding(.top,45)
-                
-                HStack(spacing : 8){
-                    Spacer()
-                    Button{
-                        
-                    }label: {
-                        Text("계정이 없으신가요?")
-                            .foregroundColor(Color.gray1)
-                            .font(.system(size: 12))
-                    }
-                    NavigationLink(isActive: $signUpViewModel.rootActive) {
-                        FirstSignUpView()
-                            .environmentObject(signUpViewModel)
-                    } label: {
-                        Text("회원가입")
-                            .foregroundColor(Color.yellow1)
-                            .font(.system(size: 12))
-                    }
-                    
-                }
-                .padding(.top,2)
-                .padding(.horizontal,40)
-                
-                VStack(spacing: 5) {
-                    SocialLoginButton(
-                        imageName: "Google",
-                        title: "Google 계정으로 로그인하기",
-                        backgroundColor: .white,
-                        textColor: .black,
-                        action: {
-                            
-                        }
-                    )
-                    
-                    SocialLoginButton(
-                        imageName: "Apple",
-                        title: "Apple 계정으로 로그인하기",
-                        backgroundColor: .black,
-                        textColor: .white,
-                        action: {
-                            
-                        }
-                    )
-                }
-                .padding(.top, 20)
-                .padding(.horizontal, 40)
-                
-                Spacer()
             }
+            .padding(.top, 50)
             
+            Spacer()
         }
+        .padding(.horizontal, 30)
+        .padding(.vertical, 50)
+    }
+}
+
+#Preview {
+    NavigationView {
+        SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
     }
 }
 

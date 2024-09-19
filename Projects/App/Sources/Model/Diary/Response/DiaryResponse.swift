@@ -23,5 +23,5 @@ struct DiaryResponse : Decodable{
     let isPublic : String
     let files : [FilesResponse?]
     let memberId : String
-    let nickname : String
+    let nickname : String?
 }

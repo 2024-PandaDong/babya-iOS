@@ -137,7 +137,7 @@ struct DiaryWritingView : View {
                                     .overlay(alignment: .topLeading) {
                                         Text("아이의 상태는 어떤가요?")
                                             .font(.system(size: 14))
-                                            .foregroundStyle(title.isEmpty ? .gray : .clear)
+                                            .foregroundStyle(Opinion.isEmpty ? .gray : .clear)
                                     }
                                     .padding(.bottom,15)
                                 
@@ -147,7 +147,6 @@ struct DiaryWritingView : View {
                                 ScrollView {
                                     TextEditor(text: $Content)
                                         .frame(maxWidth:.infinity,minHeight: 55, maxHeight: .infinity)
-                                        .padding(.horizontal, -8)
                                         .padding(.vertical, -10)
                                         .font(.system(size: 14))
                                         .focused($isTextFieldFocused)

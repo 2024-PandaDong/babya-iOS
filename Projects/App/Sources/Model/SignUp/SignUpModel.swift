@@ -2,7 +2,8 @@ import Foundation
 
 struct SignUpModel: Codable {
     var email: String = ""
-    var pw: String = ""
+    var pw1: String = ""
+    var pw2: String = ""
     var nickName: String = ""
     var marriedDt: String = ""
     var pregnancyDt: String = ""
@@ -15,7 +16,7 @@ struct SignUpModel: Codable {
     var hasChild: Bool = false
     
     enum CodingKeys: String, CodingKey {
-        case email, pw, nickName, marriedDt, pregnancyDt, birthDt, locationCode, verifyCode, childList, birthList, isPregnant, hasChild
+        case email, pw1, nickName, marriedDt, pregnancyDt, birthDt, locationCode, verifyCode, childList, birthList, isPregnant, hasChild
     }
     
     var params: [String: Any] {
@@ -27,14 +28,13 @@ struct SignUpModel: Codable {
         
         return [
             "email": email,
-            "pw": pw,
+            "pw": pw1,
             "nickName": nickName,
             "marriedDt": marriedDt,
             "pregnancyDt": pregnancyDt,
             "birthDt": birthDt,
             "locationCode": locationCode,
             "pushToken" : "",
-            "verifyCode": verifyCode,
             "childList": combinedList
         ]
     }

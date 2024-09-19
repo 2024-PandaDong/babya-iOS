@@ -21,23 +21,23 @@ struct CustomTabBar: View {
                 HStack {
                     Spacer()
                     
-                    CustomTabButton(image: "map", title: "회사찾기", destination: CompanySearchView())
+                    CustomTabButton(image: "map", title: "회사찾기", destination: .company)
                     
                     Spacer()
                     
-                    CustomTabButton(image: "doc.on.doc", title: "정책조회", destination: PolicyView())
+                    CustomTabButton(image: "doc.on.clipboard", title: "정책정리", destination: .policy)
                     
                     Spacer()
                     
-                    CustomTabButton(image: "book", title: "산모일기", destination: DiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService())))
+                    CustomTabButton(image: "book", title: "산모일기", destination: .diary)
                     
                     Spacer()
                     
-                    CustomTabButton(image: "list.bullet", title: "투두리스트", destination: TodoListView().environmentObject(TodoViewModel()))
+                    CustomTabButton(image: "list.bullet", title: "투두리스트", destination: .todo)
                     
                     Spacer()
                     
-                    CustomTabButton(image: "person.circle", title: "프로필", destination: ProfileView())
+                    CustomTabButton(image: "person.circle", title: "프로필", destination: .profile)
                    
                     Spacer()
                 }

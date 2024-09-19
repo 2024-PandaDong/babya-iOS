@@ -9,73 +9,43 @@
 import SwiftUI
 
 struct LocationPicker: View {
-    @State var showDatePicker: Bool = false
-    @Binding var target: String
-    @State var selectedLocation: String = ""
-    
-    let locations: [String : String] = [
-        "서울특별시" : "11",
-        "부산광역시" : "21",
-        "대구광역시" : "22",
-        "인천광역시" : "23",
-        "대전광역시" : "24",
-        "광주광역시" : "25",
-        "울산광역시" : "26",
-        "세종특별시" : "29",
-        "경기도" : "31",
-        "강원도" : "32",
-        "충청북도" : "33",
-        "충청남도" : "34",
-        "전라북도" : "35",
-        "전라남도" : "36",
-        "경상북도" : "37",
-        "경상남도" : "38",
-        "제주특별자치도" : "39"
-    ]
+    @EnvironmentObject var viewModel: SignUpViewModel
+    @State var showLocationPicker: Bool = false
     
     var body: some View {
-        
-        VStack(alignment: .leading) {
-            Text("지역")
-                .fontWeight(.bold)
-                .padding(.vertical, 10)
+        RoundedRectangle(cornerRadius: 10)
+            .frame(maxWidth: .infinity, minHeight: 55, maxHeight: 55)
+            .foregroundStyle(.white)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.LineAlternative)
+                
+                HStack {
+                    Text("\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)")
+                        .font(.system(size: 16, weight: .semibold))
                     
-            HStack {
-                Text("\(selectedLocation)")
-                    .font(.system(size: 12, weight: .bold))
-                
-                Spacer()
-                
-                Button(action: {
-                    showDatePicker = true
-                }, label: {
-                    Image(systemName: "map")
-                        .foregroundStyle(.black)
-                })
-                .padding(.trailing, 10)
-                .sheet(isPresented: $showDatePicker, content: {
-                    Picker("", selection: $selectedLocation) {
-                        ForEach(locations.keys.sorted(), id: \.self) { key in
-                            Text(key)
-                        }
+                    Spacer()
+                    
+                    Button(action: {
+                        showLocationPicker = true
+                    }, label: {
+                        Image(systemName: "map")
+                            .foregroundStyle(Color.LabelDisable)
+                    })
+                    .padding(.trailing, 10)
+                    .sheet(isPresented: $showLocationPicker) {
+                        SignUpLocationView()
+                            .environmentObject(viewModel)
                     }
-                    .onChange(of: selectedLocation) { newValue in
-                        target = locations[newValue] ?? ""
-                        print(target)
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .presentationDetents([.fraction(0.35)])
-                })
+                    .foregroundStyle(.black)
+                }
+                .padding(.horizontal, 25)
+                .foregroundStyle(Color.LabelDisable)
             }
-                    
-            Rectangle()
-                .frame(width: 330, height: 1)
-                .foregroundStyle(Color(red: 203/255, green: 203/255, blue: 203/255))
-        }
-        .padding(.horizontal, 30)
     }
 }
 
 #Preview {
-    LocationPicker(target: .constant(""))
+    LocationPicker()
+        .environmentObject(SignUpViewModel())
 }
