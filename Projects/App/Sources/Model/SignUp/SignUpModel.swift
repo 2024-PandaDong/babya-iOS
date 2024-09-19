@@ -35,7 +35,6 @@ struct SignUpModel: Codable {
             "birthDt": birthDt,
             "locationCode": locationCode,
             "pushToken" : "",
-            "verifyCode": verifyCode,
             "childList": combinedList
         ]
     }
