@@ -15,10 +15,12 @@ struct CustomDatePicker: View {
     @State var date: Date = Date.now
     @State var showDatePicker: Bool = false
     @Binding var target: String
+    let prompt: String
     
-    init(target: Binding<String>) {
+    init(target: Binding<String>, prompt: String) {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         self._target = target
+        self.prompt = prompt
     }
     
     var body: some View {
@@ -30,7 +32,7 @@ struct CustomDatePicker: View {
                     .stroke(Color.LineAlternative)
                 
                 HStack {
-                    Text("\(dateFormatter.string(from: date))")
+                    Text("\(dateFormatter.string(from: date) == dateFormatter.string(from: Date.now) ? prompt : dateFormatter.string(from: date))")
                         .font(.system(size: 16, weight: .semibold))
                     
                     Spacer()
@@ -67,5 +69,5 @@ struct CustomDatePicker: View {
 
 
 #Preview {
-    CustomDatePicker(target: .constant(""))
+    CustomDatePicker(target: .constant(""), prompt: "플레이스홀더입니다.")
 }

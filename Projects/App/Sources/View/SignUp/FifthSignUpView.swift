@@ -32,7 +32,7 @@ struct FifthSignUpView: View {
                                     Spacer()
                                 }
                                 
-                                CustomDatePicker(target: $viewModel.model.pregnancyDt)
+                                CustomDatePicker(target: $viewModel.model.pregnancyDt, prompt: "태아를 가지게 된 날을 선택해주세요!")
                                 
                                 NameList(placeholder: "태아 이름을 입력해주세요.", target: $viewModel.model.birthList, isBirth: false)
                                     .padding(.top, 10)

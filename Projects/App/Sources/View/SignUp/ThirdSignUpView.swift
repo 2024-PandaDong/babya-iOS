@@ -31,12 +31,12 @@ struct ThirdSignUpView: View {
                     Text("당신의 생일은?")
                         .font(.system(size: 20, weight: .bold))
                     
-                    CustomDatePicker(target: $viewModel.model.birthDt)
+                    CustomDatePicker(target: $viewModel.model.birthDt, prompt: "당신의 생일은?")
                     
                     Text("당신의 결혼기념일은?")
                         .font(.system(size: 20, weight: .bold))
                     
-                    CustomDatePicker(target: $viewModel.model.marriedDt)
+                    CustomDatePicker(target: $viewModel.model.marriedDt, prompt: "당신의 결혼기념일은?")
                     
                     Text("당신이 사는 지역은??")
                         .font(.system(size: 20, weight: .bold))
