@@ -15,9 +15,9 @@ struct ProfileModel: Codable {
 
 struct MyData: Codable {
     var nickname: String = ""
-    var dDay: String?
+    var dDay: Int?
     var age: Int = 0
-    var marriedYears: String?
+    var marriedYears: Int = 0
     var children: [Childs?]?
     var profileImg: String?
 }

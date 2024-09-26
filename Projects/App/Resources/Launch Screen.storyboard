@@ -21,16 +21,23 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="u6V-Vx-Zcf">
-                                <rect key="frame" x="-10" y="0.0" width="412" height="876"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="RKx-y7-hdV">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo2" translatesAutoresizingMaskIntoConstraints="NO" id="GEW-ff-Umz">
+                                <rect key="frame" x="74" y="356" width="244" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="RKx-y7-hdV" secondAttribute="bottom" id="2ll-5J-W1V"/>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
+                            <constraint firstItem="RKx-y7-hdV" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="7Q0-N4-wcu"/>
+                            <constraint firstItem="RKx-y7-hdV" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="FEb-yh-UPR"/>
                             <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" symbolic="YES" id="SfN-ll-jLj"/>
+                            <constraint firstItem="RKx-y7-hdV" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="Why-AK-4av"/>
                             <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
                         </constraints>
                     </view>
@@ -42,5 +49,6 @@
     </scenes>
     <resources>
         <image name="launchScreen" width="360" height="800"/>
+        <image name="logo2" width="500" height="475"/>
     </resources>
 </document>

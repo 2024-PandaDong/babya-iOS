@@ -9,17 +9,30 @@ import SwiftUI
 
 struct CompanyCell: View {
     let title: String
+    let location: String
     let image: String
     
     var body: some View {
-        VStack(spacing: 10) {
+        HStack {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(title)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(.black)
+                
+                Text(location)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(Color.LabelAlternative)
+            }
+            
+            Spacer()
+            
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: 110, height: 110)
+                .frame(width: 60, height: 60)
                 .foregroundStyle(.white)
                 .overlay {
                     RoundedRectangle(cornerRadius: 10).stroke(.gray)
                     
-                    if image == nil {
+                    if image != nil {
                         AsyncImage(url: URL(string: image)) { image in
                             image
                                 .image?
@@ -32,14 +45,11 @@ struct CompanyCell: View {
                             .scaledToFit()
                     }
                 }
-            
-            Text("\(title)")
-                .font(.system(size: 14, weight: .bold))
-                .foregroundStyle(.black)
         }
+        .padding(.horizontal, 20)
     }
 }
 
 #Preview {
-    CompanyCell(title: "삼성전자", image: "")
+    CompanyCell(title: "삼성전자", location: "서울특별시 강동구 상일로6길 26 (상일동)", image: "")
 }

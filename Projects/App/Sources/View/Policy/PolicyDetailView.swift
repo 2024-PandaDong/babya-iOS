@@ -1,10 +1,3 @@
-//
-//  PolicyDetailView.swift
-//  babya
-//
-//  Created by hyk on 9/10/24.
-//
-
 import SwiftUI
 import RichText
 
