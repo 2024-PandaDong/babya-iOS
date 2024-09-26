@@ -12,9 +12,9 @@ struct PolicyView: View {
     @StateObject var viewModel = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
     @State var showLocationView: Bool = false
-    @State var selectedTab = "임신전"
-    
-    let choices = ["임신전", "임신중", "출산후"]
+//    @State var selectedTab = "임신전"
+//    
+//    let choices = ["임신전", "임신중", "출산후"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -92,7 +92,10 @@ struct PolicyView: View {
                     NavigationLink(
                         destination: PolicyDetailView(index: viewModel.model[index].policyId)
                     ) {
-                        PolicyCell(title: viewModel.model[index].title, location: "\(((viewModel.selectedState?.name) != nil) ? viewModel.selectedState!.name : "") \(viewModel.selectedDistrict)", editDate: viewModel.model[index].editDate, imgUrl: "")
+                        PolicyCell(
+                            title: viewModel.model[index].title,
+                            location: "\(((viewModel.selectedState?.name) != nil) ? viewModel.selectedState!.name : "") \(viewModel.selectedDistrict)",
+                            editDate: viewModel.model[index].editDate, imgUrl: "")
                     }
                 }
             }

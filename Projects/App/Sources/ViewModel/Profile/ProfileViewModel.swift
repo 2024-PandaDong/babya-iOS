@@ -10,6 +10,7 @@ import Alamofire
 
 class ProfileViewModel: ObservableObject {
     @Published var model = ProfileModel()
+    @Published var myRegion = RegionModel()
     @Published var myPost = MyPostResponse()
     @Published var myDiary = MyDiaryResponse()
     
@@ -23,9 +24,6 @@ class ProfileViewModel: ObservableObject {
         ]
         
         AF.request(url, method: .get, headers: headers)
-            .responseJSON { json in
-                print(json)
-            }
             .responseDecodable(of: ProfileModel.self) { response in
                 switch response.result {
                 case .success(let data):
@@ -34,6 +32,27 @@ class ProfileViewModel: ObservableObject {
                     print("Error: \(error.localizedDescription)")
                 }
             }
+    }
+    
+    func getMyRegion() {
+        AF.request(
+            "\(ApiContent.url)/member/lc",
+            method: .get,
+            headers: [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .accept("application/json")
+            ]
+        )
+        .responseDecodable(of: RegionModel.self) { response in
+            switch response.result {
+            case .success(let data):
+                self.myRegion = data
+                regionConverter(code: "\(data.data)")
+                PolicyViewModel.shared.getPolicyList(region: "\(data.data)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func getMyDiary(page: Int, size: Int) {

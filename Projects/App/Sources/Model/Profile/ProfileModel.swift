@@ -53,3 +53,9 @@ struct MyPostResponseData: Codable {
     var title: String = ""
     var createdAt: String = ""
 }
+
+struct RegionModel: Codable {
+    var status: Int = 0
+    var message: String = ""
+    var data: String = ""
+}

@@ -69,7 +69,10 @@ struct HomeView: View {
                         NavigationLink(
                             destination: PolicyDetailView(index: policyVM.model[index].policyId)
                         ) {
-                            PolicyCell(title: policyVM.model[index].title, location: "", editDate: policyVM.model[index].editDate, imgUrl: "")
+                            PolicyCell(
+                                title: policyVM.model[index].title,
+                                location: "\(((policyVM.selectedState?.name) != nil) ? policyVM.selectedState!.name : "") \(policyVM.selectedDistrict)",
+                                editDate: policyVM.model[index].editDate, imgUrl: "")
                                 .padding(.horizontal)
                         }
                     }
@@ -87,7 +90,7 @@ struct HomeView: View {
         .ignoresSafeArea()
         .onAppear {
             profileVM.getMyProfile()
-            policyVM.getPolicyList(region: "104010")
+            profileVM.getMyRegion()
         }
     }
 }
