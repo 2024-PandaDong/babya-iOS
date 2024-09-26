@@ -10,35 +10,32 @@ import SwiftUI
 
 struct SignUpTextField: View {
     
-    
-    let title: String
     @Binding var content: String
     let placeholder: String
-    let action: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .fontWeight(.bold)
-            
-            TextField("", text: $content, prompt: Text(placeholder).font(.system(size: 14, weight: .semibold)))
-                .tint(.yellow)
-                .textInputAutocapitalization(.never)
-                .onSubmit {
-                    print(content)
+        RoundedRectangle(cornerRadius: 10)
+            .frame(maxWidth: .infinity, minHeight: 55, maxHeight: 55)
+            .foregroundStyle(.white)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.LineAlternative)
+                
+                HStack(alignment: .center) {
+                    VStack {
+                        TextField("", text: $content, prompt: Text(placeholder).font(.system(size: 16, weight: .semibold)))
+                            .frame(width: 230)
+                            .tint(Color.PrimaryNormal)
+                            .textInputAutocapitalization(.never)
+                    }
+                    .padding(.horizontal, 20)
+                    
+                    Spacer()
                 }
-            
-            Rectangle()
-                .frame(width: 330, height: 1)
-                .foregroundStyle(Color(red: 203/255, green: 203/255, blue: 203/255))
-        }
-        .padding(.horizontal, 30)
-        .padding(.vertical, 5)
+            }
     }
 }
 
 #Preview {
-    SignUpTextField(title: "", content: .constant(""), placeholder: "") {
-        
-    }
+    SignUpTextField(content: .constant(""), placeholder: "안녕안녕")
 }

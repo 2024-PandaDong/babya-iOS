@@ -19,11 +19,23 @@ struct CompanyCell: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 10).stroke(.gray)
                     
-                    Image("\(image)")
+                    if image == nil {
+                        AsyncImage(url: URL(string: image)) { image in
+                            image
+                                .image?
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    } else {
+                        Image("dummy")
+                            .resizable()
+                            .scaledToFit()
+                    }
                 }
             
             Text("\(title)")
-                .font(.system(size: 14, weight: .black))
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.black)
         }
     }
 }

@@ -19,18 +19,49 @@ class SignUpViewModel: ObservableObject {
     @Published var hasSpecialChar = false
     @Published var isPwAvailable = false
     @Published var isEmailVerified = false
+    @Published var selectedState: LocalCode? = .none
+    @Published var selectedDistrict: String = ""
+    @Published var familyType = 0
     @Published var rootActive: Bool = false
     
-    var isFirstSignUpAvailable: Bool {
-        get {
-            return isEmailVerified && isPwAvailable && !model.nickName.isEmpty && !model.birthDt.isEmpty && !model.locationCode.isEmpty
-        }
+    func calculateWidth(for text: String) -> CGFloat {
+        return CGFloat(text.count * 10 + 30)
     }
-    var isSecondSignUpAvailable: Bool {
+
+    var isFirstSignUpAvailable: Bool {
         get {
             return personalModel[0].isBoxClicked && personalModel[1].isBoxClicked && personalModel[2].isBoxClicked
         }
     }
+    
+    var isSecondSignUpAvailable: Bool {
+        get {
+            return isEmailVerified && model.pw1 == model.pw2
+        }
+    }
+
+    var isThirdSignUpAvailable: Bool {
+        get {
+            return !model.nickName.isEmpty && !model.birthDt.isEmpty && !model.marriedDt.isEmpty && !model.locationCode.isEmpty
+        }
+    }
+    
+    var isFifthSignUpAvailable: Bool {
+        get {
+            var isAvailable = false
+            
+            if self.familyType == 2 {
+                isAvailable = !model.pregnancyDt.isEmpty && !model.birthList.isEmpty
+            } else if self.familyType == 3 {
+                isAvailable = !model.childList.isEmpty
+            } else if self.familyType == 4 {
+                isAvailable = !model.pregnancyDt.isEmpty && !model.birthList.isEmpty && !model.childList.isEmpty
+            }
+            
+            return isAvailable
+        }
+    }
+
     
     init() {
         personalModel = [
@@ -134,7 +165,7 @@ class SignUpViewModel: ObservableObject {
     }
     
     func validatePassword() {
-        let password = model.pw
+        let password = model.pw1
         
         hasOverSixLetter = password.count >= 6
         

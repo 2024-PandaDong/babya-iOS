@@ -27,6 +27,9 @@ class HomeViewModel: ObservableObject {
         guard let url = urlComponents.url else { return }
         
         AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
+            .responseJSON { json in
+                print(json)
+            }
             .responseDecodable(of: BannerResponse.self) { response in
                 switch response.result {
                 case .success(let data):

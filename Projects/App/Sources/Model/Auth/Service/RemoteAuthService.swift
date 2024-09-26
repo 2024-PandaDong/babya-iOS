@@ -18,9 +18,6 @@ final class RemoteAuthService: AuthService {
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(ApiContent.url + loginUrl, method: .post, parameters: loginRequest, encoder: JSONParameterEncoder.default)
-                .responseJSON { json in
-                    print(json)
-                }
                 .responseDecodable(of: Response<LoginResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
