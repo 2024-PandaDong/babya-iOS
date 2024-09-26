@@ -21,12 +21,9 @@ class PolicyViewModel: ObservableObject {
         return CGFloat(text.count * 10 + 30)
     }
     
-    func getPolicyList(region: String) {
+    func getPolicyList(region: String, keyword: String) {
         
-        AF.request("\(ApiContent.url)/policy?region=\(region)", method: .get, encoding: JSONEncoding.default, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
-            .responseJSON { json in
-                print(json)
-            }
+        AF.request("\(ApiContent.url)/policy?region=\(region)&keyword=\(keyword)", method: .get, encoding: JSONEncoding.default, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
             .responseDecodable(of: Response<[PolicyListModel]>.self) { response in
                 switch response.result {
                 case .success(let result):

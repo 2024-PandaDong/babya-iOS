@@ -11,6 +11,7 @@ struct LocationView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: PolicyViewModel
+    @StateObject var profileVM = ProfileViewModel.shared
     
     let columns: [GridItem] = [
         GridItem(.flexible(), alignment: .leading),
@@ -82,7 +83,7 @@ struct LocationView: View {
                 
                 print(viewModel.regionCode)
                 
-                viewModel.getPolicyList(region: viewModel.regionCode)
+                viewModel.getPolicyList(region: viewModel.regionCode, keyword: "")
             } label: {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 320, height: 45)

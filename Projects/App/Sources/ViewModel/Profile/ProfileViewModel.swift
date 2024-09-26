@@ -48,7 +48,8 @@ class ProfileViewModel: ObservableObject {
             case .success(let data):
                 self.myRegion = data
                 regionConverter(code: "\(data.data)")
-                PolicyViewModel.shared.getPolicyList(region: "\(data.data)")
+                print("나의 지역: \(data.data)")
+                PolicyViewModel.shared.getPolicyList(region: "\(data.data)", keyword: "")
             case .failure(let error):
                 print(error.localizedDescription)
             }

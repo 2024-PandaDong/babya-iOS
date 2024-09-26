@@ -126,7 +126,7 @@ struct PolicyView: View {
         }
         .tint(.black)
         .onAppear {
-            viewModel.getPolicyList(region: "104010")
+            profileVM.getMyRegion()
         }
     }
 }

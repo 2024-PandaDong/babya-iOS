@@ -73,9 +73,6 @@ struct CustomPicker: View {
                                 ProgressView()
                             }
                             .frame(height: 250)
-                            .onAppear {
-                                print(fileURLString)
-                            }
                         }
                     } else {
                         RoundedRectangle(cornerRadius: 10)
