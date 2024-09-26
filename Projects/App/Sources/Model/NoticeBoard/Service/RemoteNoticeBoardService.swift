@@ -13,7 +13,7 @@ final class RemoteNoticeBoardService: NoticeBoardService {
     func getCommentPost(pageRequest: PageRequest, postId: Int) async throws -> Response<[CommentResponse]> {
         let url = "/post/comment?page=\(pageRequest.page)&size=\(pageRequest.size)&postId=\(postId)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseJSON { json in
                     print(json)
                 }
@@ -33,7 +33,7 @@ final class RemoteNoticeBoardService: NoticeBoardService {
         let url = "/post/comment"
 
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default, interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url, method: .post, parameters: request, encoder: JSONParameterEncoder.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseJSON { json in
                     print("Raw JSON response: \(json)")
                 }
@@ -52,7 +52,7 @@ final class RemoteNoticeBoardService: NoticeBoardService {
     func deleteCommentPost(id: Int) async throws -> baseResponse {
         let url = "/post/\(id)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + url,method: .delete,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .delete,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseDecodable(of: baseResponse.self){ response in
                     switch response.result {
                     case .success(let responseData):
@@ -68,7 +68,7 @@ final class RemoteNoticeBoardService: NoticeBoardService {
     func getPostSubComment(pageRequest: PageRequest, parentId: Int) async throws -> Response<[SubCommentResponse]> {
         let url = "/post/sub-comment?page=\(pageRequest.page)&size=\(pageRequest.size)&parentId=\(parentId)"
         return try await withCheckedThrowingContinuation {continuation in
-            AF.request(ApiContent.url + url,method:.get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method:.get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseJSON { json in
                     print(json)
                 }

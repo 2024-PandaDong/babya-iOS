@@ -13,7 +13,7 @@ final class RemoteQuizService: QuizService {
     func getQuiz() async throws -> Response<QuizResponse>{
         let url = "/quiz"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + url,method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseDecodable(of: Response<QuizResponse>.self){ response in
                     switch response.result {
                     case .success(let responseData):
