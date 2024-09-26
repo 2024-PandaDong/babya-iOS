@@ -22,6 +22,7 @@ struct CompanyCell: View {
                 Text(location)
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(Color.LabelAlternative)
+                    .multilineTextAlignment(.leading)
             }
             
             Spacer()

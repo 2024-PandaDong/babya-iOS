@@ -30,6 +30,7 @@ struct CompanyRowCell: View {
                         Text(address)
                             .font(.system(size: 14))
                             .foregroundStyle(Color.LabelNeutral)
+                            .multilineTextAlignment(.leading)
                     }
                 }
                 .padding(.horizontal,5)
