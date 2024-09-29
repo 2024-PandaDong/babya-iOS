@@ -28,24 +28,31 @@ final class MyRequestInterceptor: RequestInterceptor {
             completion(.doNotRetryWithError(error))
             return
         }
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, !url.absoluteString.contains("refresh") else {
-            completion(.doNotRetryWithError(error))
-            return
-        }
+        print("URL String: \(url.absoluteString)")
+//        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, !url.absoluteString.contains("refresh") else {
+//            completion(.doNotRetryWithError(error))
+//            return
+//        }
         
-        let refreshToken = LoginUserHashCache.shared.checkAccessToken()
+        let refreshToken = LoginUserHashCache.shared.checkRefreshToken()
         
         print("리프레시 토큰 :\(String(describing: refreshToken))")
         
         Task {
             do {
                 let response = try await authService.reissue(refreshToken: refreshToken ?? "")
-                LoginUserHashCache.shared.storeAccessToken(value: response.data?.accessToken ?? "")
+                print(response)
+                guard let accessToken = response.data?.accessToken else {
+                    completion(.doNotRetryWithError(NSError(domain: "AuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Access token is missing"])))
+                    return
+                }
+                
+                LoginUserHashCache.shared.storeAccessToken(value: accessToken)
                 completion(.retry)
             } catch {
+                print("error")
                 completion(.doNotRetryWithError(error))
             }
         }
     }
 }
-
