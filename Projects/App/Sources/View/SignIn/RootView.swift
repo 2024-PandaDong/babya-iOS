@@ -12,7 +12,7 @@ struct RootView: View {
     @State var showLogin: Bool = false
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 25) {
             Image("logo")
             
             Text("애기야에 오신 것을 환영합니다.")
@@ -22,8 +22,12 @@ struct RootView: View {
                 .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(Color.LabelAlternative)
                 .multilineTextAlignment(.center)
+                .padding(.vertical)
             
             Image("mockup")
+            
+            Spacer()
+                .frame(height: 10)
             
             NavigationLink(destination: FirstSignUpView().environmentObject(viewModel), isActive: $viewModel.rootActive) {
                 RoundedRectangle(cornerRadius: 10)
@@ -35,6 +39,7 @@ struct RootView: View {
                             .font(.system(size: 16, weight: .bold))
                     }
             }
+            .padding(.top, 30)
             
             HStack {
                 Text("이미 회원이십니까?")
