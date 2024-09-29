@@ -17,13 +17,11 @@ class ProfileViewModel: ObservableObject {
     static let shared = ProfileViewModel()
     
     func getMyProfile() {
-        let url = "\(ApiContent.url)/member/profile/my"
-        let headers: HTTPHeaders = [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ]
-        
-        AF.request(url, method: .get, headers: headers)
+        AF.request(
+            "\(ApiContent.url)/member/profile/my",
+            method: .get,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
             .responseDecodable(of: ProfileModel.self) { response in
                 switch response.result {
                 case .success(let data):
@@ -38,10 +36,7 @@ class ProfileViewModel: ObservableObject {
         AF.request(
             "\(ApiContent.url)/member/lc",
             method: .get,
-            headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-            ]
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
         .responseDecodable(of: RegionModel.self) { response in
             switch response.result {
@@ -60,57 +55,54 @@ class ProfileViewModel: ObservableObject {
         AF.request(
             "\(ApiContent.url)/member/withdraw",
             method: .delete,
-            headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-            ]
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
         .responseJSON { json in
             print(json)
         }
     }
     
-    func getMyDiary(page: Int, size: Int) {
-        let url = "\(ApiContent.url)/diary/my/profile"
-        let params: [String : Any] = [
-            "page" : page,
-            "size" : size,
-        ]
-        let headers: HTTPHeaders = [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ]
-        
-        AF.request(url, method: .get, parameters: params, headers: headers)
-            .responseDecodable(of: MyDiaryResponse.self) { response in
-                switch response.result {
-                case .success(let data):
-                    self.myDiary = data
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
-            }
-    }
-    
-    func getMyPosts(page: Int, size: Int) {
-        let url = "\(ApiContent.url)/post/my"
-        let params: [String : Any] = [
-            "page" : page,
-            "size" : size,
-        ]
-        let headers: HTTPHeaders = [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ]
-        
-        AF.request(url, method: .get, parameters: params, headers: headers)
-            .responseDecodable(of: MyPostResponse.self) { response in
-                switch response.result {
-                case .success(let data):
-                    self.myPost = data
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
-            }
-    }
+//    func getMyDiary(page: Int, size: Int) {
+//        let url = "\(ApiContent.url)/diary/my/profile"
+//        let params: [String : Any] = [
+//            "page" : page,
+//            "size" : size,
+//        ]
+//        let headers: HTTPHeaders = [
+//            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+//            .accept("application/json")
+//        ]
+//        
+//        AF.request(url, method: .get, parameters: params, headers: headers)
+//            .responseDecodable(of: MyDiaryResponse.self) { response in
+//                switch response.result {
+//                case .success(let data):
+//                    self.myDiary = data
+//                case .failure(let error):
+//                    print("Error: \(error.localizedDescription)")
+//                }
+//            }
+//    }
+//    
+//    func getMyPosts(page: Int, size: Int) {
+//        let url = "\(ApiContent.url)/post/my"
+//        let params: [String : Any] = [
+//            "page" : page,
+//            "size" : size,
+//        ]
+//        let headers: HTTPHeaders = [
+//            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+//            .accept("application/json")
+//        ]
+//        
+//        AF.request(url, method: .get, parameters: params, headers: headers)
+//            .responseDecodable(of: MyPostResponse.self) { response in
+//                switch response.result {
+//                case .success(let data):
+//                    self.myPost = data
+//                case .failure(let error):
+//                    print("Error: \(error.localizedDescription)")
+//                }
+//            }
+//    }
 }

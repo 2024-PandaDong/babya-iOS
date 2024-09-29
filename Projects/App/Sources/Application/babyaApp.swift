@@ -16,7 +16,7 @@ struct babyaApp: App {
 //                SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
 //            }
             NavigationView {
-                if (LoginUserHashCache.shared.checkAccessToken() != nil) {
+                if (LoginUserHashCache.shared.checkAccessToken() == nil) {
                     RootView()
                 } else {
                     QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))

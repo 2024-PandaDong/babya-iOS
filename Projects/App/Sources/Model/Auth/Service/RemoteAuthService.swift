@@ -32,7 +32,7 @@ final class RemoteAuthService: AuthService {
         let reissueRequest = ReissueRequest(refreshToken: refreshToken)
         let reissueUrl = "/auth/reissue"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(ApiContent.url + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default, interceptor: MyRequestInterceptor())
+            AF.request(ApiContent.url + reissueUrl, method: .post, parameters: reissueRequest, encoder: JSONParameterEncoder.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseDecodable(of: Response<ReissueResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):

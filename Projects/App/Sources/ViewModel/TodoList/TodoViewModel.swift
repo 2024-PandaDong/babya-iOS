@@ -44,10 +44,11 @@ class TodoViewModel: ObservableObject {
         var urlComponents = URLComponents(string: "\(ApiContent.url)/todo")!
         urlComponents.queryItems = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
         
-        AF.request(urlComponents.url ?? "", method: .get, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ])
+        AF.request(
+            urlComponents.url ?? "",
+            method: .get,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .responseDecodable(of: TodoResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -61,10 +62,11 @@ class TodoViewModel: ObservableObject {
     }
     
     func getCategory() {
-        AF.request("\(ApiContent.url)/todo/category", method: .get, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ])
+        AF.request(
+            "\(ApiContent.url)/todo/category",
+            method: .get,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .responseDecodable(of: CategoryResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -76,10 +78,13 @@ class TodoViewModel: ObservableObject {
     }
     
     func postTodo() {
-        AF.request("\(ApiContent.url)/todo", method: .post, parameters: model.params, encoding: JSONEncoding.default, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ])
+        AF.request(
+            "\(ApiContent.url)/todo",
+            method: .post,
+            parameters: model.params,
+            encoding: JSONEncoding.default,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .response { response in
             switch response.result {
             case .success(_):
@@ -91,8 +96,11 @@ class TodoViewModel: ObservableObject {
     }
     
     func deleteTodo(id: Int) {
-        AF.request("\(ApiContent.url)/todo/\(id)", method: .delete, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken)])
+        AF.request(
+            "\(ApiContent.url)/todo/\(id)",
+            method: .delete,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .validate()
         .responseJSON { json in
             print(json)
@@ -115,10 +123,13 @@ class TodoViewModel: ObservableObject {
             "planedDt": planedDt
         ]
         
-        AF.request("\(ApiContent.url)/todo", method: .patch, parameters: params, encoding: JSONEncoding.default, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ])
+        AF.request(
+            "\(ApiContent.url)/todo",
+            method: .patch,
+            parameters: params,
+            encoding: JSONEncoding.default,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .responseJSON { json in
             print(json)
         }
@@ -142,10 +153,12 @@ class TodoViewModel: ObservableObject {
         var urlComponents = URLComponents(string: "\(ApiContent.url)/todo/check")!
         urlComponents.queryItems = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
         
-        AF.request(urlComponents ?? "", method: .patch, encoding: JSONEncoding.default, headers: [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ])
+        AF.request(
+            urlComponents ?? "",
+            method: .patch,
+            encoding: JSONEncoding.default,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
         .responseJSON { json in
             print(json)
         }
@@ -160,10 +173,8 @@ class TodoViewModel: ObservableObject {
     }
     
     private func updateUniqueDates() {
-        
         let allDates = todoResponse.data.map { $0.planedDt }
         self.uniqueDates = Array(Set(allDates)).sorted()
-        
     }
     
 }

@@ -23,7 +23,12 @@ class PolicyViewModel: ObservableObject {
     
     func getPolicyList(region: String, keyword: String) {
         
-        AF.request("\(ApiContent.url)/policy?region=\(region)&keyword=\(keyword)", method: .get, encoding: JSONEncoding.default, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
+        AF.request(
+            "\(ApiContent.url)/policy?region=\(region)&keyword=\(keyword)",
+            method: .get,
+            encoding: JSONEncoding.default,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
             .responseDecodable(of: Response<[PolicyListModel]>.self) { response in
                 switch response.result {
                 case .success(let result):
@@ -37,7 +42,11 @@ class PolicyViewModel: ObservableObject {
     }
     
     func getPolicyDetail(index: Int) {
-        AF.request("\(ApiContent.url)/policy/\(index)", method: .get, headers: [.authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken), .accept("application/json")])
+        AF.request(
+            "\(ApiContent.url)/policy/\(index)",
+            method: .get,
+            interceptor: MyRequestInterceptor(authService: RemoteAuthService())
+        )
             .responseDecodable(of: Response<PolicyDetailModel>.self) { response in
                 switch response.result {
                 case .success(let result):

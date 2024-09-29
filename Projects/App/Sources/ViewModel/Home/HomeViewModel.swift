@@ -16,17 +16,13 @@ class HomeViewModel: ObservableObject {
         let params: [String : Any] = [
             "type": type
         ]
-        let headers: HTTPHeaders = [
-            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-            .accept("application/json")
-        ]
         
         var urlComponents = URLComponents(string: "\(ApiContent.url)/banner/my")!
         urlComponents.queryItems = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
                 
         guard let url = urlComponents.url else { return }
         
-        AF.request(url, method: .get, encoding: URLEncoding.default, headers: headers)
+        AF.request(url, method: .get, encoding: URLEncoding.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
             .responseDecodable(of: BannerResponse.self) { response in
                 switch response.result {
                 case .success(let data):

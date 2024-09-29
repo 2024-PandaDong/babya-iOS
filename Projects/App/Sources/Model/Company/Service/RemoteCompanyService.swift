@@ -13,7 +13,7 @@ final class RemoteCompanyService : CompanyService{
     func getDetailCompany(Id: Int) async throws -> Response<CompanyDetailResponse> {
         let url = "/company/\(Id)"
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor())
+            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseDecodable(of: Response<CompanyDetailResponse>.self) { response in
                     switch response.result {
                     case .success(let responseData):
@@ -29,7 +29,7 @@ final class RemoteCompanyService : CompanyService{
         let url = "/company?page=\(pageRequest.page)&size=\(pageRequest.size)"
         
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor())
+            AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
                 .responseDecodable(of: Response<[CompanyResponse]>.self) { response in
                     switch response.result {
                     case .success(let responseData):
