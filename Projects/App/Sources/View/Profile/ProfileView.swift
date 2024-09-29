@@ -117,7 +117,7 @@ struct ProfileView: View {
                 .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
             
             OutingCell(title: "로그아웃") {
-                
+                LoginUserHashCache.shared.logout()
             }
             
             OutingCell(title: "회원탈퇴") {
