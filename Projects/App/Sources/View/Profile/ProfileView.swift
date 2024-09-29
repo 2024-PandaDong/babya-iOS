@@ -87,8 +87,8 @@ struct ProfileView: View {
                 .frame(height: 10)
                 .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
             
-            LinkCell(title: "약관 및 개인정보 처리 동의", link: "www.youtube.com", isLast: false)
-            LinkCell(title: "개인정보 처리 방침", link: "www.google.com", isLast: true)
+            TermsCell(title: "약관 및 개인정보 처리 동의", link: "https://www.apple.com/kr/", isLast: false)
+            TermsCell(title: "개인정보 처리 방침", link: "https://developer.apple.com", isLast: true)
             
             Rectangle()
                 .frame(height: 10)
