@@ -56,6 +56,20 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
+    func withdraw() {
+        AF.request(
+            "\(ApiContent.url)/member/withdraw",
+            method: .delete,
+            headers: [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .accept("application/json")
+            ]
+        )
+        .responseJSON { json in
+            print(json)
+        }
+    }
+    
     func getMyDiary(page: Int, size: Int) {
         let url = "\(ApiContent.url)/diary/my/profile"
         let params: [String : Any] = [

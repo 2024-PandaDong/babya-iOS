@@ -121,7 +121,7 @@ struct ProfileView: View {
             }
             
             OutingCell(title: "회원탈퇴") {
-                
+                viewModel.withdraw()
             }
             
             
