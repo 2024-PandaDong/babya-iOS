@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct DetailDiaryView : View {
+    @GestureState private var dragOffset = CGSize.zero
     @State var inputText : String = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var vm : DiaryViewModel
@@ -158,6 +159,11 @@ struct DetailDiaryView : View {
                     })
                 }
             }
+            .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+                if (value.startLocation.x < 30 && value.translation.width > 100) {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            })
         } else {
             // Fallback on earlier versions
         }

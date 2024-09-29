@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CompanySearchView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     @State private var showingSheet = false
     @State var showLocationView: Bool = false
@@ -124,6 +125,11 @@ struct CompanySearchView: View {
             LocationView()
                 .environmentObject(viewModel)
         }
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }
 

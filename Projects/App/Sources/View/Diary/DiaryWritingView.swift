@@ -8,6 +8,7 @@
 
 import SwiftUI
 struct DiaryWritingView : View {
+    @GestureState private var dragOffset = CGSize.zero
     @State var lock : Bool = true
     @State var title : String
     var PostName : String
@@ -294,6 +295,11 @@ struct DiaryWritingView : View {
                 updateFormattedDate()
             }
         }
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
     private func updateFormattedDate() {
         let formatter = DateFormatter()

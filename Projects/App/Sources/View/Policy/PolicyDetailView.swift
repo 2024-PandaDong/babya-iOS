@@ -2,6 +2,7 @@ import SwiftUI
 import RichText
 
 struct PolicyDetailView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject var policyVM = PolicyViewModel.shared
@@ -106,6 +107,11 @@ struct PolicyDetailView: View {
             policyVM.getPolicyDetail(index: index)
             print("index: \(index)")
         }
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }
 

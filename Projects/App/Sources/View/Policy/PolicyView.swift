@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PolicyView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
@@ -128,6 +129,11 @@ struct PolicyView: View {
         .onAppear {
             profileVM.getMyRegion()
         }
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }
 

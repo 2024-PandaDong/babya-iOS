@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CompanyDetailView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     var companyId: Int
     @StateObject var vm : CompanyViewModel = .init(companyService: RemoteCompanyService())
@@ -146,5 +147,10 @@ struct CompanyDetailView: View {
                 }
             }
         }
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }

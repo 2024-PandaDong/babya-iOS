@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct DiaryView : View {
+    @GestureState private var dragOffset = CGSize.zero
     @StateObject var vm : DiaryViewModel = .init(diaryService: RemoteDiaryService())
     let columns = [GridItem(.fixed(180)),
                    GridItem(.fixed(180))]
@@ -196,5 +197,10 @@ struct DiaryView : View {
             })
         }
         .navigationBarBackButtonHidden()
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SecondSignUpView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var viewModel: SignUpViewModel
@@ -70,6 +71,11 @@ struct SecondSignUpView: View {
                 }
             }
             .navigationBarBackButtonHidden()
+            .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+                if (value.startLocation.x < 30 && value.translation.width > 100) {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            })
         }
     }
 }

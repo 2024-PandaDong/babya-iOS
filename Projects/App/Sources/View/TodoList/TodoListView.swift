@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TodoListView: View {
+    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     
     
@@ -192,7 +193,11 @@ struct TodoListView: View {
             viewModel.getCategory()
             viewModel.changeCategory()
         }
-        
+        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+            if (value.startLocation.x < 30 && value.translation.width > 100) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        })
     }
 }
 
