@@ -12,9 +12,6 @@ import SwiftUI
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
-//            ZStack{
-//                SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
-//            }
             NavigationView {
                 if (LoginUserHashCache.shared.checkAccessToken() == nil) {
                     RootView()

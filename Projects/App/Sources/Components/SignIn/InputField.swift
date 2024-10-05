@@ -1,10 +1,3 @@
-//
-//  InputField.swift
-//  babya
-//
-//  Created by dgsw8th61 on 5/16/24.
-//  Copyright © 2024 kr.hs.dgsw.dongbao. All rights reserved.
-//
 import Foundation
 import SwiftUI
 
@@ -23,13 +16,19 @@ struct InputFieldView: View {
                     if showPassword {
                         TextField(placeholder, text: $securetext)
                             .customTextField()
-
-                     
+                            .padding(.bottom, -1.8)
                     } else {
                         SecureField(placeholder, text: $securetext)
                             .customTextField()
-
                     }
+                    
+                    Button {
+                        self.showPassword.toggle()
+                    } label: {
+                        Image(systemName: showPassword ? "eye" : "eye.slash")
+                            .foregroundStyle(!securetext.isEmpty ? Color.PrimaryNormal : .clear)
+                    }
+                    .disabled(securetext.isEmpty)
                 } else {
                     TextField(placeholder, text: $text)
                         .customTextField()
@@ -37,26 +36,28 @@ struct InputFieldView: View {
                 }
             }
             .textInputAutocapitalization(.never)
+            .padding(.bottom, 1)
             
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .font(.system(size: 13))
-                    .foregroundColor(Color.red)
-            }
+            Rectangle()
+                .frame(height: 1)
+                .foregroundStyle(Color.LineNormal)
+            
+            Text(errorMessage ?? "         ")
+                .font(.system(size: 13))
+                .foregroundColor(errorMessage != nil ? .red : .clear)
         }
     }
+}
+
+#Preview {
+    InputFieldView(text: .constant(""), securetext: .constant(""), showPassword: .constant(false), errorMessage: "잘못입력함", placeholder: "입력하세요", isSecure: true)
+        .padding(.horizontal, 20)
 }
 
 extension View {
     func customTextField() -> some View {
         self
             .textFieldStyle(PlainTextFieldStyle())
-            .padding()
-            .background(Color.white)
-            .cornerRadius(5)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.LineAlternative, lineWidth: 1.5)
-            )
+            .background(Color.clear)
     }
 }

@@ -23,14 +23,13 @@ class SignInViewModel: ObservableObject {
     init(authService: AuthService) {
         self.authService = authService
     }
-    func login(email: String, password: String) async {
+    func login(email: String, password: String, completion: @escaping () -> ()) async {
             do {
                 let response = try await authService.login(email: email, password: password)
                 print(response)
-                
-                print(response.message)
                 switch response.status {
                 case 200:
+                    completion()
                     isLoggedIn = true
                     LoginUserHashCache.shared.storeAccessToken(value: response.data?.accessToken ?? "")
                     LoginUserHashCache.shared.storeRefreshToken(value: response.data?.refreshToken ?? "")
