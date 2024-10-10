@@ -29,10 +29,11 @@ final class MyRequestInterceptor: RequestInterceptor {
             return
         }
         print("URL String: \(url.absoluteString)")
-//        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, !url.absoluteString.contains("refresh") else {
-//            completion(.doNotRetryWithError(error))
-//            return
-//        }
+        
+        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401, !url.absoluteString.contains("refresh") else {
+            completion(.doNotRetryWithError(error))
+            return
+        }
         
         let refreshToken = LoginUserHashCache.shared.checkRefreshToken()
         
