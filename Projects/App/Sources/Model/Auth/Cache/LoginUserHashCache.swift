@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import SwiftUI
 
 struct LoginUserHashCache {
     static let shared = LoginUserHashCache()
@@ -50,9 +52,19 @@ struct LoginUserHashCache {
     }
 
     
-    func logout(){
+    func logout() {
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.accessToken)
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.refreshToken)
         UserDefaults.standard.removeObject(forKey: LoginUserHashCache.email)
+        
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                if let window = windowScene.windows.first {
+                    window.rootViewController = UIHostingController(rootView: NavigationView { RootView() })
+                    window.makeKeyAndVisible()
+                }
+            }
+        }
     }
+
 }
