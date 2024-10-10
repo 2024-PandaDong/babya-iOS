@@ -113,9 +113,12 @@ struct CompanyDetailView: View {
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        Text(vm.companyInfo?.subsdType ?? "혜택이 없음")
-                            .font(.system(size: 14,weight: .regular))
-                            .foregroundStyle(Color.black)
+                        WelfareInfoView(title: "보조금 지원 종류", value: vm.companyInfo?.subsdType)
+                        WelfareInfoView(title: "보조금 지원액", value: vm.companyInfo?.subsdMoney)
+                        WelfareInfoView(title: "출산 비용 지원 돈", value: vm.companyInfo?.mtrSupMoney ?? nil)
+                        WelfareInfoView(title: "출산 비용 지원 조건", value: vm.companyInfo?.mtrSupCondition ?? nil)
+                        WelfareInfoView(title: "육아휴직 기간", value: vm.companyInfo?.mtrLvPeriod ?? nil)
+                        WelfareInfoView(title: "육아휴직 급여 비율", value: vm.companyInfo?.mtrLvSalary ?? nil)
                         
                         Spacer()
                     }

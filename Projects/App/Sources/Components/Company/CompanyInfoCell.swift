@@ -62,7 +62,7 @@ extension View {
             .font(.system(size: 12,weight: .semibold))
             .foregroundStyle(Color.black)
             .padding(.bottom,9)
-            .frame(width: 60, alignment: .leading)
+            .frame(width: 90, alignment: .leading)
     }
     
     func textContentStyle() -> some View {
@@ -73,7 +73,7 @@ extension View {
     }
     
     func infoLayout(text1: String, text2: String) -> some View {
-        HStack(alignment:.top,spacing: 70) {
+        HStack(alignment:.top,spacing: 60) {
             Text(text1)
                 .textNormalStyle()
             
