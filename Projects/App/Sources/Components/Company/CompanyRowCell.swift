@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CompanyRowCell: View {
     let title: String
-    let images: String
-    let address: String
+    let image: String
     
     var body: some View {
         ZStack{
@@ -27,34 +26,37 @@ struct CompanyRowCell: View {
                         .foregroundStyle(.black)
                     
                     HStack(spacing: 2){
-                        Text(address)
+                        Image("star")
+                            .resizable()
+                            .frame(width: 16,height: 14)
+                        Text("4.5")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.black)
+                        
+                        Text("수원시")
                             .font(.system(size: 14))
                             .foregroundStyle(Color.LabelNeutral)
-                            .multilineTextAlignment(.leading)
+                            .padding(.horizontal,5)
+                        
                     }
                 }
-                .padding(.horizontal,5)
-                
                 Spacer()
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: 60, height: 60)
                     .foregroundStyle(.white)
                     .overlay {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
-                        if let imageUrl = URL(string: images){
-                            AsyncImage(url: imageUrl) { image in
-                                image
-                                    .resizable()
-                            } placeholder: {
-                                Image("dummy")
-                                    .resizable()
-                            }
-                            .frame(width: 60, height: 60)
-                            .cornerRadius(8, corners: .allCorners)
-                        }
+                        
+                        Image("\(image)")
                     }
             }
-            .padding(.horizontal,29)
+            .padding(.horizontal,15)
         }
+    }
+}
+
+#Preview {
+    NavigationView {
+        CompanyRowCell(title: "", image: "")
     }
 }
