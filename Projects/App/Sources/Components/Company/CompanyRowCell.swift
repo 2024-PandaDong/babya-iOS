@@ -47,7 +47,19 @@ struct CompanyRowCell: View {
                     .overlay {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
                         
-                        Image("\(image)")
+                        if image != "dummy" {
+                            AsyncImage(url: URL(string: image)) { image in
+                                image.image?
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                            }
+                        } else {
+                            Image("\(image)")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                        }
                     }
             }
             .padding(.horizontal,15)

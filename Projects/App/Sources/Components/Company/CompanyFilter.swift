@@ -29,5 +29,5 @@ struct CompanyFilter : View {
 }
 
 #Preview {
-    CompaneyFilter(title: "지역")
+    CompanyFilter(title: "지역")
 }

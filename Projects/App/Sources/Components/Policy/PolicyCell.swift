@@ -12,6 +12,7 @@ struct PolicyCell: View {
     let location: String
     let editDate: String
     let imgUrl: String
+    let isInHome: Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -38,7 +39,9 @@ struct PolicyCell: View {
                     .padding(.horizontal, 15)
                 }
             
-            Divider()
+            if !isInHome {
+                Divider()
+            }
         }
         .tint(.black)
     }
@@ -49,7 +52,7 @@ struct PolicyCell: View {
         ZStack {
             Color.black
             
-            PolicyCell(title: "이승혁이승혁", location: "존잘", editDate: "2024-09-11", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg")
+            PolicyCell(title: "이승혁이승혁", location: "존잘", editDate: "2024-09-11", imgUrl: "https://cdn.hankyung.com/photo/201810/01.18067557.1.jpg", isInHome: false)
         }
     }
         

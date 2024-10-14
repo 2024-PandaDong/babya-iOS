@@ -41,7 +41,7 @@ struct HomeView: View {
                         CompanyDetailView(companyId: company.companyId)
                             .navigationBarBackButtonHidden()
                     } label: {
-                        CompanyCell(title: company.companyName, location: company.address, image: (company.logoImg.first ?? "dummy") ?? "dummy")
+                        CompanyCell(title: company.companyName, location: company.address,  image: (company.logoImg.first ?? "dummy") ?? "dummy")
                             .padding(.horizontal)
                     }
                     .padding(.vertical, 5)
@@ -72,7 +72,7 @@ struct HomeView: View {
                             PolicyCell(
                                 title: policyVM.model[index].title,
                                 location: "\(((policyVM.selectedState?.name) != nil) ? policyVM.selectedState!.name : "") \(policyVM.selectedDistrict)",
-                                editDate: policyVM.model[index].editDate, imgUrl: "")
+                                editDate: policyVM.model[index].editDate, imgUrl: "", isInHome: true)
                                 .padding(.horizontal)
                         }
                     }
