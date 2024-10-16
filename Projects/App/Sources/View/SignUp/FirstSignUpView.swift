@@ -105,11 +105,11 @@ struct FirstSignUpView: View {
             .navigationBarBackButtonHidden()
         }
         .contentShape(Rectangle())
-        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
-            if (value.startLocation.x < 30 && value.translation.width > 100) {
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        })
+//        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
+//            if (value.startLocation.x < 30 && value.translation.width > 100) {
+//                self.presentationMode.wrappedValue.dismiss()
+//            }
+//        })
     }
 }
 

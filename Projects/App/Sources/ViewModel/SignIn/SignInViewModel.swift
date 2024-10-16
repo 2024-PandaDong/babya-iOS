@@ -38,7 +38,7 @@ class SignInViewModel: ObservableObject {
                     
                     print(LoginUserHashCache.shared.checkAccessToken())
                     
-                    
+                    print(response.status)
                     
                     DispatchQueue.main.async {
                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
