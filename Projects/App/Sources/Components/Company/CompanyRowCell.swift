@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CompanyRowCell: View {
     let title: String
-    let image: String
+    let images: String
+    let address: String
     
     var body: some View {
         ZStack{
@@ -26,49 +27,34 @@ struct CompanyRowCell: View {
                         .foregroundStyle(.black)
                     
                     HStack(spacing: 2){
-                        Image("star")
-                            .resizable()
-                            .frame(width: 16,height: 14)
-                        Text("4.5")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.black)
-                        
-                        Text("수원시")
+                        Text(address)
                             .font(.system(size: 14))
                             .foregroundStyle(Color.LabelNeutral)
-                            .padding(.horizontal,5)
-                        
+                            .multilineTextAlignment(.leading)
                     }
                 }
+                .padding(.horizontal,5)
+                
                 Spacer()
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: 60, height: 60)
                     .foregroundStyle(.white)
                     .overlay {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
-                        
-                        if image != "dummy" {
-                            AsyncImage(url: URL(string: image)) { image in
-                                image.image?
+                        if let imageUrl = URL(string: images){
+                            AsyncImage(url: imageUrl) { image in
+                                image
                                     .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
+                            } placeholder: {
+                                Image("dummy")
+                                    .resizable()
                             }
-                        } else {
-                            Image("\(image)")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
+                            .frame(width: 60, height: 60)
+                            .cornerRadius(8, corners: .allCorners)
                         }
                     }
             }
-            .padding(.horizontal,15)
+            .padding(.horizontal,29)
         }
-    }
-}
-
-#Preview {
-    NavigationView {
-        CompanyRowCell(title: "", image: "")
     }
 }
