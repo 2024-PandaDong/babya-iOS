@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @GestureState private var dragOffset = CGSize.zero
     @Environment(\.presentationMode) var presentationMode
     
     @State var showDiary: Bool = true
@@ -148,11 +147,6 @@ struct ProfileView: View {
         .onAppear {
             viewModel.getMyProfile()
         }
-        .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
-            if (value.startLocation.x < 30 && value.translation.width > 100) {
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        })
     }
 }
 

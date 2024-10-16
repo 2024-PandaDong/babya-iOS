@@ -133,6 +133,9 @@ class SignUpViewModel: ObservableObject {
         let email = model.email
         AF.request("\(ApiContent.url)/auth/email-send", method: .post, parameters: ["email" : email])
             .validate()
+            .responseJSON { json in
+                print(json)
+            }
             .response { response in
                 switch response.result {
                 case .success:
