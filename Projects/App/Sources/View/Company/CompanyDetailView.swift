@@ -89,8 +89,8 @@ struct CompanyDetailView: View {
                             .padding(.vertical,17)
                         
                         CompanyCharts(data: System.dummyData(salaries: [
-                            "\(String(describing: vm.companyInfo?.malePeople))%",
-                            "\(String(describing: vm.companyInfo?.femalePeople))%"]),
+                            "\(vm.companyInfo?.malePeople ?? 0)%",
+                            "\(vm.companyInfo?.femalePeople ?? 0)%"]),
                                       salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
                                 "\(vm.companyInfo?.malePeople ?? 0)%",
                                 "\(vm.companyInfo?.femalePeople ?? 0)%"])

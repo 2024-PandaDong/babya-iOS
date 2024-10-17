@@ -74,6 +74,9 @@ struct System {
     }
 }
 #Preview {
-    CompanyCharts(data: System.dummyData(salaries: ["50%", "50%"]), salaries: ["100명", "50%", "50%"])
+    CompanyCharts(data: System.dummyData(salaries: ["11180000%", "134260000%"]), salaries: ["145440000명", "11180000%", "134260000%"])
+        .padding(.horizontal,38)
+        .padding(.top, 20)
+        .padding(.bottom,80)
 }
 
