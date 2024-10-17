@@ -20,59 +20,18 @@ struct CompanySearchView: View {
             ZStack {
                 Color.white.ignoresSafeArea()
                 VStack(alignment: .leading ,spacing: 0) {
-                    VStack{
-                        HStack {
-                            Text("\(profileVM.model.data.nickname)님의 지역")
-                                .font(.system(size: 16, weight: .semibold))
-                            
-                            Spacer()
-                            
-                            Button {
-                                self.showLocationView = true
-                            } label: {
-                                Text("편집하기")
-                                    .foregroundStyle(Color.LabelAlternative)
-                                    .font(.system(size: 11, weight: .medium))
-                            }
-                        }
-                        .padding(.horizontal)
-
-                        HStack{
-                            if let state = viewModel.selectedState, !viewModel.selectedDistrict.isEmpty {
-                                HStack {
-                                    Capsule()
-                                        .frame(width: viewModel.calculateWidth(for: state.name), height: 25)
-                                        .foregroundStyle(.clear)
-                                        .overlay {
-                                            Capsule().stroke(Color.PrimaryLight)
-                                            
-                                            Text(state.name)
-                                                .font(.system(size: 14, weight: .medium))
-                                                .foregroundStyle(Color.PrimaryLight)
-                                        }
-                                    
-                                    Capsule()
-                                        .frame(width: viewModel.calculateWidth(for: viewModel.selectedDistrict), height: 25)
-                                        .foregroundStyle(.clear)
-                                        .overlay {
-                                            Capsule().stroke(Color.PrimaryLight)
-                                            
-                                            Text(viewModel.selectedDistrict)
-                                                .font(.system(size: 14, weight: .medium))
-                                                .foregroundStyle(Color.PrimaryLight)
-                                        }
-                                }
-                                .padding(.horizontal)
-                                .padding(.bottom)
-                            }
-                            Spacer()
-                        }
-                    }
+                        Text("가족 친화적인 회사 리스트")
+                            .font(.system(size: 16,weight: .semibold))
+                            .foregroundStyle(.black)
+                            .padding(.top,15)
+                            .padding(.bottom,4)
+                            .padding(.horizontal)
                     
-                    Rectangle()
-                        .frame(height: 5)
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.gray0)
+                        Text("\(profileVM.model.data.nickname)님과 맞는 회사를 찾아보세요")
+                            .font(.system(size: 11,weight: .semibold))
+                            .foregroundStyle(Color.gray)
+                            .padding(.horizontal)
+                            .padding(.bottom,12)
                     
                     ScrollView {
                         VStack(spacing: 3) {
