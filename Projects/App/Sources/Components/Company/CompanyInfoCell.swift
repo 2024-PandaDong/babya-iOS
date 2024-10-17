@@ -62,7 +62,7 @@ extension View {
             .font(.system(size: 12,weight: .semibold))
             .foregroundStyle(Color.black)
             .padding(.bottom,9)
-            .frame(width: 90, alignment: .leading)
+            .frame(width: 140, alignment: .leading)
     }
     
     func textContentStyle() -> some View {
