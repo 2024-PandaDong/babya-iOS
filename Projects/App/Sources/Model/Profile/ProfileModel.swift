@@ -15,17 +15,17 @@ struct ProfileModel: Codable {
 
 struct MyData: Codable {
     var nickname: String = ""
-    var dDay: Int?
+    var dDay: String?
     var birthDt: String = ""
-    var marriedYears: String = ""
+    var marriedYears: String?
     var children: [Childs?]?
     var profileImg: String?
 }
 
 struct Childs: Codable {
     var childId: Int = 0
-    var name: String? = ""
-    var birthName: String? = ""
+    var name: String?
+    var birthName: String?
     var type: String = ""
 }
 
