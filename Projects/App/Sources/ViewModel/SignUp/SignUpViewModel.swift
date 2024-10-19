@@ -42,7 +42,7 @@ class SignUpViewModel: ObservableObject {
 
     var isThirdSignUpAvailable: Bool {
         get {
-            return !model.nickName.isEmpty && !model.birthDt.isEmpty && !model.marriedDt.isEmpty && !model.locationCode.isEmpty
+            return !model.nickName.isEmpty && !model.birthDt.isEmpty && !model.locationCode.isEmpty
         }
     }
     
