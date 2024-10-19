@@ -11,8 +11,6 @@ import Alamofire
 class ProfileViewModel: ObservableObject {
     @Published var model = ProfileModel()
     @Published var myRegion = RegionModel()
-    @Published var myPost = MyPostResponse()
-    @Published var myDiary = MyDiaryResponse()
     
     static let shared = ProfileViewModel()
     
