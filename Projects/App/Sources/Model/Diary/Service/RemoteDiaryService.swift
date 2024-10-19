@@ -11,6 +11,22 @@ import Alamofire
 import SwiftUI
 
 final class RemoteDiaryService : DiaryService{
+    func report(id: Int) async throws -> baseResponse {
+        let url = "/diary/report/\(id)"
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request( ApiContent.url + url, method: .patch,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
+                .responseDecodable(of: baseResponse.self) { response in
+                    switch response.result {
+                    case .success(let responseData):
+                        continuation.resume(returning: responseData)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+        }
+    }
+    
     
     func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
         let url = "/diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"

@@ -21,4 +21,5 @@ protocol DiaryService {
     func stausWeekDiary() async throws -> Response<DiaryWeekStausResponse>
     func getListDiary(pageRequest: PageRequest) async throws -> Response<[DiaryResponse]>
     func upload(image: UIImage) async throws -> Response<String>
+    func report(id: Int) async throws -> baseResponse
 }

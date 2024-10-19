@@ -203,4 +203,13 @@ class DiaryViewModel: ObservableObject {
             print(error)
         }
     }
+    
+    func report(id: Int) async {
+        do {
+            let response = try await diaryService.report(id: id)
+            print(response)
+        } catch {
+            print(error)
+        }
+    }
 }
