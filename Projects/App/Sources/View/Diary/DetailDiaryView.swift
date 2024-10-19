@@ -148,15 +148,6 @@ struct DetailDiaryView : View {
                             .frame(width: 18,height: 18)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        
-                    }, label: {
-                        Image("dots")
-                            .resizable()
-                            .frame(width: 18)
-                    })
-                }
             }
         } else {
             // Fallback on earlier versions
