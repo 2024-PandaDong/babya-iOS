@@ -21,7 +21,6 @@ class CompanyViewModel: ObservableObject {
     func getCompany(pageRequest: PageRequest) async {
         do {
             let response = try await companyService.getCompany(pageRequest: pageRequest)
-            print(response)
             if let data = response.data {
                 companyList = data
             } else {

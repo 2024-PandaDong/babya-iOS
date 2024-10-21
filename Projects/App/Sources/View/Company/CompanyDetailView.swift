@@ -25,8 +25,15 @@ struct CompanyDetailView: View {
                             image
                                 .resizable()
                         } placeholder: {
-                            Image("dummy")
-                                .resizable()
+                            if let image = vm.companyInfo?.contentImg {
+                                AsyncImage(url: URL(string: image)) { image in
+                                    image.image?
+                                        .resizable()
+                                }
+                            } else {
+                                Image("dummy")
+                                    .resizable()
+                            }
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 190)
@@ -92,8 +99,8 @@ struct CompanyDetailView: View {
                             "\(vm.companyInfo?.malePeople ?? 0)%",
                             "\(vm.companyInfo?.femalePeople ?? 0)%"]),
                                       salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
-                                "\(vm.companyInfo?.malePeople ?? 0)%",
-                                "\(vm.companyInfo?.femalePeople ?? 0)%"])
+                                "\(vm.companyInfo?.malePeople ?? 0)명",
+                                "\(vm.companyInfo?.femalePeople ?? 0)명"])
                         .padding(.horizontal,20)
                         
                         Text("기업 정보")

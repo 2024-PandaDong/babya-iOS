@@ -36,6 +36,9 @@ class ProfileViewModel: ObservableObject {
             method: .get,
             interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
+        .responseJSON { json in
+            print(json)
+        }
         .responseDecodable(of: RegionModel.self) { response in
             switch response.result {
             case .success(let data):

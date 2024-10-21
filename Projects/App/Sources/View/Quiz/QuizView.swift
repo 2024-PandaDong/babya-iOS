@@ -22,8 +22,13 @@ struct QuizView : View {
             Text("Q." + (vm.quizList?.title ?? ""))
                 .font(.system(size: 20,weight:.bold))
                 .foregroundStyle(.black)
-                .padding(.vertical,25)
+                .padding(.top,25)
                 .padding(.horizontal,7)
+            
+            Text("출처: 도서 '아기 100일 엄마 100일'")
+                .font(.system(size: 15, weight: .regular))
+                .foregroundStyle(Color.LabelLightDisable)
+                .padding(.vertical, 10)
             
             Image("quizIcon")
                 .resizable()

@@ -48,14 +48,15 @@ struct EmailTextFields: View {
                         }, label: {
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(width: 55, height: 30)
-                                .foregroundStyle(isAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
+                                .foregroundStyle(!email.isEmpty
+                                                 ? Color.PrimaryNormal : .ComponentMaterialDimmer)
                                 .overlay {
                                     Text("인증")
                                         .foregroundStyle(.white)
                                         .font(.system(size: 15, weight: .bold))
                                 }
                         })
-                        .disabled(isAvailable ? false : true)
+                        .disabled(!email.isEmpty ? false : true)
                     }
                 }
             
