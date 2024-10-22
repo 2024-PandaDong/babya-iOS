@@ -67,7 +67,7 @@ struct ProfileCheckView: View {
                     
                     Spacer()
                     
-                    Text(viewModel.model.data.birthDt)
+                    Text(viewModel.model.data.birthDt ?? "비공개")
                         .font(.system(size: 16, weight: .regular))
                         .foregroundStyle(Color.LabelAlternative)
                 }

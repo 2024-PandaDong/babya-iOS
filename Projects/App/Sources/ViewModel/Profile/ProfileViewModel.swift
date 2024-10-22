@@ -36,13 +36,16 @@ class ProfileViewModel: ObservableObject {
             method: .get,
             interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
+        .responseJSON { json in
+            print(json)
+        }
             .responseDecodable(of: ProfileModel.self) { response in
                 switch response.result {
                 case .success(let data):
                     self.model = data
                     self.profileModifyModel.nickName = data.data.nickname
                     self.profileModifyModel.marriedDt = data.data.marriedYears ?? ""
-                    self.profileModifyModel.birthDt = data.data.birthDt
+                    self.profileModifyModel.birthDt = data.data.birthDt ?? ""
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 }
