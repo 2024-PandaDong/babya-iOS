@@ -22,7 +22,7 @@ struct MyData: Codable {
     var profileImg: String?
 }
 
-struct Childs: Codable {
+struct Childs: Codable, Hashable {
     var childId: Int = 0
     var name: String?
     var birthName: String?
@@ -33,4 +33,22 @@ struct RegionModel: Codable {
     var status: Int = 0
     var message: String = ""
     var data: String = ""
+}
+
+struct ProfileModifyModel: Codable {
+    var nickName: String = ""
+    var marriedDt: String = ""
+    var pregnancyDt: String = ""
+    var birthDt: String = ""
+    var lc: String = ""
+    
+    var params: [String: Any] {
+        return [
+            "nickName": nickName,
+            "marriedDt": marriedDt,
+            "pregnancyDt": pregnancyDt,
+            "birthDt": birthDt,
+            "lc": ProfileViewModel.shared.myRegion.data,
+        ]
+    }
 }

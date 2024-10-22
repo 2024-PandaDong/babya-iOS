@@ -10,9 +10,25 @@ import Alamofire
 
 class ProfileViewModel: ObservableObject {
     @Published var model = ProfileModel()
+    @Published var profileModifyModel = ProfileModifyModel()
     @Published var myRegion = RegionModel()
     
     static let shared = ProfileViewModel()
+    
+    func patchProfile(completion: @escaping () -> ()) {
+        AF.request("\(ApiContent.url)/member/profile", method: .patch, parameters: profileModifyModel.params, encoding: JSONEncoding.default,  interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
+            .responseJSON { json in
+                print(json)
+            }
+            .response { response in
+                switch response.response?.statusCode {
+                case 200:
+                    completion()
+                default:
+                    print("실패")
+                }
+            }
+    }
     
     func getMyProfile() {
         AF.request(
@@ -24,6 +40,9 @@ class ProfileViewModel: ObservableObject {
                 switch response.result {
                 case .success(let data):
                     self.model = data
+                    self.profileModifyModel.nickName = data.data.nickname
+                    self.profileModifyModel.marriedDt = data.data.marriedYears ?? ""
+                    self.profileModifyModel.birthDt = data.data.birthDt
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 }
@@ -43,6 +62,7 @@ class ProfileViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 self.myRegion = data
+                self.profileModifyModel.lc = data.data
                 regionConverter(code: "\(data.data)")
                 print("나의 지역: \(data.data)")
                 PolicyViewModel.shared.getPolicyList(region: "\(data.data)", keyword: "")

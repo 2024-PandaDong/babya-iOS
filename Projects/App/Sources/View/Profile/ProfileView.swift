@@ -44,7 +44,7 @@ struct ProfileView: View {
             
             Divider()
             
-            NavigationLink(destination: Text("프로필 수정")) {
+            NavigationLink(destination: ProfileCheckView()) {
                 Rectangle()
                     .frame(height: 60)
                     .foregroundStyle(.clear)
