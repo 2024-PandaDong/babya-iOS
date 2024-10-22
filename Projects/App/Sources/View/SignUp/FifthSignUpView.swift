@@ -59,6 +59,8 @@ struct FifthSignUpView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
+                            viewModel.model.childList = []
+                            viewModel.model.pregnancyDt = ""
                             self.presentationMode.wrappedValue.dismiss()
                         } label: {
                             Image(systemName: "arrow.left")

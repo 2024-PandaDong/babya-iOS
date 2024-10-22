@@ -31,8 +31,10 @@ struct FinalSignUpView: View {
                 
                 
                 Button {
-                    viewModel.signUp()
-                    viewModel.rootActive = false
+                    viewModel.signUp() {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                    
                 } label: {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50)

@@ -93,6 +93,7 @@ struct FirstSignUpView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.toggleTotalAccept()
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "arrow.left")

@@ -182,11 +182,16 @@ class SignUpViewModel: ObservableObject {
         isPwAvailable = hasOverSixLetter && hasUnderTwentyLetter && hasOneUppercaseChar && hasSpecialChar
     }
     
-    func signUp() {
+    func signUp(completion: @escaping () -> ()) {
         AF.request("\(ApiContent.url)/auth/join", method: .post, parameters: model.params, encoding: JSONEncoding.default)
             .responseDecodable(of: ResponseModel.self) { response in
-                self.rootActive = false
-                print(response)
+                switch response.result {
+                case .success(_):
+                    self.rootActive = false
+                    completion()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
     }
 }

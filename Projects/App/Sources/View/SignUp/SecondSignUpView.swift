@@ -61,6 +61,10 @@ struct SecondSignUpView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.model.email = ""
+                        viewModel.model.pw1 = ""
+                        viewModel.model.pw2 = ""
+                        viewModel.model.verifyCode = ""
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "arrow.left")

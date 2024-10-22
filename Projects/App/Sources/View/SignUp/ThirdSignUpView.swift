@@ -78,6 +78,10 @@ struct ThirdSignUpView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
+                        viewModel.model.nickName = ""
+                        viewModel.model.marriedDt = ""
+                        viewModel.model.birthDt = ""
+                        viewModel.model.locationCode = ""
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "arrow.left")
