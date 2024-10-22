@@ -24,7 +24,6 @@ struct DetailDiaryView : View {
     @State var subcommentList = [SubCommentResponse]()
     @State var loding : Bool = false
     @State private var showOverlay = false
-    @State var inputReport : String = ""
     
     var body: some View {
         if #available(iOS 17.0, *) {
@@ -109,6 +108,15 @@ struct DetailDiaryView : View {
                         }
                     }
                 }
+                .alert("해당 산모일기를 신고하겠습니까?", isPresented: $showOverlay) {
+                    Button("신고", role: .destructive) {
+                        Task{
+                            print(Diary.diaryId)
+                            await vm.report(id:Diary.diaryId)
+                        }
+                    }
+                    Button("취소", role: .cancel) {}
+                }
                 .onAppear{
                     Task{
                         nowPage = 1
@@ -137,59 +145,6 @@ struct DetailDiaryView : View {
                             loding = true
                         }
                     }
-                }
-                if showOverlay {
-                    Color.black.opacity(0.5)
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    VStack{
-                        HStack{
-                            Text("신고 사유를 입력해주세요.")
-                                .font(.system(size: 16,weight: .medium))
-                                .padding(.horizontal,20)
-                            Spacer()
-                        }
-                        
-                        TextField("사유 입력", text: $inputReport)
-                              .padding(16)
-                              .background(Color.white)
-                              .cornerRadius(8)
-                              .foregroundColor(Color.LineAlternative)
-                              .font(.system(size: 16))
-                              .overlay(
-                                  RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.LineAlternative, lineWidth: 1)
-                              )
-                              .frame(width:260)
-                        
-                        HStack{
-                            Button(action: {
-                                showOverlay.toggle()
-                                inputReport = ""
-                            }) {
-                                Text("취소")
-                                    .foregroundColor(Color.StatusDestructive)
-                                    .font(.system(size: 16,weight: .medium))
-                                    .padding()
-                            }
-                            Button(action: {
-                                showOverlay.toggle()
-                                inputReport = ""
-                                Task{
-                                    print(Diary.diaryId)
-                                    await vm.report(id:Diary.diaryId)
-                                }
-                            }) {
-                                Text("신고")
-                                    .foregroundColor(Color.StatusPositive)
-                                    .font(.system(size: 16,weight: .medium))
-                                    .padding()
-                            }
-                        }
-                    }
-                    .frame(width: 300, height: 170)
-                    .background(Color.white)
-                    .cornerRadius(16)
                 }
             }
             //do : 대댓글 페이징 처리
