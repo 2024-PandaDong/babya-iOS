@@ -89,6 +89,7 @@ struct HomeView: View {
         }
         .ignoresSafeArea()
         .onAppear {
+            policyVM.model = []
             profileVM.getMyProfile()
             profileVM.getMyRegion()
         }
