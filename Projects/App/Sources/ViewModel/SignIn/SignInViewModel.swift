@@ -13,10 +13,14 @@ import SwiftUI
 
 @MainActor
 class SignInViewModel: ObservableObject {
+    @Published var email = UserDefaults.standard.string(forKey: "Email")
+    @Published var loginRequest = LoginRequest()
     @Published var is401Error: Bool = false
     @Published var is404Error: Bool = false
     @Published var isLoggedIn: Bool = false
     @Published var success : Bool = false
+    
+    static let shared = SignInViewModel(authService: RemoteAuthService())
     
     private let authService: AuthService
     

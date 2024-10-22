@@ -55,7 +55,7 @@ struct RootView: View {
             .font(.system(size: 13))
         }
         .sheet(isPresented: $showLogin) {
-            SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
+            SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
                 .environmentObject(viewModel)
         }
     }
