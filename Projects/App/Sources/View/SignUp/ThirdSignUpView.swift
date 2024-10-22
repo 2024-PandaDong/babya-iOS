@@ -25,27 +25,39 @@ struct ThirdSignUpView: View {
                     Text("당신의 이름은?")
                         .font(.system(size: 20, weight: .bold))
                         .padding(.top, 50)
+                        .padding(.vertical, 10)
                     
                     SignUpTextField(content: $viewModel.model.nickName, placeholder: "ex) 박규민")
+                        .padding(.vertical, 10)
                     
-                    Text("당신의 생일은?")
+                    Text("당신의 생일은? (선택)")
                         .font(.system(size: 20, weight: .bold))
+                        .padding(.vertical, 10)
                     
                     CustomDatePicker(target: $viewModel.model.birthDt, prompt: "당신의 생일은?")
+                        .padding(.vertical, 10)
                     
-                    Text("당신의 결혼기념일은?")
+                    Text("당신의 결혼기념일은? (선택)")
                         .font(.system(size: 20, weight: .bold))
+                        .padding(.vertical, 10)
                     
-                    CustomDatePicker(target: $viewModel.model.marriedDt, prompt: "당신의 결혼기념일은? (선택)")
+                    CustomDatePicker(target: $viewModel.model.marriedDt, prompt: "당신의 결혼기념일은?")
+                        .padding(.vertical, 10)
                     
                     Text("당신이 사는 지역은??")
                         .font(.system(size: 20, weight: .bold))
+                        .padding(.vertical, 10)
+                    
+                    Text("지역 정보를 통해 사용자에게 맞춤형 서비스를 제공합니다.")
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundStyle(Color.LabelAssistive)
+                        
                     
                     LocationPicker()
                         .environmentObject(viewModel)
+                        .padding(.vertical, 10)
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 10)
                 
                 Spacer()
                 

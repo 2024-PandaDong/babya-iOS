@@ -32,7 +32,7 @@ struct CustomDatePicker: View {
                     .stroke(Color.LineAlternative)
                 
                 HStack {
-                    Text("\(dateFormatter.string(from: date) == dateFormatter.string(from: Date.now) ? prompt : dateFormatter.string(from: date))")
+                    Text("\(dateFormatter.string(from: date) == dateFormatter.string(from: Date.now) ? target.isEmpty ? prompt : target : dateFormatter.string(from: date))")
                         .font(.system(size: 16, weight: .semibold))
                     
                     Spacer()

@@ -36,13 +36,13 @@ class SignUpViewModel: ObservableObject {
     
     var isSecondSignUpAvailable: Bool {
         get {
-            return isEmailVerified && model.pw1 == model.pw2
+            return isEmailVerified && !model.pw1.isEmpty && !model.pw2.isEmpty && model.pw1 == model.pw2
         }
     }
 
     var isThirdSignUpAvailable: Bool {
         get {
-            return !model.nickName.isEmpty && !model.birthDt.isEmpty && !model.locationCode.isEmpty
+            return !model.nickName.isEmpty && !model.locationCode.isEmpty
         }
     }
     
@@ -51,11 +51,11 @@ class SignUpViewModel: ObservableObject {
             var isAvailable = false
             
             if self.familyType == 2 {
-                isAvailable = !model.pregnancyDt.isEmpty && !model.birthList.isEmpty
+                isAvailable = model.pregnancyDt != nil && !model.birthList.isEmpty
             } else if self.familyType == 3 {
                 isAvailable = !model.childList.isEmpty
             } else if self.familyType == 4 {
-                isAvailable = !model.pregnancyDt.isEmpty && !model.birthList.isEmpty && !model.childList.isEmpty
+                isAvailable = model.pregnancyDt != nil && !model.birthList.isEmpty && !model.childList.isEmpty
             }
             
             return isAvailable
