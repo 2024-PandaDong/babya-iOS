@@ -14,7 +14,7 @@ struct SignInView : View {
     @State private var password: String = ""
     @State private var showPassword: Bool = false
 
-    @StateObject var vm = SignInViewModel.shared
+    @StateObject var vm: SignInViewModel
     @EnvironmentObject var signUpViewModel : SignUpViewModel
     
     var body: some View {
@@ -35,25 +35,25 @@ struct SignInView : View {
                     }
                 }
         
-                InputFieldView(text: $vm.loginRequest.email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
+                InputFieldView(text: $email, securetext: $password, showPassword: $showPassword, errorMessage: vm.is404Error ? "등록되지 않은 이메일 입니다." : nil, placeholder: "이메일", isSecure: false)
                     .padding(.vertical, 20)
                 
-                InputFieldView(text: $vm.loginRequest.pw, securetext: $vm.loginRequest.pw, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
+                InputFieldView(text: $password, securetext: $password, showPassword: $showPassword, errorMessage: vm.is401Error ? "비밀번호를 잘못 입력하였습니다." : nil, placeholder: "비밀번호", isSecure: true)
                 
                 Button{
-                    UserDefaults.standard.set(vm.loginRequest.email, forKey: "email")
+                    UserDefaults.standard.set(email, forKey: "email")
                     self.hideKeyboard()
                     vm.is401Error = false
                     vm.is404Error = false
                     Task{
-                        await vm.login(email: vm.loginRequest.email,password:vm.loginRequest.pw) {
+                        await vm.login(email: email,password:password) {
                             self.presentationMode.wrappedValue.dismiss()
                         }
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(maxWidth: .infinity, maxHeight: 55)
-                        .foregroundStyle(vm.loginRequest.email.isEmpty && vm.loginRequest.pw.isEmpty ? Color.ComponentMaterialDimmer : .PrimaryNormal)
+                        .foregroundStyle(email.isEmpty && password.isEmpty ? Color.ComponentMaterialDimmer : .PrimaryNormal)
                         .overlay {
                             Text("로그인")
                                 .foregroundStyle(.white)
@@ -61,7 +61,7 @@ struct SignInView : View {
                         }
                 }
                 .padding(.top, 50)
-                .disabled(vm.loginRequest.email.isEmpty && vm.loginRequest.pw.isEmpty)
+                .disabled(email.isEmpty && password.isEmpty)
                 
                 Spacer()
             }

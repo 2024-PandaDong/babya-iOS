@@ -11,7 +11,6 @@ struct ProfileCheckView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject var viewModel = ProfileViewModel.shared
-    @StateObject var signInVm = SignInViewModel.shared
     
     var body: some View {
         ScrollView {

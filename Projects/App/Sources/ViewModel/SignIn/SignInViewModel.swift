@@ -13,14 +13,10 @@ import SwiftUI
 
 @MainActor
 class SignInViewModel: ObservableObject {
-    @Published var email = UserDefaults.standard.string(forKey: "Email")
-    @Published var loginRequest = LoginRequest()
     @Published var is401Error: Bool = false
     @Published var is404Error: Bool = false
     @Published var isLoggedIn: Bool = false
     @Published var success : Bool = false
-    
-    static let shared = SignInViewModel(authService: RemoteAuthService())
     
     private let authService: AuthService
     
@@ -39,19 +35,20 @@ class SignInViewModel: ObservableObject {
                     LoginUserHashCache.shared.storeRefreshToken(value: response.data?.refreshToken ?? "")
                     
                     print(LoginUserHashCache.accessToken)
-                    
                     print(LoginUserHashCache.shared.checkAccessToken())
                     
                     DispatchQueue.main.async {
                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                        let rootViewController = windowScene.windows.first?.rootViewController {
-                            let homeView = UIHostingController(rootView: NavigationView { QuizView(vm: QuizViewModel(quizService: RemoteQuizService())) })
-                            homeView.modalPresentationStyle = .fullScreen
-                            rootViewController.present(homeView, animated: true, completion: nil)
+                           let rootViewController = windowScene.windows.first?.rootViewController {
+                            
+                            rootViewController.dismiss(animated: false) {
+                                let homeView = UIHostingController(rootView: NavigationView { QuizView(vm: QuizViewModel(quizService: RemoteQuizService())) })
+                                homeView.modalPresentationStyle = .fullScreen
+                                rootViewController.present(homeView, animated: true, completion: nil)
+                            }
                         }
                     }
-              
-                    
+
                     LoginUserHashCache.shared.storeEmail(value: email) 
                     print(response)
                 case 401:
