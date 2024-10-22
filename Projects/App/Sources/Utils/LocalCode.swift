@@ -9,7 +9,9 @@ import Foundation
 
 public enum LocalCode: Int, CaseIterable {
     case Daegu = 1040
-    case Busan = 1, Incheon, Seoul, Gwangju, Daejeon, Ulsan, Gyeonggi, Gangwon, Chungbuk, Chungnam, Jeonbuk, Jeonnam, Gyeongbuk, Gyeongnam, Jeju
+    case Seoul = 1010
+    case Busan = 1060
+    case Incheon = 1, Gwangju, Daejeon, Ulsan, Gyeonggi, Gangwon, Chungbuk, Chungnam, Jeonbuk, Jeonnam, Gyeongbuk, Gyeongnam, Jeju
     
     var name: String {
         switch self {
@@ -35,9 +37,9 @@ public enum LocalCode: Int, CaseIterable {
     var country: [String] {
         switch self {
         case .Daegu: return ["남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구", "군위군"]
-        case .Busan: return ["중구", "서구", "동구", "영도구", "부산진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구", "기장군"]
+        case .Busan: return ["강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"]
         case .Incheon: return ["중구", "동구", "미추홀구", "연수구", "남동구", "부평구", "계양구", "서구", "강화군", "옹진군"]
-        case .Seoul: return ["종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구", "강동구"]
+        case .Seoul: return ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"]
         case .Gwangju: return ["동구", "서구", "남구", "북구", "광산구"]
         case .Daejeon: return ["동구", "중구", "서구", "유성구", "대덕구"]
         case .Ulsan: return ["울주군", "중구", "북구", "동구", "남구"]

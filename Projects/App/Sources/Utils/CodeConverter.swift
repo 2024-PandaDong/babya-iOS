@@ -36,7 +36,7 @@ public func codeConverter(code: String) -> Int {
 // 각 군/구에 대해 고유한 인덱스를 부여하는 함수
 private func indexConvert(_ list: [String]) -> [String: Int] {
     var locationIndex: [String: Int] = [:]
-    var index = 10 // 인덱스 값을 20부터 시작 (임의로 지정, 필요에 따라 조정 가능)
+    var index = 10 // 인덱스 값을 10부터 시작 (임의로 지정, 필요에 따라 조정 가능)
 
     for country in list {
         locationIndex[country] = index
