@@ -14,6 +14,9 @@ import Alamofire
 class DiaryViewModel: ObservableObject {
     private let diaryService: DiaryService
     
+    @Published var title: String = ""
+    @Published var content: String = ""
+    
     @Published var success: Bool = false
     @Published var diaryList = [DiaryResponse]()
     @Published var comment = [CommentResponse]()
@@ -29,6 +32,12 @@ class DiaryViewModel: ObservableObject {
     
     init(diaryService: DiaryService) {
         self.diaryService = diaryService
+    }
+    
+    var isPostAvailable: Bool {
+        get {
+            return !title.isEmpty && !content.isEmpty
+        }
     }
     
     func diary(content : DiaryRequest) async {

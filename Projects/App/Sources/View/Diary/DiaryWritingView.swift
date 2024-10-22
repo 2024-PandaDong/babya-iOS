@@ -9,7 +9,6 @@
 import SwiftUI
 struct DiaryWritingView : View {
     @State var lock : Bool = true
-    @State var title : String
     var PostName : String
     var DiaryImage : String
     @Environment(\.dismiss) private var dismiss
@@ -19,10 +18,8 @@ struct DiaryWritingView : View {
     @State var Opinion : String = ""
     @State var systolicPressure : String = ""
     @State var diastolicPressure : String = ""
-    @State var Content : String = ""
     @State private var selectedEmotion: Emotion? = nil
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @FocusState private var isTextFieldFocused: Bool
     @State private var nextSelectedDate = Date()
     @State var selectedDateTitle : Bool = false
     @State private var selectedDate = Date() {
@@ -76,11 +73,11 @@ struct DiaryWritingView : View {
                             .font(.system(size: 20))
                             .bold()
                         
-                        LineTextField(text: $title, TextFieldWidth: .infinity)
+                        LineTextField(text: $vm.title, TextFieldWidth: .infinity)
                             .overlay(alignment: .topLeading) {
                                 Text("제목")
                                     .font(.system(size: 14))
-                                    .foregroundStyle(title.isEmpty ? .gray : .clear)
+                                    .foregroundStyle(vm.title.isEmpty ? .gray : .clear)
                             }
                             .padding(.bottom, 15)
                         HStack{
@@ -129,11 +126,6 @@ struct DiaryWritingView : View {
                                     .bold()
                                 
                                 LineTextField(text: $Opinion, TextFieldWidth: .infinity)
-                                    .onAppear {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            self.isTextFieldFocused = true
-                                        }
-                                    }
                                     .overlay(alignment: .topLeading) {
                                         Text("아이의 상태는 어떤가요?")
                                             .font(.system(size: 14))
@@ -145,20 +137,14 @@ struct DiaryWritingView : View {
                                     .font(.system(size: 20))
                                     .bold()
                                 ScrollView {
-                                    TextEditor(text: $Content)
+                                    TextEditor(text: $vm.content)
                                         .frame(maxWidth:.infinity,minHeight: 55, maxHeight: .infinity)
                                         .padding(.vertical, -10)
                                         .font(.system(size: 14))
-                                        .focused($isTextFieldFocused)
-                                        .onAppear {
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                self.isTextFieldFocused = true
-                                            }
-                                        }
                                         .overlay(alignment: .topLeading) {
                                             Text("오늘은 어떤일이 있으셨나요?")
                                                 .font(.system(size: 14))
-                                                .foregroundStyle(Content.isEmpty ? .gray : .clear)
+                                                .foregroundStyle(vm.content.isEmpty ? .gray : .clear)
                                         }
                                         .overlay(
                                             GeometryReader { geometry in
@@ -250,8 +236,8 @@ struct DiaryWritingView : View {
                 Button(action: {
                     Task {
                         let diaryRequest = DiaryRequest(
-                            title: title,
-                            content: Content,
+                            title: vm.title,
+                            content: vm.content,
                             pregnancyWeeks: Int(weeks) ?? 0,
                             weight: Int(weight) ?? 0,
                             systolicPressure: Int(systolicPressure) ?? 0,
@@ -275,15 +261,16 @@ struct DiaryWritingView : View {
                 }, label: {
                     ZStack{
                         RoundedRectangle(cornerRadius: 3)
-                            .stroke(complete ? Color.gray : Color.PrimaryLight, lineWidth: 1)
+                            .stroke(!vm.isPostAvailable ? Color.gray : Color.PrimaryLight, lineWidth: 1)
                             .frame(width: 41,height: 25)
                             .foregroundColor(.white)
                         
-                        Text("저장")
-                            .foregroundStyle(complete ? Color.gray : Color.PrimaryLight)
+                        Text("등록")
+                            .foregroundStyle(!vm.isPostAvailable ? Color.gray : Color.PrimaryLight)
                             .font(.system(size: 11))
                     }
                 })
+                .disabled(!vm.isPostAvailable)
             }
         }
         .onAppear {
