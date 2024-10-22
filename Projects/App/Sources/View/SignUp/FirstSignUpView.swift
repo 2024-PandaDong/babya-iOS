@@ -61,15 +61,10 @@ struct FirstSignUpView: View {
                         .padding(.vertical)
                     
                     ForEach(viewModel.personalModel.indices, id: \.self) { index in
-                        PersonalDataCell(label: viewModel.personalModel[index].personalDataLabel, isClicked: viewModel.personalModel[index].isBoxClicked) {
+                        PersonalDataCell(label: viewModel.personalModel[index].personalDataLabel, index: index, isClicked: viewModel.personalModel[index].isBoxClicked) {
                             viewModel.getClickedSelection(index)
                         }
                         .padding(.vertical, 10)
-                        
-                        if index == 2 {
-                            Divider()
-                                .padding(.vertical, 10)
-                        }
                     }
                 }
                 .padding(.horizontal, 20)

@@ -86,8 +86,8 @@ struct ProfileView: View {
                 .frame(height: 10)
                 .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
             
-            TermsCell(title: "약관 및 개인정보 처리 동의", link: "https://www.apple.com/kr/", isLast: false)
-            TermsCell(title: "개인정보 처리 방침", link: "https://developer.apple.com", isLast: true)
+            TermsCell(title: "약관 및 개인정보 처리 동의", link: "https://www.notion.so/1169bbf0448c80e1accdc3511654fe06", isLast: false)
+            TermsCell(title: "서비스 이용 약관", link: "https://www.notion.so/1279bbf0448c80eeba5fe9cfbca9b6d8", isLast: true)
             
             Rectangle()
                 .frame(height: 10)

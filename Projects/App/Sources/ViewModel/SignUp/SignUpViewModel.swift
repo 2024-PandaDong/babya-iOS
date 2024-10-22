@@ -67,9 +67,7 @@ class SignUpViewModel: ObservableObject {
         personalModel = [
             PersonModel(personalDataLabel: "개인정보 수집 이용 동의(필수)"),
             PersonModel(personalDataLabel: "서비스 이용 약관(필수)"),
-            PersonModel(personalDataLabel: "개인정보 제 3자 정보 제공 동의(필수)"),
-            PersonModel(personalDataLabel: "마켓팅 알림 수신 동의(선택)"),
-            PersonModel(personalDataLabel: "광고성 정보 수신 동의(선택)"),
+            PersonModel(personalDataLabel: "개인정보 제 3자 정보 제공 동의(필수)")
         ]
     }
     

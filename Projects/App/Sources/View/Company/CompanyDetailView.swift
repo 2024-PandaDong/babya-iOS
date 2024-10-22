@@ -90,18 +90,23 @@ struct CompanyDetailView: View {
                         SalaryInfoCell(salaries: ["\(vm.companyInfo?.minSalary ?? 0)만원", "\(vm.companyInfo?.avgSalary ?? 0)만원", "\(vm.companyInfo?.maxSalary ?? 0)만원"])
   
                         
-                        Text("인원")
-                            .font(.system(size: 16,weight: .semibold))
-                            .foregroundStyle(Color.black)
-                            .padding(.vertical,17)
-                        
-                        CompanyCharts(data: System.dummyData(salaries: [
-                            "\(vm.companyInfo?.malePeople ?? 0)%",
-                            "\(vm.companyInfo?.femalePeople ?? 0)%"]),
-                                      salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
-                                "\(vm.companyInfo?.malePeople ?? 0)명",
-                                "\(vm.companyInfo?.femalePeople ?? 0)명"])
-                        .padding(.horizontal,20)
+                        if vm.companyInfo?.malePeople != 0 && vm.companyInfo?.femalePeople != 0 {
+                            Text("인원")
+                                .font(.system(size: 16,weight: .semibold))
+                                .foregroundStyle(Color.black)
+                                .padding(.vertical,17)
+                            
+                            CompanyCharts(data: System.dummyData(salaries: [
+                                "\(vm.companyInfo?.malePeople ?? 0)%",
+                                "\(vm.companyInfo?.femalePeople ?? 0)%"]),
+                                          salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
+                                    "\(vm.companyInfo?.malePeople ?? 0)명",
+                                    "\(vm.companyInfo?.femalePeople ?? 0)명"])
+                            .padding(.horizontal,20)
+                        } else {
+                            Spacer()
+                                .frame(height: 20)
+                        }
                         
                         Text("기업 정보")
                             .font(.system(size: 16,weight: .semibold))

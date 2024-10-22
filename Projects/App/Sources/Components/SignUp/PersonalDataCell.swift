@@ -10,11 +10,13 @@ import SwiftUI
 struct PersonalDataCell: View {
     
     var label: String
+    let index: Int
     let action: () -> Void
     var isClicked: Bool
     
-    init(label: String, isClicked: Bool, action: @escaping () -> Void) {
+    init(label: String, index: Int, isClicked: Bool, action: @escaping () -> Void) {
         self.label = label
+        self.index = index
         self.isClicked = isClicked
         self.action = action
     }
@@ -58,14 +60,20 @@ struct PersonalDataCell: View {
             }
         }
         .sheet(isPresented: $isPresented) {
-            Text(label)
+            if index == 0 {
+                WebViewer(url: "https://www.notion.so/1169bbf0448c80e1accdc3511654fe06")
+            } else if index == 1 {
+                WebViewer(url: "https://www.notion.so/1279bbf0448c80eeba5fe9cfbca9b6d8")
+            } else if index == 2 {
+                WebViewer(url: "https://www.notion.so/3-1279bbf0448c80be9767c7a189419f7b")
+            }
         }
     }
 }
 
 
 #Preview {
-    PersonalDataCell(label: "개인정보 수집 동의", isClicked: false) {
+    PersonalDataCell(label: "개인정보 수집 동의", index: 0, isClicked: false) {
         
     }
 }
