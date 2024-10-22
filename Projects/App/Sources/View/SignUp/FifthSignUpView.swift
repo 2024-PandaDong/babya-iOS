@@ -19,7 +19,7 @@ struct FifthSignUpView: View {
                     Divider()
                     
                     Rectangle()
-                        .frame(width: geometry.size.width / 1.25, height: 2)
+                        .frame(width: geometry.size.width / 1.15, height: 2)
                         .foregroundStyle(Color.PrimaryNormal)
                     ScrollView {
                         Group {
@@ -67,6 +67,11 @@ struct FifthSignUpView: View {
                                 .foregroundStyle(.black)
                                 .fontWeight(.medium)
                         }
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Text("90%")
+                            .font(.system(size: 12))
                     }
                 }
                 

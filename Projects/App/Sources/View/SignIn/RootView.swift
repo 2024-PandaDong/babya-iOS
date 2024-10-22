@@ -13,6 +13,19 @@ struct RootView: View {
     
     var body: some View {
         VStack(spacing: 25) {
+            ZStack {
+                Divider()
+                
+                HStack {
+                    Rectangle()
+                        .frame(width: 5, height: 3)
+                    .foregroundStyle(Color.PrimaryNormal)
+                    
+                    Spacer()
+                }
+            }
+            .padding(.top, -10)
+            
             Image("logo")
             
             Text("애기야에 오신 것을 환영합니다.")
@@ -57,6 +70,12 @@ struct RootView: View {
         .sheet(isPresented: $showLogin) {
             SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
                 .environmentObject(viewModel)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Text("0%")
+                    .font(.system(size: 12))
+            }
         }
     }
 }

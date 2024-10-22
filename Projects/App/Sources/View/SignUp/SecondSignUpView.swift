@@ -72,6 +72,11 @@ struct SecondSignUpView: View {
                             .fontWeight(.medium)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text("32%")
+                        .font(.system(size: 12))
+                }
             }
             .navigationBarBackButtonHidden()
         }

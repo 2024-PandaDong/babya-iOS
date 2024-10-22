@@ -89,6 +89,11 @@ struct ThirdSignUpView: View {
                             .fontWeight(.medium)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text("50%")
+                        .font(.system(size: 12))
+                }
             }
             .navigationBarBackButtonHidden()
         }

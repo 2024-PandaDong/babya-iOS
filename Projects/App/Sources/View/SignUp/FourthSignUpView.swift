@@ -72,6 +72,11 @@ struct FourthSignUpView: View {
                             .fontWeight(.medium)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text("67%")
+                        .font(.system(size: 12))
+                }
             }
             .navigationBarBackButtonHidden()
         }

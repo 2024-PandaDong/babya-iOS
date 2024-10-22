@@ -59,6 +59,11 @@ struct FinalSignUpView: View {
                             .fontWeight(.medium)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Text("100%")
+                        .font(.system(size: 12))
+                }
             }
             .navigationBarBackButtonHidden()
         }
