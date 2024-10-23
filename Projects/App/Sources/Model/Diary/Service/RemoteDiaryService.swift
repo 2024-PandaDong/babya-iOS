@@ -29,7 +29,7 @@ final class RemoteDiaryService : DiaryService{
     
     
     func getDiary(pageRequest: PageRequest,email : String) async throws -> Response<[DiaryResponse]> {
-        let url = "/diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)"
+        let url = "/diary?page=\(pageRequest.page)&size=\(pageRequest.size)&email=\(email)&keyword="
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))

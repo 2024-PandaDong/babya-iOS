@@ -57,6 +57,7 @@ struct DiaryView : View {
                         ZStack {
                             Button(action: {
                                 Diary = true
+                                All = true
                             }, label: {
                                 Text("공개")
                                     .font(.system(size: 16,weight: .semibold))
@@ -75,6 +76,7 @@ struct DiaryView : View {
                         ZStack {
                             Button(action: {
                                 Diary = false
+
                             }, label: {
                                 Text("비공개")
                                     .font(.system(size: 16,weight: .semibold))
@@ -100,22 +102,43 @@ struct DiaryView : View {
                                 ForEach((0..<vm.diarycount), id: \.self) { count in
                                     NavigationLink(
                                         destination: {
-                                            if All {
-                                                DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
+                                            if Diary{
+                                                    DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                             } else {
-                                                UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
+//                                                UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
+                                                if vm.diaryList[count].isPublic == "N" {
+                                                    DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
+                                                }
+
                                             }
                                         })
                                     {
-                                        DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
-                                            .padding(.vertical, 9)
-                                            .padding(.horizontal,10)
-                                            .onAppear{
-                                                print("카운트 :: \(count)")
-                                                if count % 10 == 9 {
-                                                    nowPage += 1
-                                                }
+                                        if Diary {
+                                            if vm.diaryList[count].isPublic == "Y" {
+                                                DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
+                                                    .padding(.vertical, 9)
+                                                    .padding(.horizontal,10)
+                                                    .onAppear{
+                                                        print("카운트 :: \(count)")
+                                                        if count % 10 == 9 {
+                                                            nowPage += 1
+                                                        }
+                                                    }
                                             }
+                                        }
+                                        if Diary == false {
+                                            if vm.diaryList[count].isPublic == "N" {
+                                                DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
+                                                    .padding(.vertical, 9)
+                                                    .padding(.horizontal,10)
+                                                    .onAppear{
+                                                        print("카운트 :: \(count)")
+                                                        if count % 10 == 9 {
+                                                            nowPage += 1
+                                                        }
+                                                    }
+                                            }
+                                        }
                                     }
                                 }
                             }
