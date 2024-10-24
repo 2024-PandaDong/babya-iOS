@@ -26,6 +26,7 @@ struct CommentCeil : View {
                             .aspectRatio(contentMode: .fit)
                             .clipShape(Circle())
                             .frame(minWidth: 25,maxHeight: 25)
+                            .padding(.trailing,6)
                         Text(Comment.nickname)
                             .font(.system(size: 13))
                             .foregroundStyle(.black)

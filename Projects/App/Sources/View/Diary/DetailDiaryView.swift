@@ -45,6 +45,7 @@ struct DetailDiaryView : View {
                                     .padding(.horizontal,15)
                                 }
                                 if Diary.isPublic == "N"{
+                                    
                                     VStack(alignment: .leading ,spacing: 15){
                                         HStack{
                                             VStack(alignment: .center,spacing: 5) {
@@ -60,6 +61,7 @@ struct DetailDiaryView : View {
                                                 }
                                             }
                                             Spacer()
+                            
                                             VStack(alignment: .leading ,spacing: 10){
                                                 HStack(spacing:7){
                                                     Text("체중:")
@@ -76,7 +78,6 @@ struct DetailDiaryView : View {
                                                     Text("주")
                                                         .font(.system(size: 13))
                                                 }
-                                                
                                                 HStack(spacing:7){
                                                     Text("혈압:")
                                                         .font(.system(size: 13))
@@ -123,6 +124,7 @@ struct DetailDiaryView : View {
                                 ScrollView(showsIndicators: false) {
                                     ForEach((0..<vm.commentcount), id: \.self) { count in
                                         CommentCeil(Comment: vm.comment[count], postSubComment: $postSubComment, parentCommentId: $parentCommentId)
+                                            .padding(.leading, 10)
                                             .padding(.vertical,5)
                                             .onAppear{
                                                 if count == 9 {
@@ -157,13 +159,7 @@ struct DetailDiaryView : View {
                         }
                         ZStack{
                             HStack(spacing: 1){
-                                Image("baseProfile")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                                    .frame(minWidth: 25,maxHeight: 25)
-                                
-                                TextField("댓글달기", text: $inputText)
+                                TextField("댓글쓰기", text: $inputText)
                                     .textFieldStyle(TextfieldStyle(isClick: $isClick))
                                 
                             }
