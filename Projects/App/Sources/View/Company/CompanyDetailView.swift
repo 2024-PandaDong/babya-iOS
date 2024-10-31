@@ -31,8 +31,7 @@ struct CompanyDetailView: View {
                                         .resizable()
                                 }
                             } else {
-                                Image("dummy")
-                                    .resizable()
+                              ProgressView()
                             }
                         }
                         .frame(maxWidth: .infinity)
