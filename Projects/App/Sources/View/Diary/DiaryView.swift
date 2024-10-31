@@ -105,7 +105,6 @@ struct DiaryView : View {
                                             if Diary{
                                                     DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                             } else {
-//                                                UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                                 if vm.diaryList[count].isPublic == "N" {
                                                     DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                                 }
