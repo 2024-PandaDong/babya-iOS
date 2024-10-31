@@ -31,8 +31,7 @@ struct CompanyDetailView: View {
                                         .resizable()
                                 }
                             } else {
-                                Image("dummy")
-                                    .resizable()
+                              ProgressView()
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -88,7 +87,6 @@ struct CompanyDetailView: View {
                         .padding(.vertical,17)
                         
                         SalaryInfoCell(salaries: ["\(vm.companyInfo?.minSalary ?? 0)만원", "\(vm.companyInfo?.avgSalary ?? 0)만원", "\(vm.companyInfo?.maxSalary ?? 0)만원"])
-  
                         
                         if vm.companyInfo?.malePeople != 0 && vm.companyInfo?.femalePeople != 0 {
                             Text("인원")
@@ -102,7 +100,7 @@ struct CompanyDetailView: View {
                                           salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
                                     "\(vm.companyInfo?.malePeople ?? 0)명",
                                     "\(vm.companyInfo?.femalePeople ?? 0)명"])
-                            .padding(.horizontal,20)
+                            .padding(.horizontal,10)
                         } else {
                             Spacer()
                                 .frame(height: 20)
