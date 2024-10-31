@@ -54,7 +54,7 @@ struct SecondSignUpView: View {
                                 .font(.system(size: 16, weight: .bold))
                         }
                 }
-                .disabled(viewModel.isSecondSignUpAvailable)
+                .disabled(!viewModel.isSecondSignUpAvailable)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 40)
             }

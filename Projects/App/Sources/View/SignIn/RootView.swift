@@ -11,21 +11,9 @@ struct RootView: View {
     @State var showLogin: Bool = false
     
     var body: some View {
-        VStack(spacing: 25) {
-            ZStack {
-                Divider()
-                
-                HStack {
-                    Rectangle()
-                        .frame(width: 5, height: 3)
-                    .foregroundStyle(Color.PrimaryNormal)
-                    
-                    Spacer()
-                }
-            }
-            .padding(.top, -10)
-            
+        VStack {
             Image("logo")
+                .padding(.top)
             
             Text("애기야에 오신 것을 환영합니다.")
                 .font(.system(size: 20, weight: .semibold))
@@ -38,8 +26,9 @@ struct RootView: View {
             
             Image("mockup")
             
-            Spacer()
-                .frame(height: 10)
+            Rectangle()
+                .frame(height: 80)
+                .foregroundStyle(.clear)
             
             NavigationLink(destination: RootSignUpView()) {
                 RoundedRectangle(cornerRadius: 10)
@@ -51,7 +40,6 @@ struct RootView: View {
                             .font(.system(size: 16, weight: .bold))
                     }
             }
-            .padding(.top, 30)
             
             HStack {
                 Text("이미 회원이십니까?")
@@ -65,15 +53,10 @@ struct RootView: View {
                 }
             }
             .font(.system(size: 13))
+            .padding(.top, 3)
         }
         .sheet(isPresented: $showLogin) {
             SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Text("0%")
-                    .font(.system(size: 12))
-            }
         }
     }
 }
