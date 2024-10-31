@@ -15,12 +15,6 @@ struct ThirdSignUpView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
-                Divider()
-                
-                Rectangle()
-                    .frame(width: geometry.size.width / 2, height: 2)
-                    .foregroundStyle(Color.PrimaryNormal)
-                
                 Group {
                     Text("당신의 이름은?")
                         .font(.system(size: 20, weight: .bold))
@@ -61,9 +55,15 @@ struct ThirdSignUpView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: FourthSignUpView().environmentObject(viewModel)) {
+                Button {
+                    withAnimation {
+                        viewModel.pageNum += 1
+                        viewModel.percentage += 17
+                        viewModel.width += 66
+                    }
+                } label: {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50)
+                        .frame(maxWidth: .infinity, maxHeight: 50)
                         .foregroundStyle(viewModel.isThirdSignUpAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
                         .overlay {
                             Text("다음으로")
@@ -74,26 +74,6 @@ struct ThirdSignUpView: View {
                 .disabled(!viewModel.isThirdSignUpAvailable)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 40)
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.model.nickName = ""
-                        viewModel.model.marriedDt = ""
-                        viewModel.model.birthDt = ""
-                        viewModel.model.locationCode = ""
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                            .fontWeight(.medium)
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text("50%")
-                        .font(.system(size: 12))
-                }
             }
             .navigationBarBackButtonHidden()
         }

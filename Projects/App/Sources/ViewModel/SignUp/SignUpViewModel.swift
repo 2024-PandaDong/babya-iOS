@@ -24,6 +24,11 @@ class SignUpViewModel: ObservableObject {
     @Published var familyType = 0
     @Published var rootActive: Bool = false
     
+    @Published var pageNum = 0
+    @Published var percentage: Int = 0
+    @Published var width: CGFloat = 0
+    @Published var isPlaning: Bool = false
+    
     func calculateWidth(for text: String) -> CGFloat {
         return CGFloat(text.count * 10 + 30)
     }

@@ -15,12 +15,6 @@ struct FinalSignUpView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                Divider()
-                
-                Rectangle()
-                    .frame(width: geometry.size.width, height: 2)
-                    .foregroundStyle(Color.PrimaryNormal)
-                
                 Spacer()
                 
                 Image("family")
@@ -48,22 +42,6 @@ struct FinalSignUpView: View {
                 }
                 .padding(.vertical, 80)
                 
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                            .fontWeight(.medium)
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text("100%")
-                        .font(.system(size: 12))
-                }
             }
             .navigationBarBackButtonHidden()
         }

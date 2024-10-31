@@ -16,11 +16,6 @@ struct FifthSignUpView: View {
         GeometryReader { geometry in
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Divider()
-                    
-                    Rectangle()
-                        .frame(width: geometry.size.width / 1.15, height: 2)
-                        .foregroundStyle(Color.PrimaryNormal)
                     ScrollView {
                         Group {
                             if viewModel.familyType == 2 || viewModel.familyType == 4 {
@@ -53,36 +48,21 @@ struct FifthSignUpView: View {
                         .padding(.horizontal, 30)
                         .padding(.vertical, 10)
                     }
-                    
-                    
                 }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            viewModel.model.childList = []
-                            viewModel.model.pregnancyDt = ""
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Image(systemName: "arrow.left")
-                                .foregroundStyle(.black)
-                                .fontWeight(.medium)
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Text("90%")
-                            .font(.system(size: 12))
-                    }
-                }
-                
             }
             
             VStack {
                 Spacer()
                 
-                NavigationLink(destination: FinalSignUpView().environmentObject(viewModel)) {
+                Button {
+                    withAnimation {
+                        viewModel.pageNum += 1
+                        viewModel.percentage += 15
+                        viewModel.width = 395
+                    }
+                } label: {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(maxWidth: .infinity, minHeight: 50, maxHeight: 50)
+                        .frame(maxWidth: .infinity, maxHeight: 50)
                         .foregroundStyle(viewModel.isFifthSignUpAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
                         .overlay {
                             Text("다음으로")

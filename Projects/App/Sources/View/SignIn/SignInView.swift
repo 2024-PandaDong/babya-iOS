@@ -15,7 +15,6 @@ struct SignInView : View {
     @State private var showPassword: Bool = false
 
     @StateObject var vm: SignInViewModel
-    @EnvironmentObject var signUpViewModel : SignUpViewModel
     
     var body: some View {
         NavigationView {
@@ -27,8 +26,7 @@ struct SignInView : View {
                     Text("회원이 아니신가요?")
                         .font(.system(size: 13, weight: .regular))
                     
-                    NavigationLink(destination: FirstSignUpView()
-                        .environmentObject(signUpViewModel)) {
+                    NavigationLink(destination: RootSignUpView()) {
                             Text("회원가입하기")
                                 .font(.system(size: 13, weight: .regular))
                                 .foregroundStyle(Color.PrimaryNormal)

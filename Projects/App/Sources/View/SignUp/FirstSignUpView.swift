@@ -16,12 +16,6 @@ struct FirstSignUpView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 0) {
-                Divider()
-                
-                Rectangle()
-                    .frame(width: geometry.size.width / 6, height: 2)
-                    .foregroundStyle(Color.PrimaryNormal)
-                
                 Group {
                     Text("약관에 동의해주세요")
                         .font(.system(size: 20, weight: .bold))
@@ -71,7 +65,13 @@ struct FirstSignUpView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: SecondSignUpView().environmentObject(viewModel)) {
+                Button {
+                    withAnimation {
+                        viewModel.pageNum += 1
+                        viewModel.percentage += 17
+                        viewModel.width += 66
+                    }
+                } label: {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(maxWidth: .infinity, maxHeight: 50)
                         .foregroundStyle(viewModel.isFirstSignUpAvailable ? Color.PrimaryNormal : .ComponentMaterialDimmer)
@@ -84,23 +84,6 @@ struct FirstSignUpView: View {
                 .disabled(!viewModel.isFirstSignUpAvailable)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 40)
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.toggleTotalAccept()
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .foregroundStyle(.black)
-                            .fontWeight(.medium)
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Text("16%")
-                        .font(.system(size: 12))
-                }
             }
             .navigationBarBackButtonHidden()
         }
