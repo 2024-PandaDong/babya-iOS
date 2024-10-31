@@ -89,6 +89,7 @@ class TodoViewModel: ObservableObject {
             switch response.result {
             case .success(_):
                 self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
+                self.getCategory()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -109,6 +110,7 @@ class TodoViewModel: ObservableObject {
             switch response.result {
             case .success(_):
                 self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
+                self.getCategory()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -137,6 +139,7 @@ class TodoViewModel: ObservableObject {
             switch response.result {
             case .success(_):
                 self.getTodo(category: self.currentTab, date: self.dateFormatter.string(from: self.date))
+                self.getCategory()
             case .failure(let error):
                 print(error.localizedDescription)
             }

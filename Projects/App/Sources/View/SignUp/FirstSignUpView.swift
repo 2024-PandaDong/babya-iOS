@@ -37,7 +37,7 @@ struct FirstSignUpView: View {
                         }, label: {
                             RoundedRectangle(cornerRadius: 5)
                                 .frame(width: 22, height: 22)
-                                .foregroundStyle(.clear)
+                                .foregroundStyle(!viewModel.totalAccept ? Color.PrimaryLight : .clear)
                                 .overlay {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 5)
@@ -45,7 +45,7 @@ struct FirstSignUpView: View {
                                             .overlay {}
                                         Image(systemName: "checkmark")
                                             .font(.system(size: 12).weight(.semibold))
-                                            .foregroundStyle(viewModel.totalAccept ? .clear : .black)
+                                            .foregroundStyle(.white)
                                     }
                                 }
                         })

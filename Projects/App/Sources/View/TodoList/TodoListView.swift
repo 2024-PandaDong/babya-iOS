@@ -140,6 +140,7 @@ struct TodoListView: View {
                         Spacer()
                     }
                 }
+                .padding(.top)
             }
             
             HStack {

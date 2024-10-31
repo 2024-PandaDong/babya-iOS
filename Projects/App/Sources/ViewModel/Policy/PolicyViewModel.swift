@@ -22,6 +22,7 @@ class PolicyViewModel: ObservableObject {
     }
     
     func getPolicyList(region: String, keyword: String) {
+        model = []
         
         AF.request(
             "\(ApiContent.url)/policy?region=\(region)&keyword=\(keyword)",
