@@ -22,24 +22,33 @@ class CompanyViewModel: ObservableObject {
         do {
             let response = try await companyService.getCompany(pageRequest: pageRequest)
             if let data = response.data {
-                companyList = data
+                DispatchQueue.main.async {
+                    self.companyList = data
+                }
             } else {
-                companyList = []
+                DispatchQueue.main.async {
+                    self.companyList = []
+                }
             }
             
         } catch {
             print(error)
         }
     }
+
     
     func detailCompany(Id: Int) async {
         do {
             let response = try await companyService.getDetailCompany(Id: Id)
             print(response)
             if let data = response.data {
-                companyInfo = data
+                DispatchQueue.main.async {
+                    self.companyInfo = data
+                }
             } else {
-                companyInfo = nil
+                DispatchQueue.main.async {
+                    self.companyInfo = nil
+                }
             }
 
         } catch {
