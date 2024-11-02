@@ -1,5 +1,5 @@
 {
-  "originHash" : "ed0832410a99a77994f3af8b5cc6888307d585581c7ff37c439f086da12dd450",
+  "originHash" : "600815013e19f370763a7b4658d015552448891cbe1770947144b05e7722afe5",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "1eaf3b6c6882bed10f6e7b119665599dd2329aa1",
         "version" : "4.3.0"
+      }
+    },
+    {
+      "identity" : "flowkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mercen-Lee/FlowKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "71ee3f7414747e16f320a6f6b424152e22d9d694"
       }
     },
     {

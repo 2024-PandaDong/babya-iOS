@@ -6,8 +6,9 @@ let project = Project(
     packages: [
         .remote(url: "https://github.com/Alamofire/Alamofire", requirement: .upToNextMajor(from: "5.9.1")),
         .remote(url: "https://github.com/Alamofire/AlamofireImage", requirement: .upToNextMajor(from: "4.3.0")),
-        .remote(url: "https://github.com/NuPlay/RichText", requirement: .upToNextMajor(from: "2.0.0"))
-    ], 
+        .remote(url: "https://github.com/NuPlay/RichText", requirement: .upToNextMajor(from: "2.0.0")),
+        .remote(url: "https://github.com/Mercen-Lee/FlowKit", requirement: .branch("main"))
+    ],
     settings: .settings(
         configurations: [
             .debug(name: "babya"),
@@ -23,7 +24,7 @@ let project = Project(
             infoPlist: .file(path: "Support/Info.plist"),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
-            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage"), .package(product: "RichText")]
+            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage"), .package(product: "RichText"), .package(product: "FlowKit")]
         )
     ],
     schemes: [

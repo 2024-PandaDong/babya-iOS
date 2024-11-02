@@ -18,6 +18,10 @@ let dependencies = Dependencies(
         .remote(
             url: "https://github.com/NuPlay/RichText",
             requirement: .upToNextMajor(from: "2.0.0")
+        ),
+        .remote(
+            url: "https://github.com/Mercen-Lee/FlowKit",
+            requirement: .branch("main")
         )
     ],
     platforms: [.iOS]
