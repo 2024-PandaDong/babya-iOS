@@ -104,6 +104,7 @@ struct PolicyView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     self.presentationMode.wrappedValue.dismiss()
+                    self.profileVM.getMyRegion()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(.black)

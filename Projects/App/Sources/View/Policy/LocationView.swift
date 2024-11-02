@@ -48,38 +48,36 @@ struct LocationView: View {
             Text("군을 선택해주세요.")
             
             
-            if let state = viewModel.selectedState,
-                !(state.country.isEmpty) {
+            if let state = viewModel.selectedState, !state.country.isEmpty {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(state.country, id: \.self) { item in
+                    ForEach(Array(state.country.sorted(by: { $0.key < $1.key })), id: \.key) { (district, code) in
                         Button {
                             withAnimation {
-                                print(item)
-                                viewModel.selectedDistrict = item
+                                viewModel.selectedDistrict = district // 선택된 군/구의 이름 설정
+                                viewModel.regionCode = code // 선택된 군/구의 코드 설정
+                                print("Selected District: \(district), Region Code: \(code)") // 디버깅 출력
                             }
                         } label: {
                             Capsule()
-                                .frame(width: viewModel.calculateWidth(for: item), height: 25)
+                                .frame(width: viewModel.calculateWidth(for: district), height: 25)
                                 .foregroundStyle(.clear)
                                 .overlay {
-                                    Capsule().stroke(viewModel.selectedDistrict == item ? Color.PrimaryLight : .LineAlternative, lineWidth: 1.3)
+                                    Capsule().stroke(viewModel.selectedDistrict == district ? Color.PrimaryLight : .LineAlternative, lineWidth: 1.3)
                                     
-                                    Text(item)
+                                    Text(district)
                                         .font(.system(size: 14, weight: .medium))
-                                        .foregroundStyle(viewModel.selectedDistrict == item ? Color.PrimaryLight : .LineAlternative)
+                                        .foregroundStyle(viewModel.selectedDistrict == district ? Color.PrimaryLight : .LineAlternative)
                                 }
                         }
                     }
                 }
                 .padding(.vertical)
             }
-
+            
             Spacer()
             
             Button {
                 self.presentationMode.wrappedValue.dismiss()
-                
-                viewModel.regionCode = String(codeConverter(code: "\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)"))
                 
                 print(viewModel.regionCode)
                 
