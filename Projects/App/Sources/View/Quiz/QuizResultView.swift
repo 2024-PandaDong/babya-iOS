@@ -12,6 +12,7 @@ struct QuizResultiew : View {
     let quizCn : String
     let answer : String
     let quizTitle: String
+    var selected : String
     var body: some View {
         NavigationView{
             VStack(alignment: .center){
@@ -35,7 +36,7 @@ struct QuizResultiew : View {
                     .padding(.bottom,35)
                 VStack(alignment: .leading){
                     HStack{
-                        if  answer == "Y"{
+                        if  answer == selected{
                             Text("정답입니다!")
                                 .font(.system(size: 20,weight: .medium))
                                 .foregroundStyle(Color.StatusPositive)
@@ -53,7 +54,7 @@ struct QuizResultiew : View {
                         .padding(.vertical,15)
                 }
                 .padding(.horizontal,15)
-
+                
                 Spacer()
                 
                 NavigationLink(destination: HomeView()) {
@@ -63,6 +64,7 @@ struct QuizResultiew : View {
             }
         }
         .navigationBarBackButtonHidden()
+        .ignoresSafeArea()
     }
 }
 

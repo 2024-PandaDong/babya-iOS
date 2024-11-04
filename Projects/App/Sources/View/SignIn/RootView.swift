@@ -58,6 +58,7 @@ struct RootView: View {
         .sheet(isPresented: $showLogin) {
             SignInView(vm: SignInViewModel(authService: RemoteAuthService()))
         }
+        .ignoresSafeArea()
     }
 }
 

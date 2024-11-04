@@ -7,18 +7,17 @@
 //
 
 import SwiftUI
+import FlowKit
 
 @main
 struct babyaApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationView {
                 if (LoginUserHashCache.shared.checkAccessToken() == nil) {
-                    RootView()
+                    FlowPresenter(rootView: RootView())
                 } else {
-                    QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))
+                    FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
                 }
-            }
         }
     }
 }

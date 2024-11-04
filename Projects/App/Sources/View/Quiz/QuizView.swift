@@ -7,9 +7,11 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct QuizView : View {
     @StateObject var vm : QuizViewModel
+    @Flow var flow
     var body: some View {
         VStack(alignment: .center){
             Text("일일퀴즈")
@@ -37,17 +39,29 @@ struct QuizView : View {
                 .padding(.vertical,35)
             
             Spacer()
-
+            
             VStack(alignment: .center, spacing: 15){
-                NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
+                Button {
+                    flow.push(QuizResultiew(quizCn: vm.quizList?.quizCn ?? "",
+                                            answer: vm.quizList?.answer ?? "",
+                                            quizTitle: vm.quizList?.title ?? "",
+                                            selected: "Y"))
+                } label: {
                     OButton()
                 }
-                NavigationLink(destination: QuizResultiew(quizCn: vm.quizList?.quizCn ?? "", answer: vm.quizList?.answer ?? "", quizTitle: vm.quizList?.title ?? "")) {
+                Button{
+                    flow.push(QuizResultiew(quizCn: vm.quizList?.quizCn ?? "",
+                                            answer: vm.quizList?.answer ?? "",
+                                            quizTitle: vm.quizList?.title ?? "",
+                                            selected: "N"))
+                } label: {
                     XButton()
                 }
             }
-            
-            NavigationLink(destination: HomeView()) {
+
+            Button {
+                flow.push(HomeView())
+            } label: {
                 Text("건너뛰기")
                     .foregroundColor(Color.LabelAssistive)
                     .font(.system(size: 16))
@@ -58,5 +72,6 @@ struct QuizView : View {
         .task {
             await vm.getQuiz()
         }
+        .ignoresSafeArea()
     }
 }
