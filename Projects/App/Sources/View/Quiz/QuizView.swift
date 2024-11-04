@@ -45,7 +45,7 @@ struct QuizView : View {
                     flow.push(QuizResultiew(quizCn: vm.quizList?.quizCn ?? "",
                                             answer: vm.quizList?.answer ?? "",
                                             quizTitle: vm.quizList?.title ?? "",
-                                            selected: "Y"))
+                                            selected: "Y"),animated: false)
                 } label: {
                     OButton()
                 }
@@ -53,14 +53,14 @@ struct QuizView : View {
                     flow.push(QuizResultiew(quizCn: vm.quizList?.quizCn ?? "",
                                             answer: vm.quizList?.answer ?? "",
                                             quizTitle: vm.quizList?.title ?? "",
-                                            selected: "N"))
+                                            selected: "N"),animated: false)
                 } label: {
                     XButton()
                 }
             }
 
             Button {
-                flow.push(HomeView())
+                flow.push(HomeView(),animated: false)
 //            NavigationLink{
 //                HomeView()
             } label: {

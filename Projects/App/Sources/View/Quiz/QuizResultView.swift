@@ -60,7 +60,7 @@ struct QuizResultiew : View {
             Spacer()
 
             Button{
-                flow.push(HomeView())
+                flow.push(HomeView(),animated: false)
             }label: {
                 BackButton()
             }
