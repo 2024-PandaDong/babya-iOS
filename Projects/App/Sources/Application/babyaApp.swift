@@ -12,12 +12,12 @@ import FlowKit
 @main
 struct babyaApp: App {
     var body: some Scene {
-        WindowGroup {
-            if (LoginUserHashCache.shared.checkAccessToken() == nil) {
-                FlowPresenter(rootView: RootView())
-            } else {
-                FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
-            }
+            WindowGroup {
+                if (LoginUserHashCache.shared.checkAccessToken() == nil) {
+                    FlowPresenter(rootView: RootView())
+                } else {
+                    FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
+                }
         }
     }
 }

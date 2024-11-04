@@ -61,6 +61,8 @@ struct QuizView : View {
 
             Button {
                 flow.push(HomeView())
+//            NavigationLink{
+//                HomeView()
             } label: {
                 Text("건너뛰기")
                     .foregroundColor(Color.LabelAssistive)

@@ -15,8 +15,9 @@ struct CustomTabBar: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
                     .frame(width: UIScreen.main.bounds.width, height: 100)
-                    .foregroundStyle(Color(red: 245/255, green: 245/255, blue: 245/255))
-                .shadow(radius: 3, y: -2)
+                    .foregroundColor(.white)
+//                    .foregroundStyle(Color(red: 245/255, green: 245/255, blue: 245/255))
+                .shadow(radius: 2, y: -1)
                 
                 HStack {
                     Spacer()

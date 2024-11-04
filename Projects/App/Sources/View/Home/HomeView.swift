@@ -1,22 +1,14 @@
-//
-//  HomeView.swift
-//  babya
-//
-//  Created by dgsw8th32 on 5/19/24.
-//
-
 import SwiftUI
 
 struct HomeView: View {
     @StateObject var homeVM = HomeViewModel()
     @StateObject var policyVM = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
-    @StateObject var companyVM : CompanyViewModel = .init(companyService: RemoteCompanyService())
+    @StateObject var companyVM: CompanyViewModel = .init(companyService: RemoteCompanyService())
     
     var body: some View {
-        ZStack {
-            ScrollView() {
-                
+        VStack {
+            ScrollView {
                 CustomPicker()
                 
                 Divider()
@@ -41,7 +33,7 @@ struct HomeView: View {
                         CompanyDetailView(companyId: company.companyId)
                             .navigationBarBackButtonHidden()
                     } label: {
-                        CompanyCell(title: company.companyName, location: company.address,  image: (company.logoImg.first ?? "dummy") ?? "dummy")
+                        CompanyCell(title: company.companyName, location: company.address, image: (company.logoImg.first ?? "dummy") ?? "dummy")
                             .padding(.horizontal)
                     }
                     .padding(.vertical, 5)
@@ -73,7 +65,7 @@ struct HomeView: View {
                                 title: policyVM.model[index].title,
                                 location: "\(((policyVM.selectedState?.name) != nil) ? policyVM.selectedState!.name : "") \(policyVM.selectedDistrict)",
                                 editDate: policyVM.model[index].editDate, imgUrl: "", isInHome: true)
-                                .padding(.horizontal)
+                            .padding(.horizontal)
                         }
                     }
                 }
@@ -81,13 +73,29 @@ struct HomeView: View {
                 Spacer()
                     .frame(height: 100)
             }
+            .background(Color.clear)
+        }
+//        .mask(alignment: .bottom) {
+//            VStack(spacing: 0) {
+//                Color.black
+//                LinearGradient(
+//                    colors: [.black, .clear],
+//                    startPoint: .top,
+//                    endPoint: .bottom
+//                )
+//                .frame(height: 150)
+//            }
+//            .ignoresSafeArea()
+//        }
+        .safeAreaInset(edge: .bottom) {
             CustomTabBar()
+                .background(Color.clear)
+                .ignoresSafeArea()
         }
         .navigationBarBackButtonHidden()
         .task {
             await companyVM.getCompany(pageRequest: PageRequest(page: 1, size: 3))
         }
-        .ignoresSafeArea()
         .onAppear {
             policyVM.model = []
             profileVM.getMyProfile()
