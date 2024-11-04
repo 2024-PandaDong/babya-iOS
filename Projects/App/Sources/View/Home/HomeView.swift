@@ -8,8 +8,9 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 CustomPicker()
+                    .padding(.top,-20)
                 
                 Divider()
                     .padding(.top, -16)
@@ -75,22 +76,11 @@ struct HomeView: View {
             }
             .background(Color.clear)
         }
-//        .mask(alignment: .bottom) {
-//            VStack(spacing: 0) {
-//                Color.black
-//                LinearGradient(
-//                    colors: [.black, .clear],
-//                    startPoint: .top,
-//                    endPoint: .bottom
-//                )
-//                .frame(height: 150)
-//            }
-//            .ignoresSafeArea()
-//        }
         .safeAreaInset(edge: .bottom) {
             CustomTabBar()
                 .background(Color.clear)
                 .ignoresSafeArea()
+                .padding(.bottom,-40)
         }
         .navigationBarBackButtonHidden()
         .task {

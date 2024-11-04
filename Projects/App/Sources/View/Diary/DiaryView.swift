@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import FlowKit
 
 struct DiaryView : View {
     @StateObject var vm : DiaryViewModel = .init(diaryService: RemoteDiaryService())
@@ -23,7 +24,6 @@ struct DiaryView : View {
     @State var fetchDiary : Bool = false
     @State var TextVariable: String = ""
     var body: some View {
-        NavigationView{
             ZStack{
                 VStack{
                     HStack{
@@ -52,6 +52,7 @@ struct DiaryView : View {
                             .resizable()
                             .frame(width: 20,height: 20)
                     }
+                    .padding(.top,-30)
                     .padding(.horizontal,24)
                     HStack(spacing: 23) {
                         ZStack {
@@ -105,7 +106,6 @@ struct DiaryView : View {
                                             if Diary{
                                                     DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                             } else {
-//                                                UserDetailDiaryView(Diary: vm.diaryList[count], vm:DiaryViewModel(diaryService: RemoteDiaryService()))
                                                 if vm.diaryList[count].isPublic == "N" {
                                                     DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
                                                 }
@@ -178,7 +178,6 @@ struct DiaryView : View {
                             .padding()
                     }
                 }
-            }
             .onChange(of: Diary) { value in
                 nowPage = 1
                 Task {
