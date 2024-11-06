@@ -23,6 +23,7 @@ struct DiaryView : View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var fetchDiary : Bool = false
     @State var TextVariable: String = ""
+    @Flow var flow
     
     var body: some View {
         ZStack{
@@ -46,9 +47,6 @@ struct DiaryView : View {
                             .padding(.top, 20)
                             .edgesIgnoringSafeArea(.all)
                     }
-                    //모듈의 결합 방향에 따른 테스트 종류 중 개개인의 모듈에서 테스트를 시작하고, 점차 이것들을 맞추어 테스트를 한 후에 최종적으로 프로그램의 전체 테스트를 진행하는 방식 -> 상향식 테스트
-                //인수 테스트안에서 개발 조직 안에 있는 잠재 고객에게 하는 테스트 -> 알파 테스트
-                    //프로그램과 명세서 간의 차이 -> 결함
                     
                     ZStack {
                         Button(action: {
@@ -77,18 +75,15 @@ struct DiaryView : View {
                     if vm.diarycount != 0 {
                         LazyVGrid(columns: columns) {
                             ForEach((0..<vm.diarycount), id: \.self) { count in
-                                NavigationLink(
-                                    destination: {
-                                        if Diary{
-                                            DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                        } else {
-                                            if vm.diaryList[count].isPublic == "N" {
-                                                DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                            }
-                                            
+                                Button{
+                                    if Diary {
+                                        flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
+                                    }else {
+                                        if vm.diaryList[count].isPublic == "N" {
+                                            flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
                                         }
-                                    })
-                                {
+                                    }
+                                }label: {
                                     if Diary {
                                         if vm.diaryList[count].isPublic == "Y" {
                                             DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
@@ -197,7 +192,7 @@ struct DiaryView : View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image("arrow")
                         .resizable()

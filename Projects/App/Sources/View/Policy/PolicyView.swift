@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct PolicyView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
     @State var showLocationView: Bool = false
+    @Flow var flow
 //    @State var selectedTab = "임신전"
 //    
 //    let choices = ["임신전", "임신중", "출산후"]
@@ -89,9 +91,9 @@ struct PolicyView: View {
             
             ScrollView {
                 ForEach(0..<viewModel.model.count, id: \.self) { index in
-                    NavigationLink(
-                        destination: PolicyDetailView(index: viewModel.model[index].policyId)
-                    ) {
+                    Button{
+                        flow.push(PolicyDetailView(index: viewModel.model[index].policyId),animated: false)
+                    } label: {
                         PolicyCell(
                             title: viewModel.model[index].title,
                             location: "\(((viewModel.selectedState?.name) != nil) ? viewModel.selectedState!.name : "") \(viewModel.selectedDistrict)",
@@ -103,7 +105,7 @@ struct PolicyView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(.black)

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct DetailDiaryView : View {
     @State var inputText : String = ""
@@ -24,6 +25,7 @@ struct DetailDiaryView : View {
     @State var subcommentList = [SubCommentResponse]()
     @State var loding : Bool = false
     @State private var showOverlay = false
+    @Flow var flow
     
     var body: some View {
         if #available(iOS 17.0, *) {
@@ -210,7 +212,7 @@ struct DetailDiaryView : View {
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+                        flow.pop()
                     } label: {
                         Image("arrow")
                             .resizable()

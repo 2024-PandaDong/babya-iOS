@@ -1,10 +1,12 @@
 import SwiftUI
 import RichText
+import FlowKit
 
 struct PolicyDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject var policyVM = PolicyViewModel.shared
+    @Flow var flow
     
     let index: Int
     
@@ -94,7 +96,7 @@ struct PolicyDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(.black)

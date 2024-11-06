@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct TodoListView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -18,6 +19,7 @@ struct TodoListView: View {
     @State private var editingCategory: String = ""
     @State private var editingPlanedDt: String = ""
     @State private var isCheck: Bool = false
+    @Flow var flow
     
     @StateObject var viewModel = TodoViewModel()
     
@@ -64,7 +66,7 @@ struct TodoListView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+                .padding(.top,-50)
                 ScrollView {
                     HStack {
                         VStack(alignment: .leading) {
@@ -174,7 +176,7 @@ struct TodoListView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(.black)

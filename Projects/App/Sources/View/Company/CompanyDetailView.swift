@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct CompanyDetailView: View {
     @GestureState private var dragOffset = CGSize.zero
@@ -15,6 +16,7 @@ struct CompanyDetailView: View {
     
     @State private var isExpanded: Bool = false
     @State private var currentIndex = 0
+    @Flow var flow
     
     var body: some View {
         ZStack(alignment:.bottom){
@@ -159,7 +161,8 @@ struct CompanyDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+//                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(Color.white)

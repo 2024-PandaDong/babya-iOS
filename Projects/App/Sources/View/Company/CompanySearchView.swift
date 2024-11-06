@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct CompanySearchView: View {
     @GestureState private var dragOffset = CGSize.zero
@@ -17,6 +18,7 @@ struct CompanySearchView: View {
     @StateObject var profileVM = ProfileViewModel.shared
     @State private var count: Int = 0
     @State var nowPage : Int = 1
+    @Flow var flow
 
     
     var body: some View {
@@ -39,10 +41,9 @@ struct CompanySearchView: View {
                 ScrollView {
                     VStack(spacing: 3) {
                         ForEach(vm.companyList, id: \.companyId) { company in
-                            NavigationLink {
-                                CompanyDetailView(companyId: company.companyId)
-                                    .navigationBarBackButtonHidden()
-                            } label: {
+                            Button{
+                                flow.push(CompanyDetailView(companyId: company.companyId),animated: false)
+                            }label: {
                                 CompanyRowCell(title: company.companyName, images: (company.logoImg.first ?? "dummy") ?? "dummy", address: company.address)
                                     .onAppear{
                                         count += 1
@@ -62,7 +63,8 @@ struct CompanySearchView: View {
             ToolbarItem(placement: .topBarLeading) {
                 VStack(alignment: .leading) {
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+//                        self.presentationMode.wrappedValue.dismiss()
+                        flow.pop()
                     } label: {
                         Image(systemName: "arrow.left")
                             .resizable()
