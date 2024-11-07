@@ -11,13 +11,16 @@ import FlowKit
 
 @main
 struct babyaApp: App {
+    @StateObject private var flow = FlowProvider(rootView: RootView())
+
     var body: some Scene {
-            WindowGroup {
-                if (LoginUserHashCache.shared.checkAccessToken() == nil) {
-                    FlowPresenter(rootView: RootView())
-                } else {
-                    FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
-                }
+        WindowGroup {
+            if LoginUserHashCache.shared.checkAccessToken() == nil {
+                FlowPresenter(rootView: RootView())
+                    .environmentObject(flow) // FlowProvider 환경 객체 추가
+            } else {
+                FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
+            }
         }
     }
 }

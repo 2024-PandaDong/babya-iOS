@@ -75,5 +75,6 @@ struct QuizView : View {
             await vm.getQuiz()
         }
         .ignoresSafeArea()
+        .navigationBarBackButtonHidden()
     }
 }
