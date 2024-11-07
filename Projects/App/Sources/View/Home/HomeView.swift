@@ -72,7 +72,7 @@ struct HomeView: View {
                             PolicyCell(
                                 title: policyVM.model[index].title,
                                 location: "\(((policyVM.selectedState?.name) != nil) ? policyVM.selectedState!.name : "") \(policyVM.selectedDistrict)",
-                                editDate: policyVM.model[index].editDate, imgUrl: "", isInHome: true)
+                                editDate: policyVM.model[index].editDate ?? "", imgUrl: "", isInHome: true)
                                 .padding(.horizontal)
                         }
                     }

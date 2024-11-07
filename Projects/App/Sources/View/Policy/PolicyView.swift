@@ -95,7 +95,7 @@ struct PolicyView: View {
                         PolicyCell(
                             title: viewModel.model[index].title,
                             location: "\(((viewModel.selectedState?.name) != nil) ? viewModel.selectedState!.name : "") \(viewModel.selectedDistrict)",
-                            editDate: viewModel.model[index].editDate, imgUrl: "", isInHome: false)
+                            editDate: viewModel.model[index].editDate ?? "" , imgUrl: "", isInHome: false)
                     }
                 }
             }

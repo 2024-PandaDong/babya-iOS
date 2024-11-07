@@ -10,7 +10,7 @@ import Foundation
 struct PolicyListModel: Codable {
     let policyId: Int
     let title: String
-    let editDate: String
+    let editDate: String?
 }
 
 struct PolicyDetailModel: Codable {
