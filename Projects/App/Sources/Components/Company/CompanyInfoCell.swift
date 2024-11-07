@@ -22,7 +22,7 @@ struct CompanyInfoCell: View {
             
             infoLayout(text1: "고객 서비스", text2: tel)
             
-            HStack(alignment:.top,spacing: 70) {
+            HStack(alignment:.top,spacing: 60) {
                 Text("본사 위치")
                     .textNormalStyle()
                 VStack(alignment: .leading,spacing: 3){
