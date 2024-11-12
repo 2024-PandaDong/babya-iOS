@@ -192,7 +192,11 @@ struct DiaryView : View {
             }
             .task {
                 nowPage = 1
-                await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
+                if Diary {
+                    await vm.getListDiary(pageRequest: PageRequest(page: nowPage, size: 10))
+                }else{
+                    await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
+                }
             }
             .onChange(of: nowPage, perform: { value in
                 if All {
