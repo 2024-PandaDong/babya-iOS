@@ -17,7 +17,7 @@ struct PolicyDetailView: View {
                     .frame(width: 340, height: 130)
                     .foregroundStyle(.white)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 10).stroke(Color.LineAlternative)
+                        RoundedRectangle(cornerRadius: 10).stroke(Color.LineNormal)
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 10) {
@@ -52,7 +52,7 @@ struct PolicyDetailView: View {
                     .linkOpenType(.Safari)
                     .linkColor(light: .blue, dark: .indigo)
                     .placeholder {
-                        Text("loading")
+                        ProgressView()
                     }
                     .padding(.horizontal, 30)
                 

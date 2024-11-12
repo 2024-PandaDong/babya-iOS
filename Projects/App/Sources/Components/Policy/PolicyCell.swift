@@ -27,10 +27,12 @@ struct PolicyCell: View {
                             
                             Text(location)
                                 .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(Color.LabelNeutral)
                             
                             HStack {
-                                Text("\(editDate)")
+                                Text("최종수정일: \(editDate)")
                                     .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(Color.LabelNeutral)
                             }
                         }
                         
