@@ -24,6 +24,13 @@ struct CustomPicker: View {
         }
     }
     
+    init() {
+        // 현재 페이지 표시 색상
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.PrimaryNormal)
+        // 다른 페이지 표시 색상
+        UIPageControl.appearance().pageIndicatorTintColor = .white
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
 //            HStack {
@@ -86,8 +93,9 @@ struct CustomPicker: View {
                     }
                 }
             }
+            .tint(Color.PrimaryLight)
             .tabViewStyle(PageTabViewStyle())
-            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            .indexViewStyle(PageIndexViewStyle())
             .frame(width: UIScreen.main.bounds.width, height: 230)
         }
         .onAppear {
@@ -97,5 +105,5 @@ struct CustomPicker: View {
 }
 
 #Preview {
-    HomeView()
+    CustomPicker()
 }
