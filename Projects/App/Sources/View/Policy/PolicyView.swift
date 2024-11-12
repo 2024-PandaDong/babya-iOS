@@ -130,7 +130,7 @@ struct PolicyView: View {
         .tint(.black)
         .onAppear {
             viewModel.model = []
-            profileVM.getMyRegion()
+            viewModel.getPolicyList(region: viewModel.regionCode, keyword: "")
         }
     }
 }

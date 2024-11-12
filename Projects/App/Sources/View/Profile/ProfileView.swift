@@ -108,7 +108,7 @@ struct ProfileView: View {
                         
                         Spacer()
                         
-                        Text("최신 버전")
+                        Text("1.0.1")
                             .foregroundStyle(Color.LineNormal)
                     }
                     .padding(.horizontal, 25)
