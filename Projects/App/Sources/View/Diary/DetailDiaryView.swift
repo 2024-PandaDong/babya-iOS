@@ -44,6 +44,26 @@ struct DetailDiaryView : View {
                                     .cornerRadius(10)
                                     .padding(.horizontal,15)
                                 }
+                                Text(Diary.title)
+                                    .font(.system(size: 16,weight: .medium))
+                                    .foregroundStyle(Color.black)
+//                                    .padding(.vertical,9)
+                                    .padding(.horizontal,15)
+                                
+                                HStack{
+                                    Text(Diary.nickname ?? "알 수 없는 사용자")
+                                        .font(.system(size: 11))
+                                        .foregroundStyle(.gray)
+                    
+                                    Spacer()
+                                    Text(Diary.writtenDt)
+                                        .font(.system(size: 11))
+                                        .foregroundStyle(.gray)
+                                      
+                                }
+                                .padding(.horizontal,15)
+                                .padding(.vertical,5)
+                                
                                 if Diary.isPublic == "N"{
                                     
                                     VStack(alignment: .leading ,spacing: 15){
@@ -108,17 +128,11 @@ struct DetailDiaryView : View {
                                     .padding(.vertical,10)
                                 }
                                 
-                                TextTitleStyle(Title: Text("본문"))
-                                    .padding(.vertical,7)
+//                                TextTitleStyle(Title: Text("본문"))
+//                                    .padding(.vertical,7)
                                 
                                 TextContentStyle(content: Text(Diary.content))
-                                HStack{
-                                    Spacer()
-                                    Text(Diary.writtenDt)
-                                        .font(.system(size: 11))
-                                        .foregroundStyle(.gray)
-                                        .padding(15)
-                                }
+                                    .padding(.bottom,10)
                                 Divider()
                                 
                                 ScrollView(showsIndicators: false) {
@@ -207,7 +221,7 @@ struct DetailDiaryView : View {
             }
             //do : 대댓글 페이징 처리
             .navigationBarBackButtonHidden()
-            .navigationTitle(Diary.title)
+//            .navigationTitle(Diary.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
@@ -238,7 +252,7 @@ struct DetailDiaryView : View {
 extension View{
     func TextContentStyle(content : Text) -> some View{
         content
-            .font(.system(size: 12))
+            .font(.system(size: 14))
             .padding(.horizontal,15)
             .multilineTextAlignment(.leading)
         
