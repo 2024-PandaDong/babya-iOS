@@ -13,20 +13,20 @@ struct CompanyCharts: View {
     var salaries: [String]
 
     var body: some View {
-        HStack(spacing: 10){
+        HStack(spacing: 10) {
             let datas = [
                 ("전체", salaries.indices.contains(0) ? salaries[0] : "N/A"),
-                ("남성", salaries.indices.contains(1) ? salaries[1] : "N/A"),
-                ("여성", salaries.indices.contains(2) ? salaries[2] : "N/A")
+                ("남성", "\(calculatePercentage(salaries: salaries, index: 1))%"),
+                ("여성", "\(calculatePercentage(salaries: salaries, index: 2))%")
             ]
+            
             ForEach(datas, id: \.0) { item in
-                VStack(spacing: 12){
+                VStack(spacing: 12) {
                     Text(item.0)
-                        .font(.system(size:14,weight: .semibold ))
+                        .font(.system(size: 14, weight: .semibold))
                     
                     Text(item.1)
-                        .font(.system(size:14,weight: .semibold ))
-                    
+                        .font(.system(size: 14, weight: .semibold))
                 }
             }
             
@@ -38,45 +38,37 @@ struct CompanyCharts: View {
                     innerRadius: .ratio(0.45)
                 )
                 .foregroundStyle(by: .value("Version", element.colors))
-                
             }
-            .chartLegend(alignment: .center)
-            .frame(width: 100,height: 100)
-            .chartLegend(.hidden)
+            .frame(width: 100, height: 100)
             .scaledToFit()
             .chartForegroundStyleScale([
                 "pink": Color.pink70,
                 "blue": Color.blue70
             ])
-            
+            .chartLegend(.hidden)
         }
     }
-}
 
-struct System {
-    let version: String
-    let count: Int
-    let colors: String
-    
-    static func dummyData(salaries: [String]) -> [System] {
-        let totalCount = 100
-        
-        let malePercentage = salaries.indices.contains(0) ? salaries[0].replacingOccurrences(of: "%", with: "") : "0"
-        let femalePercentage = salaries.indices.contains(1) ? salaries[1].replacingOccurrences(of: "%", with: "") : "0"
-        
-        let maleCount = totalCount * (Int(malePercentage) ?? 0) / 100
-        let femaleCount = totalCount * (Int(femalePercentage) ?? 0) / 100
-        
-        return [
-            System(version: "man", count: maleCount, colors: "blue"),
-            System(version: "woman", count: femaleCount, colors: "pink"),
-        ]
+    func calculatePercentage(salaries: [String], index: Int) -> Int {
+        let total = Int(salaries.indices.contains(0) ? salaries[0].replacingOccurrences(of: "명", with: "") : "0") ?? 0
+        let count = Int(salaries.indices.contains(index) ? salaries[index].replacingOccurrences(of: "명", with: "") : "0") ?? 0
+        return total > 0 ? (count * 100) / total : 0
     }
 }
-#Preview {
-    CompanyCharts(data: System.dummyData(salaries: ["11180000%", "134260000%"]), salaries: ["145440000명", "11180000%", "134260000%"])
-        .padding(.horizontal,38)
-        .padding(.top, 20)
-        .padding(.bottom,80)
+struct System {
+    let version: String
+    let count: Double
+    let colors: String
+    
+    static func dummyData(maleCount: Int, femaleCount: Int) -> [System] {
+        let totalCount = maleCount + femaleCount
+        let malePercentage = totalCount > 0 ? (Double(maleCount) / Double(totalCount)) * 100 : 0
+        let femalePercentage = totalCount > 0 ? (Double(femaleCount) / Double(totalCount)) * 100 : 0
+        
+        return [
+            System(version: "남성", count: malePercentage, colors: "blue"),
+            System(version: "여성", count: femalePercentage, colors: "pink")
+        ]
+    }
 }
 

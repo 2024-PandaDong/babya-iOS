@@ -94,13 +94,19 @@ struct CompanyDetailView: View {
                                 .foregroundStyle(Color.black)
                                 .padding(.vertical,17)
                             
-                            CompanyCharts(data: System.dummyData(salaries: [
-                                "\(vm.companyInfo?.malePeople ?? 0)%",
-                                "\(vm.companyInfo?.femalePeople ?? 0)%"]),
-                                          salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
+                            CompanyCharts(
+                                data: System.dummyData(
+                                    maleCount: vm.companyInfo?.malePeople ?? 0,
+                                    femaleCount: vm.companyInfo?.femalePeople ?? 0
+                                ),
+                                salaries: [
+                                    "\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
                                     "\(vm.companyInfo?.malePeople ?? 0)명",
-                                    "\(vm.companyInfo?.femalePeople ?? 0)명"])
-                            .padding(.horizontal,10)
+                                    "\(vm.companyInfo?.femalePeople ?? 0)명"
+                                ]
+                            )
+                            .padding(.horizontal, 10)
+
                         } else {
                             Spacer()
                                 .frame(height: 20)
