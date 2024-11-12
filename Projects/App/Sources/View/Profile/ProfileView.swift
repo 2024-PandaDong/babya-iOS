@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -15,6 +16,7 @@ struct ProfileView: View {
     @StateObject var viewModel = ProfileViewModel.shared
     
     @State var isQuiz: Bool = false
+    @Flow var flow
     
     var body: some View {
         VStack(spacing: 0) {
@@ -43,8 +45,10 @@ struct ProfileView: View {
                 .padding(.vertical)
             
             Divider()
-            
-            NavigationLink(destination: ProfileCheckView()) {
+        
+            Button{
+                flow.push(ProfileCheckView(),animated: false)
+            }label: {
                 Rectangle()
                     .frame(height: 60)
                     .foregroundStyle(.clear)
@@ -115,22 +119,27 @@ struct ProfileView: View {
                 .frame(height: 10)
                 .foregroundStyle(Color(red: 247/255, green: 247/255, blue: 247/255))
             
-            OutingCell(title: "로그아웃") {
-                LoginUserHashCache.shared.logout()
+            Button{
+                flow.popToRoot()
+            }label: {
+                OutingCell(title: "로그아웃") {
+                    LoginUserHashCache.shared.logout()
+                }
             }
-            
-            OutingCell(title: "회원탈퇴") {
-                viewModel.withdraw()
+            Button{
+                flow.popToRoot()
+            }label: {
+                OutingCell(title: "회원탈퇴") {
+                    viewModel.withdraw()
+                }
             }
-            
-            
             
             Spacer()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    self.presentationMode.wrappedValue.dismiss()
+                    flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundStyle(.black)

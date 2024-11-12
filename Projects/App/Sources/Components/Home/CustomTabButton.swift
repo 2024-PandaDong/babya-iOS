@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct CustomTabButton: View {
     let image: String
     let title: String
     let destination: TabItem
+    @Flow var flow
     
     init(image: String, title: String, destination: TabItem) {
         self.image = image
@@ -19,7 +21,9 @@ struct CustomTabButton: View {
     }
     
     var body: some View {
-        NavigationLink(destination: destination.view) {
+        Button{
+            flow.push(destination.view,animated: false)
+        }label: {
             VStack {
                 Image(systemName: image)
                     .resizable()

@@ -7,17 +7,19 @@
 //
 
 import SwiftUI
+import FlowKit
 
 @main
 struct babyaApp: App {
+    @StateObject private var flow = FlowProvider(rootView: RootView())
+
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                if (LoginUserHashCache.shared.checkAccessToken() == nil) {
-                    RootView()
-                } else {
-                    QuizView(vm: QuizViewModel(quizService: RemoteQuizService()))
-                }
+            if LoginUserHashCache.shared.checkAccessToken() == nil {
+                FlowPresenter(rootView: RootView())
+                    .environmentObject(flow) // FlowProvider 환경 객체 추가
+            } else {
+                FlowPresenter(rootView: QuizView(vm: QuizViewModel(quizService: RemoteQuizService())))
             }
         }
     }

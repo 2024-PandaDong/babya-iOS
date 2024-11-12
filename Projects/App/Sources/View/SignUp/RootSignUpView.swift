@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct RootSignUpView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = SignUpViewModel()
+    @Flow var flow
     
     var body: some View {
         VStack(spacing: 0) {
@@ -55,6 +57,7 @@ struct RootSignUpView: View {
                 Button {
                     if viewModel.pageNum == 0 {
                         self.presentationMode.wrappedValue.dismiss()
+//                        flow.pop()
                     } else {
                         withAnimation {
                             if viewModel.isPlaning {

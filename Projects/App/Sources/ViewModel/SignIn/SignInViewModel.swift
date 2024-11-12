@@ -37,17 +37,17 @@ class SignInViewModel: ObservableObject {
                     print(LoginUserHashCache.accessToken)
                     print(LoginUserHashCache.shared.checkAccessToken())
                     
-                    DispatchQueue.main.async {
-                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                           let rootViewController = windowScene.windows.first?.rootViewController {
-                            
-                            rootViewController.dismiss(animated: false) {
-                                let homeView = UIHostingController(rootView: NavigationView { QuizView(vm: QuizViewModel(quizService: RemoteQuizService())) })
-                                homeView.modalPresentationStyle = .fullScreen
-                                rootViewController.present(homeView, animated: true, completion: nil)
-                            }
-                        }
-                    }
+//                    DispatchQueue.main.async {
+//                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//                           let rootViewController = windowScene.windows.first?.rootViewController {
+//                            
+//                            rootViewController.dismiss(animated: false) {
+//                                let homeView = UIHostingController(rootView: NavigationView { QuizView(vm: QuizViewModel(quizService: RemoteQuizService())) })
+//                                homeView.modalPresentationStyle = .fullScreen
+//                                rootViewController.present(homeView, animated: true, completion: nil)
+//                            }
+//                        }
+//                    }
 
                     LoginUserHashCache.shared.storeEmail(value: email) 
                     print(response)

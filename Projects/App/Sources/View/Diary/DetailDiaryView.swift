@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct DetailDiaryView : View {
     @State var inputText : String = ""
@@ -24,11 +25,11 @@ struct DetailDiaryView : View {
     @State var subcommentList = [SubCommentResponse]()
     @State var loding : Bool = false
     @State private var showOverlay = false
+    @Flow var flow
     
     var body: some View {
         if #available(iOS 17.0, *) {
             ZStack{
-                NavigationView{
                     VStack(alignment: .leading){
                         ScrollView(showsIndicators: false){
                             VStack(alignment: .leading){
@@ -203,7 +204,6 @@ struct DetailDiaryView : View {
                             loding = true
                         }
                     }
-                }
             }
             //do : 대댓글 페이징 처리
             .navigationBarBackButtonHidden()
@@ -212,7 +212,7 @@ struct DetailDiaryView : View {
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+                        flow.pop()
                     } label: {
                         Image("arrow")
                             .resizable()

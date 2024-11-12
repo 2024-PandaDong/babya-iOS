@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import FlowKit
 
 struct SignInView : View {
     @Environment(\.presentationMode) var presentationMode
-    
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showPassword: Bool = false
+    @Flow var flow
 
     @StateObject var vm: SignInViewModel
     
@@ -44,8 +45,9 @@ struct SignInView : View {
                     vm.is401Error = false
                     vm.is404Error = false
                     Task{
-                        await vm.login(email: email,password:password) {
-                            self.presentationMode.wrappedValue.dismiss()
+                        await vm.login(email: email, password: password) {
+                            self.presentationMode.wrappedValue.dismiss() 
+                            flow.push(QuizView(vm: QuizViewModel(quizService: RemoteQuizService())),animated: false) 
                         }
                     }
                 } label: {
@@ -64,39 +66,7 @@ struct SignInView : View {
                 Spacer()
             }
             .padding(.horizontal, 30)
-        .padding(.vertical, 50)
-        }
-    }
-}
-
-#Preview {
-    NavigationView {
-        SignInView( vm: SignInViewModel(authService: RemoteAuthService()))
-    }
-}
-
-extension View {
-    func underlineTextField() -> some View {
-        self
-            .padding(.vertical, 10)
-            .overlay(Rectangle().frame(height: 2).padding(.top, 35))
-            .foregroundColor(.gray)
-    }
-}
-
-struct circle : Shape {
-    func path(in rect: CGRect) -> Path {
-        Path { path in
-            path.move(to: CGPoint(x: rect.size.width, y: 0))
-            path.addLine(to: CGPoint(x: rect.size.width, y: rect.size.height/4.9))
-            path.addLine(to: CGPoint(x: 0, y: rect.size.height/3.3))
-            path.addLine(to: CGPoint(x: 0, y: 0))
-            path.closeSubpath()
-            
-            path.move(to: CGPoint(x: rect.size.width, y: rect.size.height/4.9))
-            path.addQuadCurve(to: CGPoint(x: 0,y: rect.size.height/3.3), control: CGPoint(x: rect.size.width/1.3, y: rect.size.height/2.7))
-            path.closeSubpath()
-            
+            .padding(.vertical, 50)
         }
     }
 }
