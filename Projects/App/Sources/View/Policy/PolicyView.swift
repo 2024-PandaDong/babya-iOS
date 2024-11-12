@@ -13,6 +13,7 @@ struct PolicyView: View {
     @StateObject var viewModel = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
     @State var showLocationView: Bool = false
+    @State var keyword: String = ""
     @Flow var flow
 //    @State var selectedTab = "임신전"
 //    
@@ -39,8 +40,6 @@ struct PolicyView: View {
 //                .frame(width: 45, height: 1.5)
 //                .foregroundStyle(Color.PrimaryLight)
 //                .offset(x: selectedTab == "임신전" ? 16 : selectedTab == "임신중" ? 69 : 121)
-            
-            Divider()
             
             HStack {
                 Text("\(profileVM.model.data.nickname)님의 지역")
@@ -87,7 +86,9 @@ struct PolicyView: View {
                 .padding(.bottom)
             }
             
-            Divider()
+            Rectangle()
+                .frame(maxWidth: .infinity, maxHeight: 8)
+                .foregroundStyle(Color.ComponentFillAlternative)
             
             ScrollView {
                 ForEach(0..<viewModel.model.count, id: \.self) { index in
@@ -114,9 +115,25 @@ struct PolicyView: View {
                 }
             }
             
+            ToolbarItem(placement: .principal) {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(Color.ComponentFillStrong)
+                    .frame(width: 266, height: 35)
+                    .overlay {
+                        TextField(text: $keyword, prompt: Text("원하는 정책을 입력해주세요.")) {
+                            
+                        }
+                        .padding(.horizontal, 10)
+                        .font(.system(size: 13))
+                        .onSubmit() {
+                            viewModel.getPolicyList(region: viewModel.regionCode, keyword: keyword)
+                        }
+                    }
+            }
+            
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    
+                    viewModel.getPolicyList(region: viewModel.regionCode, keyword: keyword)
                 } label: {
                     Image(systemName: "magnifyingglass")
                 }
