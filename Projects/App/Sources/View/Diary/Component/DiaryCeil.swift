@@ -9,11 +9,12 @@
 import Foundation
 import SwiftUI
 
-struct DiaryCeil : View {
-    var ProfileImage : String
-    var Title : String
-    var UserName : String
-    var Date : String
+struct DiaryCeil: View {
+    var ProfileImage: String
+    var Title: String
+    var UserName: String
+    var Date: String
+
     var body: some View {
         VStack {
             Rectangle()
@@ -22,49 +23,35 @@ struct DiaryCeil : View {
                 .foregroundColor(.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.LineNormal,lineWidth:2)
-                  )
-                .overlay{
-                    ZStack{
-                        VStack(alignment: .leading){
-                            if let imageUrl = URL(string: ProfileImage){
-                                AsyncImage(url: imageUrl) { phase in
-                                    switch phase {
-                                     case .empty:
-                                         ProgressView()
-                                     case .success(let image):
-                                         image
-                                             .resizable()
-                                             .overlay(overlayView)
-                                     case .failure(let error):
-
-                                        Image("baseDiaryImage")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 50)
-                                            .padding(.top,15)
-                                     @unknown default:
-                                         ProgressView()
-                                     }
+                        .stroke(Color.LineNormal, lineWidth: 2)
+                )
+                .overlay {
+                    ZStack {
+                        VStack(alignment: .leading) {
+                            if let imageUrl = URL(string: ProfileImage) {
+                                CachedAsyncImage(url: imageUrl) { image in
+                                    image
+                                        .resizable()
+                                        .overlay(overlayView)
                                 }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 100)
                                 .cornerRadius(10, corners: [.topLeft, .topRight])
                             }
                             
-                            VStack(alignment: .leading){
+                            VStack(alignment: .leading) {
                                 Text(Title)
                                     .bold()
                                     .font(.system(size: 16))
                                     .foregroundColor(.LabelNormal)
-                                    .padding(.bottom,1)
+                                    .padding(.bottom, 1)
                                 
                                 Text(UserName)
                                     .font(.system(size: 14))
                                     .foregroundColor(.LabelAlternative)
                             }
-                            .padding(.horizontal,6)
-                            .padding(.vertical,10)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 10)
                             
                             Spacer()
                         }
@@ -95,7 +82,6 @@ struct DiaryCeil : View {
         return finalDate
     }
 }
-
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
