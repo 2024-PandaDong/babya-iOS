@@ -33,10 +33,7 @@ struct DiaryCeil : View {
                                         .resizable()
                                         .overlay(overlayView)
                                 } placeholder: {
-                                    Image("diary")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .overlay(overlayView)
+                                  ProgressView()
                                 }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 100)

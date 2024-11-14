@@ -23,7 +23,7 @@ struct TextLineStyle : View {
                             path.move(to: CGPoint(x: 0, y: height))
                             path.addLine(to: CGPoint(x: width, y: height))
                         }
-                        .stroke(Color.black, lineWidth: 0.5)
+//                        .stroke(Color.black, lineWidth: 0.5)
                     }
                         .frame(height: 1), alignment: .bottom
                 )
