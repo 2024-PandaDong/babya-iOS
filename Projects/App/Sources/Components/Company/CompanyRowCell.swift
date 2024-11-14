@@ -46,8 +46,7 @@ struct CompanyRowCell: View {
                                 image
                                     .resizable()
                             } placeholder: {
-                                Image("dummy")
-                                    .resizable()
+                                ProgressView()
                             }
                             .frame(width: 60, height: 60)
                             .cornerRadius(8, corners: .allCorners)
