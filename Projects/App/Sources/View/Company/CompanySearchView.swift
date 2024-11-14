@@ -19,7 +19,6 @@ struct CompanySearchView: View {
     @State private var count: Int = 0
     @State var nowPage : Int = 1
     @Flow var flow
-
     
     var body: some View {
         ZStack {
@@ -87,9 +86,9 @@ struct CompanySearchView: View {
             await vm.getCompany(pageRequest: PageRequest(page: 1, size: 10))
         }
         .onChange(of: nowPage, perform: { value in
-                Task{
-                    await vm.getCompany(pageRequest: PageRequest(page: 1 , size: count + 10))
-                }
+            Task{
+                await vm.getCompany(pageRequest: PageRequest(page: 1 , size: count + 10))
+            }
         })
         .onAppear {
             profileVM.getMyProfile()

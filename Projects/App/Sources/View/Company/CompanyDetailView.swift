@@ -89,7 +89,6 @@ struct CompanyDetailView: View {
                         .padding(.vertical,17)
                         
                         SalaryInfoCell(salaries: ["\(vm.companyInfo?.minSalary ?? 0)만원", "\(vm.companyInfo?.avgSalary ?? 0)만원", "\(vm.companyInfo?.maxSalary ?? 0)만원"])
-  
                         
                         if vm.companyInfo?.malePeople != 0 && vm.companyInfo?.femalePeople != 0 {
                             Text("인원")
@@ -97,13 +96,19 @@ struct CompanyDetailView: View {
                                 .foregroundStyle(Color.black)
                                 .padding(.vertical,17)
                             
-                            CompanyCharts(data: System.dummyData(salaries: [
-                                "\(vm.companyInfo?.malePeople ?? 0)%",
-                                "\(vm.companyInfo?.femalePeople ?? 0)%"]),
-                                          salaries: ["\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
+                            CompanyCharts(
+                                data: System.dummyData(
+                                    maleCount: vm.companyInfo?.malePeople ?? 0,
+                                    femaleCount: vm.companyInfo?.femalePeople ?? 0
+                                ),
+                                salaries: [
+                                    "\((vm.companyInfo?.malePeople ?? 0) + (vm.companyInfo?.femalePeople ?? 0))명",
                                     "\(vm.companyInfo?.malePeople ?? 0)명",
-                                    "\(vm.companyInfo?.femalePeople ?? 0)명"])
-                            .padding(.horizontal,20)
+                                    "\(vm.companyInfo?.femalePeople ?? 0)명"
+                                ]
+                            )
+                            .padding(.horizontal, 10)
+
                         } else {
                             Spacer()
                                 .frame(height: 20)
@@ -126,16 +131,16 @@ struct CompanyDetailView: View {
                             .foregroundStyle(Color.black)
                             .padding(.vertical,17)
                         
-                        WelfareInfoView(title: "육아휴직 기간", value: vm.companyInfo?.mtrLvPeriod ?? nil)
-                        WelfareInfoView(title: "유급 여부", value: vm.companyInfo?.mtrLvIsSalary ?? nil)
-                        WelfareInfoView(title: "육아휴직 급여 비율", value: vm.companyInfo?.mtrLvSalary ?? nil)
-                        WelfareInfoView(title: "출산 비용 지원 조건", value: vm.companyInfo?.mtrSupCondition ?? nil)
-                        WelfareInfoView(title: "출산 비용 지원금", value: vm.companyInfo?.mtrSupMoney ?? nil)
-                        WelfareInfoView(title: "재택 근무 가능 여부", value: vm.companyInfo?.telComIsCan ?? nil)
-                        WelfareInfoView(title: "재택 근무 일 수", value: vm.companyInfo?.telComDays ?? nil)
-                        WelfareInfoView(title: "재택 근무 시간", value: vm.companyInfo?.telComTime ?? nil)
-                        WelfareInfoView(title: "보조금 지원 종류", value: vm.companyInfo?.subsdType)
-                        WelfareInfoView(title: "보조금 지원액", value: vm.companyInfo?.subsdMoney)
+                        WelfareInfoView(title: "육아휴직 기간", value: (vm.companyInfo?.mtrLvPeriod))
+                        WelfareInfoView(title: "유급 여부", value: (vm.companyInfo?.mtrLvIsSalary == "N" ? "X" : vm.companyInfo?.mtrLvIsSalary) ?? "")
+                        WelfareInfoView(title: "육아휴직 급여 비율", value: (vm.companyInfo?.mtrLvSalary))
+                        WelfareInfoView(title: "출산 비용 지원 조건", value: (vm.companyInfo?.mtrSupCondition == "N" ? "X" : vm.companyInfo?.mtrSupCondition) ?? "")
+                        WelfareInfoView(title: "출산 비용 지원금", value: (vm.companyInfo?.mtrSupMoney))
+                        WelfareInfoView(title: "재택 근무 가능 여부", value: (vm.companyInfo?.telComIsCan == "N" ? "X" : vm.companyInfo?.telComIsCan) ?? "")
+                        WelfareInfoView(title: "재택 근무 일 수", value: (vm.companyInfo?.telComDays))
+                        WelfareInfoView(title: "재택 근무 시간", value: (vm.companyInfo?.telComTime))
+                        WelfareInfoView(title: "보조금 지원 종류", value: (vm.companyInfo?.subsdType == "N" ? "X" : vm.companyInfo?.subsdType) ?? "")
+                        WelfareInfoView(title: "보조금 지원액", value: (vm.companyInfo?.subsdMoney))
                         
                         Spacer()
                     }
@@ -151,6 +156,7 @@ struct CompanyDetailView: View {
                     CompanyButton(content: "회사 더 알아보기")
                 }
             }
+            
         }
         .task {
             await vm.detailCompany(Id: companyId)

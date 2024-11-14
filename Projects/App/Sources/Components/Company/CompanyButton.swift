@@ -21,6 +21,6 @@ struct CompanyButton: View {
                         .foregroundColor(.white)
                 }
                 .padding()
-                .padding(.bottom,10)
+                .padding(.bottom,30)
     }
 }
