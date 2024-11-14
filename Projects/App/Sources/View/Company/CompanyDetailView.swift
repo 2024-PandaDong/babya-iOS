@@ -164,10 +164,11 @@ struct CompanyDetailView: View {
                     flow.pop()
                 } label: {
                     Image(systemName: "arrow.left")
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(.black)
                 }
             }
         }
+        .toolbarBackground(.white)
         .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
             if (value.startLocation.x < 30 && value.translation.width > 100) {
                 self.presentationMode.wrappedValue.dismiss()

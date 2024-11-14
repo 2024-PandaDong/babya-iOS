@@ -104,6 +104,7 @@ struct PolicyDetailView: View {
                 }
             }
         }
+        .toolbarBackground(.white)
         .onAppear {
             policyVM.getPolicyDetail(index: index)
             print("index: \(index)")

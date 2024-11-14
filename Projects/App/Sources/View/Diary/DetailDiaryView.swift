@@ -229,6 +229,7 @@ struct DetailDiaryView : View {
                     })
                 }
             }
+            .toolbarBackground(.white)
         } else {
             // Fallback on earlier versions
         }

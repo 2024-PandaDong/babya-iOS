@@ -67,8 +67,6 @@ struct CompanySearchView: View {
                         flow.pop()
                     } label: {
                         Image(systemName: "arrow.left")
-                            .resizable()
-                            .frame(width: 20,height: 20)
                             .foregroundStyle(.black)
                     }
                 }
