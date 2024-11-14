@@ -28,12 +28,24 @@ struct DiaryCeil : View {
                     ZStack{
                         VStack(alignment: .leading){
                             if let imageUrl = URL(string: ProfileImage){
-                                AsyncImage(url: imageUrl) { image in
-                                    image
-                                        .resizable()
-                                        .overlay(overlayView)
-                                } placeholder: {
-                                  ProgressView()
+                                AsyncImage(url: imageUrl) { phase in
+                                    switch phase {
+                                     case .empty:
+                                         ProgressView()
+                                     case .success(let image):
+                                         image
+                                             .resizable()
+                                             .overlay(overlayView)
+                                     case .failure(let error):
+
+                                        Image("baseDiaryImage")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 50)
+                                            .padding(.top,15)
+                                     @unknown default:
+                                         ProgressView()
+                                     }
                                 }
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 100)
