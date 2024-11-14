@@ -48,34 +48,39 @@ struct DiaryView : View {
                             .edgesIgnoringSafeArea(.all)
                     }
                     
-                    ScrollView(showsIndicators: false) {
-                        if vm.diarycount != 0 {
-                            LazyVGrid(columns: columns) {
-                                ForEach((0..<vm.diarycount), id: \.self) { count in
-                                    NavigationLink(
-                                        destination: {
-                                            if Diary{
-                                                    DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                            } else {
-                                                if vm.diaryList[count].isPublic == "N" {
-                                                    DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count])
-                                                }
-
-                                            }
-                                        })
-                                    {
-                                        if Diary {
-                                            if vm.diaryList[count].isPublic == "Y" {
-                                                DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
-                                                    .padding(.vertical, 9)
-                                                    .padding(.horizontal,10)
-                                                    .onAppear{
-                                                        print("카운트 :: \(count)")
-                                                        if count % 10 == 9 {
-                                                            nowPage += 1
-                                                        }
-                                                    }
-                                            }
+                    ZStack {
+                        Button(action: {
+                            Diary = false
+                            
+                        }, label: {
+                            Text("비공개")
+                                .font(.system(size: 16,weight: .semibold))
+                                .foregroundStyle(.black)
+                        })
+                        .disabled(!Diary)
+                        .padding(.bottom,5)
+                        
+                        Rectangle()
+                            .frame(width:42 ,height: 1.5)
+                            .foregroundColor(!Diary ? Color.PrimaryNormal : .white)
+                            .padding(.top, 20)
+                            .edgesIgnoringSafeArea(.all)
+                    }
+                    Spacer()
+                }
+                .padding(.vertical,5)
+                .padding(.horizontal,23)
+                
+                ScrollView(showsIndicators: false) {
+                    if vm.diarycount != 0 {
+                        LazyVGrid(columns: columns) {
+                            ForEach((0..<vm.diarycount), id: \.self) { count in
+                                Button{
+                                    if Diary {
+                                        flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
+                                    }else {
+                                        if vm.diaryList[count].isPublic == "N" {
+                                            flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
                                         }
                                     }
                                 }label: {
