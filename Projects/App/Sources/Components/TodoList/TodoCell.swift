@@ -14,42 +14,48 @@ struct TodoCell: View {
     var action: () -> Void
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .frame(width: 350, height: 50)
-            .foregroundStyle(.white)
-            .overlay {
-                HStack {
-                    Button {
-                        self.isChecked.toggle()
-                        print(isChecked)
-                        action()
-                    } label: {
-                        Circle()
-                            .frame(width: 18, height: 18)
-                            .foregroundStyle(isChecked ? Color.PrimaryLight :  .white)
-                            .overlay {
-                                Circle().stroke(.gray, lineWidth: 1)
-                                
-                                Image(systemName: "checkmark")
-                                    .foregroundStyle(isChecked ? .white : .clear)
-                                    .font(.system(size: 12, weight: .bold))
-                            }
+        VStack(spacing: 0) {
+            Rectangle()
+                .foregroundStyle(.clear)
+                .frame(height: 2)
+            
+            RoundedRectangle(cornerRadius: 0)
+                .frame(height: 50)
+                .foregroundStyle(.white)
+                .overlay {
+                    HStack {
+                        Button {
+                            self.isChecked.toggle()
+                            print(isChecked)
+                            action()
+                        } label: {
+                            Circle()
+                                .frame(width: 18, height: 18)
+                                .foregroundStyle(isChecked ? Color.PrimaryLight :  .white)
+                                .overlay {
+                                    Circle().stroke(.gray, lineWidth: 1)
+                                    
+                                    Image(systemName: "checkmark")
+                                        .foregroundStyle(isChecked ? .white : .clear)
+                                        .font(.system(size: 12, weight: .bold))
+                                }
+                        }
+                        
+                        Text(title)
+                            .font(.system(size: 14, weight: .bold))
+                        
+                        Spacer()
                     }
-                    
-                    Text(title)
-                        .font(.system(size: 14, weight: .bold))
-                    
-                    Spacer()
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
-            }
-            .swipeActions(edge: .trailing) {
-                Button(role: .destructive) {
-                    
-                } label: {
-                    Label("Delete", systemImage: "trash")
+                .swipeActions(edge: .trailing) {
+                    Button(role: .destructive) {
+                        
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
                 }
-            }
+        }
     }
 }
 
@@ -109,7 +115,6 @@ struct SwipeAction<Content: View>: View {
                                 .contentShape(.rect)
                         }
                         .background(button.tint)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
             }
