@@ -81,6 +81,7 @@ struct DiaryView : View {
                                     }else {
                                         if vm.diaryList[count].isPublic == "N" {
                                             flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
+
                                         }
                                     }
                                 }label: {
