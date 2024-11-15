@@ -7,19 +7,54 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 class ProfileViewModel: ObservableObject {
     @Published var model = ProfileModel()
     @Published var profileModifyModel = ProfileModifyModel()
+    @Published var profileImageRequest = ProfileImageRequest()
     @Published var myRegion = RegionModel()
     
     static let shared = ProfileViewModel()
     
-    func patchProfile(completion: @escaping () -> ()) {
-        AF.request("\(ApiContent.url)/member/profile", method: .patch, parameters: profileModifyModel.params, encoding: JSONEncoding.default,  interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
+    func imageUpload(image: UIImage) {
+        let headers: HTTPHeaders = [
+            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
+            .contentType("multipart/form-data")
+        ]
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            if let imageData = image.jpegData(compressionQuality: 0.1) {
+                multipartFormData.append(imageData, withName: "file", fileName: "image", mimeType: "image/jpeg")
+            }
+        }, to: "\(ApiContent.url)/upload", method: .post, headers: headers)
+        .responseDecodable(of: UploadResponse.self) { response in
+            switch response.result {
+            case .success(let data):
+                self.profileImageRequest.imgUrl = data.data
+                print("이미지url: \(self.profileImageRequest.imgUrl)")
+                print("status code: \(response.response?.statusCode)")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func patchProfileImage() {
+        var params: [String: String] {
+            return [
+                "imgUrl": self.profileImageRequest.imgUrl
+            ]
+        }
+        
+        AF.request("\(ApiContent.url)/member", method: .patch, parameters: params,encoding: JSONEncoding.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
             .responseJSON { json in
                 print(json)
             }
+    }
+    
+    func patchProfile(completion: @escaping () -> ()) {
+        AF.request("\(ApiContent.url)/member/profile", method: .patch, parameters: profileModifyModel.params, encoding: JSONEncoding.default,  interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
             .response { response in
                 switch response.response?.statusCode {
                 case 200:
@@ -36,20 +71,18 @@ class ProfileViewModel: ObservableObject {
             method: .get,
             interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
-        .responseJSON { json in
-            print(json)
-        }
-            .responseDecodable(of: ProfileModel.self) { response in
-                switch response.result {
-                case .success(let data):
-                    self.model = data
-                    self.profileModifyModel.nickName = data.data.nickname
-                    self.profileModifyModel.marriedDt = data.data.marriedYears ?? ""
-                    self.profileModifyModel.birthDt = data.data.birthDt ?? ""
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
+
+        .responseDecodable(of: ProfileModel.self) { response in
+            switch response.result {
+            case .success(let data):
+                self.model = data
+                self.profileModifyModel.nickName = data.data.nickname
+                self.profileModifyModel.marriedDt = data.data.marriedYears ?? ""
+                self.profileModifyModel.birthDt = data.data.birthDt ?? ""
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
+        }
     }
     
     func getMyRegion() {
@@ -58,9 +91,6 @@ class ProfileViewModel: ObservableObject {
             method: .get,
             interceptor: MyRequestInterceptor(authService: RemoteAuthService())
         )
-        .responseJSON { json in
-            print(json)
-        }
         .responseDecodable(of: RegionModel.self) { response in
             switch response.result {
             case .success(let data):
@@ -85,48 +115,4 @@ class ProfileViewModel: ObservableObject {
             print(json)
         }
     }
-    
-//    func getMyDiary(page: Int, size: Int) {
-//        let url = "\(ApiContent.url)/diary/my/profile"
-//        let params: [String : Any] = [
-//            "page" : page,
-//            "size" : size,
-//        ]
-//        let headers: HTTPHeaders = [
-//            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-//            .accept("application/json")
-//        ]
-//        
-//        AF.request(url, method: .get, parameters: params, headers: headers)
-//            .responseDecodable(of: MyDiaryResponse.self) { response in
-//                switch response.result {
-//                case .success(let data):
-//                    self.myDiary = data
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }
-//    }
-//    
-//    func getMyPosts(page: Int, size: Int) {
-//        let url = "\(ApiContent.url)/post/my"
-//        let params: [String : Any] = [
-//            "page" : page,
-//            "size" : size,
-//        ]
-//        let headers: HTTPHeaders = [
-//            .authorization(bearerToken: LoginUserHashCache.shared.checkAccessToken() ?? LoginUserHashCache.accessToken),
-//            .accept("application/json")
-//        ]
-//        
-//        AF.request(url, method: .get, parameters: params, headers: headers)
-//            .responseDecodable(of: MyPostResponse.self) { response in
-//                switch response.result {
-//                case .success(let data):
-//                    self.myPost = data
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            }
-//    }
 }

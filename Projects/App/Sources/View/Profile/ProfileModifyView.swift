@@ -12,26 +12,63 @@ struct ProfileModifyView: View {
     
     @StateObject var viewModel = ProfileViewModel.shared
     
+    @State private var showImagePicker = false
+    @State var selectedUIImage: UIImage?
+    
     var body: some View {
         ZStack {
             ScrollView {
-                if let img = viewModel.model.data.profileImg {
-                    AsyncImage(url: URL(string: img)) { image in
-                        image
-                            .image?
-                            .resizable()
-                            .frame(width: 100, height: 100)
-                            .scaledToFit()
-                            .clipShape(Circle())
-                            .padding(.vertical, 30)
+                Button {
+                    showImagePicker.toggle()
+                } label: {
+                    ZStack {
+                        if let img = viewModel.model.data.profileImg {
+                            AsyncImage(url: URL(string: img)) { image in
+                                image
+                                    .image?
+                                    .resizable()
+                                    .frame(width: 100, height: 100)
+                                    .scaledToFit()
+                                    .clipShape(Circle())
+                                    .padding(.vertical, 30)
+                            }
+                        } else if selectedUIImage != nil{
+                            Image(uiImage: selectedUIImage ?? .init())
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .padding(.vertical, 30)
+                        } else {
+                            Image("baseProfile")
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .padding(.vertical, 30)
+                        }
+                        
+                        Circle()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(.white)
+                        .overlay {
+                            Circle()
+                                .frame(width: 15, height: 15)
+                                .foregroundStyle(Color.ComponentMaterialDimmer)
+                                .overlay {
+                                    Image(systemName: "plus")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                        }
+                        .padding(.top, 60)
+                        .padding(.leading, 70)
                     }
-                } else {
-                    Image("baseProfile")
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .padding(.vertical, 30)
+                }
+                .sheet(isPresented: $showImagePicker, onDismiss: {
+                    viewModel.imageUpload(image: selectedUIImage ?? .init())
+                }) {
+                    ImagePicker(image: $selectedUIImage)
                 }
                 
                 Group {
@@ -86,11 +123,16 @@ struct ProfileModifyView: View {
                         .font(.system(size: 16, weight: .medium))
                 }
             }
+            .toolbarBackground(.white)
             
             VStack {
                 Spacer()
                 
                 Button {
+                    if !viewModel.profileImageRequest.imgUrl.isEmpty {
+                        viewModel.patchProfileImage()
+                    }
+                    
                     viewModel.patchProfile {
                         self.presentationMode.wrappedValue.dismiss()
                     }
