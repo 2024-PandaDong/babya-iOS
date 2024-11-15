@@ -26,7 +26,7 @@ struct CustomPicker: View {
     
     init() {
         // 현재 페이지 표시 색상
-        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.PrimaryNormal)
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color.PrimaryLight)
         // 다른 페이지 표시 색상
         UIPageControl.appearance().pageIndicatorTintColor = .white
     }
