@@ -52,3 +52,13 @@ struct ProfileModifyModel: Codable {
         ]
     }
 }
+
+struct ProfileImageRequest: Codable {
+    var imgUrl: String = ""
+    
+    var parmas: [String: Any] {
+        return [
+            "imgUrl": imgUrl
+        ]
+    }
+}

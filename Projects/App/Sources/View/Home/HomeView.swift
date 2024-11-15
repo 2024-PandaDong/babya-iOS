@@ -86,6 +86,7 @@ struct HomeView: View {
                 }
             }
             .toolbar(.hidden)
+            .toolbarBackground(.hidden)
             .task {
                 await companyVM.getCompany(pageRequest: PageRequest(page: 1, size: 3))
             }
