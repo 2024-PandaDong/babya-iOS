@@ -14,8 +14,15 @@ class ProfileViewModel: ObservableObject {
     @Published var profileModifyModel = ProfileModifyModel()
     @Published var profileImageRequest = ProfileImageRequest()
     @Published var myRegion = RegionModel()
+    @Published var selectedState: LocalCode? = .none
+    @Published var selectedDistrict: String = ""
+    @Published var regionCode: String = ""
     
     static let shared = ProfileViewModel()
+    
+    func calculateWidth(for text: String) -> CGFloat {
+        return CGFloat(text.count * 10 + 30)
+    }
     
     func imageUpload(image: UIImage) {
         let headers: HTTPHeaders = [
@@ -95,6 +102,7 @@ class ProfileViewModel: ObservableObject {
             switch response.result {
             case .success(let data):
                 self.myRegion = data
+                self.profileModifyModel.lc = data.data
                 self.profileModifyModel.lc = data.data
                 regionConverter(code: "\(data.data)")
                 print("나의 지역: \(data.data)")

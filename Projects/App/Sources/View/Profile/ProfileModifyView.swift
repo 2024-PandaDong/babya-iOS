@@ -13,6 +13,7 @@ struct ProfileModifyView: View {
     @StateObject var viewModel = ProfileViewModel.shared
     
     @State private var showImagePicker = false
+    @State private var showLocationPicker = false
     @State var selectedUIImage: UIImage?
     
     var body: some View {
@@ -105,6 +106,63 @@ struct ProfileModifyView: View {
                     CustomDatePicker(target: $viewModel.profileModifyModel.marriedDt, prompt: "결혼일")
                 }
                 .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                
+                Group {
+                    HStack {
+                        Text("임신일")
+                            .font(.system(size: 14, weight: .medium))
+                        
+                        Spacer()
+                    }
+                    CustomDatePicker(target: $viewModel.profileModifyModel.pregnancyDt, prompt: "임신일")
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                
+                Group {
+                    HStack {
+                        Text("지역")
+                            .font(.system(size: 14, weight: .medium))
+                        
+                        Spacer()
+                    }
+                    
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(maxWidth: .infinity, minHeight: 55, maxHeight: 55)
+                        .foregroundStyle(.white)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.LineAlternative)
+                            
+                            HStack {
+                                Text("\(viewModel.selectedState?.name ?? "") \(viewModel.selectedDistrict)")
+                                    .font(.system(size: 16, weight: .semibold))
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    showLocationPicker = true
+                                }, label: {
+                                    Image(systemName: "map")
+                                        .foregroundStyle(Color.LabelDisable)
+                                })
+                                .padding(.trailing, 10)
+                                .sheet(isPresented: $showLocationPicker) {
+                                    ProfileLocationView()
+                                        .environmentObject(viewModel)
+                                }
+                                .foregroundStyle(.black)
+                            }
+                            .padding(.horizontal, 25)
+                            .foregroundStyle(Color.LabelDisable)
+                        }
+                }
+                .padding(.horizontal, 20)
+                
+                Spacer()
+                    .frame(height: 70)
+                
             }
             .navigationBarBackButtonHidden()
             .toolbar {
@@ -134,9 +192,9 @@ struct ProfileModifyView: View {
                     }
                     
                     viewModel.patchProfile {
+                        viewModel.getMyRegion()
                         self.presentationMode.wrappedValue.dismiss()
                     }
-                    print(viewModel.profileModifyModel.params)
                 } label: {
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 325, height: 45)

@@ -48,7 +48,7 @@ struct ProfileModifyModel: Codable {
             "marriedDt": marriedDt,
             "pregnancyDt": pregnancyDt,
             "birthDt": birthDt,
-            "lc": ProfileViewModel.shared.myRegion.data,
+            "lc": lc,
         ]
     }
 }

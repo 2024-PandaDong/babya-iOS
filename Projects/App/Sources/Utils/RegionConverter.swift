@@ -14,10 +14,13 @@ public func regionConverter(code: String) {
         if let districtName = local.country.first(where: { $0.value == code })?.key {
             // 해당 지역을 selectedState로 설정
             PolicyViewModel.shared.selectedState = local
+            ProfileViewModel.shared.selectedState = local
             // 일치하는 군/구의 이름을 selectedDistrict로 설정
             PolicyViewModel.shared.selectedDistrict = districtName
+            ProfileViewModel.shared.selectedDistrict = districtName
             // regionCode는 일치하는 코드 값 그대로 설정
             PolicyViewModel.shared.regionCode = code
+            ProfileViewModel.shared.regionCode = code
             break // 일치하는 항목을 찾았으면 루프 종료
         }
     }
