@@ -26,13 +26,19 @@ struct ProfileModifyView: View {
                         if let img = viewModel.model.data.profileImg {
                             AsyncImage(url: URL(string: img)) { image in
                                 image
-                                    .image?
                                     .resizable()
                                     .frame(width: 100, height: 100)
                                     .scaledToFit()
                                     .clipShape(Circle())
-                                    .padding(.vertical, 30)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(Circle())
+                                    .overlay {
+                                        Circle().stroke(Color.LineAlternative)
+                                    }
                             }
+                            .padding(.vertical, 30)
                         } else if selectedUIImage != nil{
                             Image(uiImage: selectedUIImage ?? .init())
                                 .resizable()
@@ -189,6 +195,7 @@ struct ProfileModifyView: View {
                 Button {
                     if !viewModel.profileImageRequest.imgUrl.isEmpty {
                         viewModel.patchProfileImage()
+                        print(viewModel.profileImageRequest.parmas)
                     }
                     
                     viewModel.patchProfile {

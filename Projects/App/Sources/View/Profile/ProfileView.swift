@@ -26,11 +26,17 @@ struct ProfileView: View {
             if let img = viewModel.model.data.profileImg {
                 AsyncImage(url: URL(string: img)) { image in
                     image
-                        .image?
                         .resizable()
                         .frame(width: 100, height: 100)
                         .scaledToFit()
                         .clipShape(Circle())
+                } placeholder: {
+                    ProgressView()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle().stroke(Color.LineAlternative)
+                        }
                 }
             } else {
                 Image("baseProfile")

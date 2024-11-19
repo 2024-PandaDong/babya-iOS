@@ -48,13 +48,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     func patchProfileImage() {
-        var params: [String: String] {
-            return [
-                "imgUrl": self.profileImageRequest.imgUrl
-            ]
-        }
-        
-        AF.request("\(ApiContent.url)/member", method: .patch, parameters: params,encoding: JSONEncoding.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
+        AF.request("\(ApiContent.url)/member", method: .patch, parameters: profileImageRequest.parmas,encoding: URLEncoding.default, interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
             .responseJSON { json in
                 print(json)
             }
