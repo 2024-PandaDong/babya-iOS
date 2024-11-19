@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ProfileModifyView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -24,21 +25,23 @@ struct ProfileModifyView: View {
                 } label: {
                     ZStack {
                         if let img = viewModel.model.data.profileImg {
-                            AsyncImage(url: URL(string: img)) { image in
-                                image
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .scaledToFit()
-                                    .clipShape(Circle())
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(Circle())
-                                    .overlay {
-                                        Circle().stroke(Color.LineAlternative)
-                                    }
-                            }
-                            .padding(.vertical, 30)
+                            KFImage(URL(string: img))
+                                .placeholder {
+                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                        .overlay {
+                                            Circle().stroke(Color.LineAlternative)
+                                        }
+                                }
+                                .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200)))
+                                .cacheMemoryOnly()
+                                .fade(duration: 0.25)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .padding(.vertical, 30)
                         } else if selectedUIImage != nil{
                             Image(uiImage: selectedUIImage ?? .init())
                                 .resizable()
