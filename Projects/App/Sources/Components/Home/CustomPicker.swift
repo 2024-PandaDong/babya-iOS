@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 enum CurrentTab {
     case before, after
@@ -71,15 +72,25 @@ struct CustomPicker: View {
                     
                     if fileURL != nil {
                         Link(destination: URL(string: viewModel.bannerResponse.data[index].url)!) {
-                            AsyncImage(url: URL(string: fileURLString ?? "")) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 250)
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(height: 250)
+//                            AsyncImage(url: URL(string: fileURLString ?? "")) { image in
+//                                image
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 250)
+//                            } placeholder: {
+//                                ProgressView()
+//                            }
+//                            .frame(height: 250)
+                            KFImage(URL(string: fileURLString ?? ""))
+                                .placeholder {
+                                    ProgressView()
+                                }
+                                .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 500, height: 500)))
+                                .cacheMemoryOnly()
+                                .fade(duration: 0.25)
+                                .resizable()
+                                .frame(maxWidth: .infinity, minHeight: 250, maxHeight: 250)
+                                .aspectRatio(contentMode: .fill)
                         }
                     } else {
                         RoundedRectangle(cornerRadius: 10)
@@ -93,7 +104,6 @@ struct CustomPicker: View {
                     }
                 }
             }
-            .tint(Color.PrimaryLight)
             .tabViewStyle(PageTabViewStyle())
             .indexViewStyle(PageIndexViewStyle())
             .frame(width: UIScreen.main.bounds.width, height: 230)
