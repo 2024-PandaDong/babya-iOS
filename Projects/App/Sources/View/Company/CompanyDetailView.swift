@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FlowKit
+import Kingfisher
 
 struct CompanyDetailView: View {
     @GestureState private var dragOffset = CGSize.zero
@@ -23,21 +24,33 @@ struct CompanyDetailView: View {
             ScrollView {
                 VStack {
                     if let imageUrl = URL(string: vm.companyInfo?.contentImg ?? "dummy"){
-                        AsyncImage(url: imageUrl) { image in
-                            image
-                                .resizable()
-                        } placeholder: {
-                            if let image = vm.companyInfo?.contentImg {
-                                AsyncImage(url: URL(string: image)) { image in
-                                    image.image?
-                                        .resizable()
-                                }
-                            } else {
-                              ProgressView()
+//                        AsyncImage(url: imageUrl) { image in
+//                            image
+//                                .resizable()
+//                        } placeholder: {
+//                            if let image = vm.companyInfo?.contentImg {
+//                                AsyncImage(url: URL(string: image)) { image in
+//                                    image.image?
+//                                        .resizable()
+//                                }
+//                            } else {
+//                              ProgressView()
+//                            }
+//                        }
+//                        .frame(maxWidth: .infinity)
+//                        .frame(height: 190)
+                        KFImage(imageUrl)
+                            .placeholder {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 190)
                             }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 190)
+                            .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 600, height: 380)))
+                            .cacheMemoryOnly()
+                            .fade(duration: 0.25)
+                            .resizable()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 190)
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {

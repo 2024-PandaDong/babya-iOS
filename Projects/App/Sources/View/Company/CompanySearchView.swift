@@ -94,10 +94,6 @@ struct CompanySearchView: View {
             profileVM.getMyProfile()
         }
         .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: $showLocationView) {
-            LocationView()
-                .environmentObject(viewModel)
-        }
         .gesture(DragGesture().updating($dragOffset) { (value, state, transaction) in
             if (value.startLocation.x < 30 && value.translation.width > 100) {
                 self.presentationMode.wrappedValue.dismiss()

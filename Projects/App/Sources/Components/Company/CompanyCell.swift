@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CompanyCell: View {
     let title: String
@@ -17,6 +18,7 @@ struct CompanyCell: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)
                     .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(.black)
                 
                 Text(location)
                     .font(.system(size: 12, weight: .medium))
@@ -32,12 +34,18 @@ struct CompanyCell: View {
                     RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
                     
                     if image != "dummy" {
-                        AsyncImage(url: URL(string: image)) { image in
-                            image.image?
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                        }
+                        KFImage(URL(string: image))
+                            .placeholder {
+                                ProgressView()
+                                    .frame(width: 60, height: 60)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                            }
+                            .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 120, height: 120)))
+                            .cacheMemoryOnly()
+                            .fade(duration: 0.25)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 60, height: 60)
                     } else {
                         Image("\(image)")
                             .resizable()
@@ -46,7 +54,6 @@ struct CompanyCell: View {
                     }
                 }
         }
-        .tint(.black)
         .padding(.vertical, 5)
         .padding(.horizontal, 15)
     }

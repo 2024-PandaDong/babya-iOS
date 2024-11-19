@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CompanyRowCell: View {
     let title: String
@@ -42,14 +43,19 @@ struct CompanyRowCell: View {
                     .overlay {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.LineNormal)
                         if let imageUrl = URL(string: images){
-                            AsyncImage(url: imageUrl) { image in
-                                image
-                                    .resizable()
-                            } placeholder: {
-                                ProgressView()
-                            }
-                            .frame(width: 60, height: 60)
-                            .cornerRadius(8, corners: .allCorners)
+                            KFImage(imageUrl)
+                                .placeholder {
+                                    ProgressView()
+                                        .frame(width: 60, height: 60)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                }
+                                .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 120, height: 120)))
+                                .cacheMemoryOnly()
+                                .fade(duration: 0.25)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                     }
             }
