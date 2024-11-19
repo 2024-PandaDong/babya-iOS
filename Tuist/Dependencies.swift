@@ -22,6 +22,10 @@ let dependencies = Dependencies(
         .remote(
             url: "https://github.com/Mercen-Lee/FlowKit",
             requirement: .branch("main")
+        ),
+        .remote(
+            url: "https://github.com/onevcat/Kingfisher",
+            requirement: .upToNextMajor(from: "8.0.0")
         )
     ],
     platforms: [.iOS]
