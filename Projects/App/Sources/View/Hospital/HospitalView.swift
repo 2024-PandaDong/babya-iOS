@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import KakaoMapsSDK
-import KakaoMapsSDK_SPM
 
 struct HospitalView: View {
     @State var draw: Bool = false
