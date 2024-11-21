@@ -13,14 +13,7 @@ struct HospitalView: View {
     @State var draw: Bool = false
     
     var body: some View {
-        KakaoMapsView(draw: $draw)
-            .onAppear {
-                self.draw = true
-            }
-            .onDisappear {
-                self.draw = false
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        Text("병원찾기")
     }
 }
 
