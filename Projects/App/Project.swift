@@ -9,7 +9,7 @@ let project = Project(
         .remote(url: "https://github.com/NuPlay/RichText", requirement: .upToNextMajor(from: "2.0.0")),
         .remote(url: "https://github.com/Mercen-Lee/FlowKit", requirement: .branch("main")),
         .remote(url: "https://github.com/onevcat/Kingfisher", requirement: .upToNextMajor(from: "8.0.0")),
-        .remote(url: "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git", requirement: .upToNextMajor(from: "2.12.1"))
+        .remote(url: "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM", requirement: .upToNextMajor(from: "2.12.0"))
     ],
     settings: .settings(
         configurations: [
@@ -26,7 +26,7 @@ let project = Project(
             infoPlist: .file(path: "Support/Info.plist"),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
-            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage"), .package(product: "RichText"), .package(product: "FlowKit"), .package(product: "Kingfisher"), .package(product: "KakaoMapsSDK")]
+            dependencies: [.package(product: "Alamofire"), .package(product: "AlamofireImage"), .package(product: "RichText"), .package(product: "FlowKit"), .package(product: "Kingfisher"), .package(product: "KakaoMapsSDK-SPM")]
         )
     ],
     schemes: [

@@ -1,10 +1,12 @@
 import SwiftUI
+import FlowKit
 
 struct HomeView: View {
     @StateObject var homeVM = HomeViewModel()
     @StateObject var policyVM = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
     @StateObject var companyVM: CompanyViewModel = .init(companyService: RemoteCompanyService())
+    @Flow var flow
     
     var body: some View {
         ZStack {
@@ -14,6 +16,12 @@ struct HomeView: View {
                 
                 Divider()
                     .padding(.top, -8)
+                
+                Button {
+                    flow.push(HospitalView(), animated: false)
+                } label: {
+                    Text("지도 보기")
+                }
                 
                 HStack {
                     Text("인기 있는 회사")

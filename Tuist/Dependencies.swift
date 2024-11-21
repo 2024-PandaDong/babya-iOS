@@ -28,8 +28,8 @@ let dependencies = Dependencies(
             requirement: .upToNextMajor(from: "8.0.0")
         ),
         .remote(
-            url: "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git",
-            requirement: .upToNextMajor(from: "2.12.1")
+            url: "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM",
+            requirement: .upToNextMajor(from: "2.12.0")
         )
     ],
     platforms: [.iOS]
