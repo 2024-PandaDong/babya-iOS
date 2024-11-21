@@ -26,6 +26,10 @@ let dependencies = Dependencies(
         .remote(
             url: "https://github.com/onevcat/Kingfisher",
             requirement: .upToNextMajor(from: "8.0.0")
+        ),
+        .remote(
+            url: "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git",
+            requirement: .upToNextMajor(from: "2.12.1")
         )
     ],
     platforms: [.iOS]

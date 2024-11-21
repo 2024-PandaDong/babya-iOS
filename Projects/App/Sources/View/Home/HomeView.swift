@@ -13,7 +13,7 @@ struct HomeView: View {
                     .padding(.top,-20)
                 
                 Divider()
-                    .padding(.top, -16)
+                    .padding(.top, -8)
                 
                 HStack {
                     Text("인기 있는 회사")
