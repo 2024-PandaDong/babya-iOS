@@ -85,11 +85,11 @@ struct CompanySearchView: View {
         .task {
             await vm.getCompany(pageRequest: PageRequest(page: 1, size: 10))
         }
-        .onChange(of: nowPage, perform: { value in
+        .onChange(of: nowPage) {
             Task{
                 await vm.getCompany(pageRequest: PageRequest(page: 1 , size: count + 10))
             }
-        })
+        }
         .onAppear {
             profileVM.getMyProfile()
         }

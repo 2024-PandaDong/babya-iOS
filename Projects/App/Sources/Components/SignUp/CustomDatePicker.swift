@@ -49,10 +49,10 @@ struct CustomDatePicker: View {
                                 .datePickerStyle(WheelDatePickerStyle())
                                 .labelsHidden()
                                 .presentationDetents([.fraction(0.35)])
-                                .onChange(of: date, perform: { value in
-                                    target = dateFormatter.string(from: value)
+                                .onChange(of: date) { 
+                                    target = dateFormatter.string(from: date)
                                     print(target)
-                                })
+                                }
                         } else {
                             DatePicker("", selection: $date, displayedComponents: .date)
                                 .datePickerStyle(WheelDatePickerStyle())

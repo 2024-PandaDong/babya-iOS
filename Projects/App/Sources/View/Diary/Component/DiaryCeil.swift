@@ -8,13 +8,14 @@
 
 import Foundation
 import SwiftUI
+import Kingfisher
 
 struct DiaryCeil: View {
     var ProfileImage: String
     var Title: String
     var UserName: String
     var Date: String
-
+    
     var body: some View {
         VStack {
             Rectangle()
@@ -28,16 +29,20 @@ struct DiaryCeil: View {
                 .overlay {
                     ZStack {
                         VStack(alignment: .leading) {
-                            if let imageUrl = URL(string: ProfileImage) {
-                                CachedAsyncImage(url: imageUrl) { image in
-                                    image
-                                        .resizable()
-                                        .overlay(overlayView)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 100)
-                                .cornerRadius(10, corners: [.topLeft, .topRight])
-                            }
+                                KFImage(URL(string: ProfileImage))
+                                    .placeholder {
+                                        ProgressView()
+                                            .frame(maxWidth: .infinity)
+                                            .frame(height: 100)
+                                            .cornerRadius(10, corners: [.topLeft, .topRight])
+                                    }
+                                    .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 500, height: 108)))
+                                    .cacheMemoryOnly()
+                                    .fade(duration: 0.25)
+                                    .resizable()
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 100)
+                                    .cornerRadius(10, corners: [.topLeft, .topRight])
                             
                             VStack(alignment: .leading) {
                                 Text(Title)

@@ -33,22 +33,25 @@ struct DetailDiaryView : View {
                     VStack(alignment: .leading){
                         ScrollView(showsIndicators: false){
                             VStack(alignment: .leading){
-                                if let fileImage = Diary.files.first??.url,let imageUrl = URL(string: fileImage){
-                                    AsyncImage(url: imageUrl) { image in
-                                        image
-                                            .resizable()
-                                    } placeholder: {
-                                        ProgressView()
+                                if let imageUrl = URL(string: Diary.files.first??.url ?? "dummy"){
+                                    if let fileImage = Diary.files.first??.url,let imageUrl = URL(string: fileImage){
+                                        AsyncImage(url: imageUrl) { image in
+                                            image
+                                                .resizable()
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 200)
+                                        .cornerRadius(10)
+                                        .padding(.horizontal,15)
                                     }
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 200)
-                                    .cornerRadius(10)
-                                    .padding(.horizontal,15)
                                 }
+                                
                                 Text(Diary.title)
                                     .font(.system(size: 16,weight: .medium))
                                     .foregroundStyle(Color.black)
-//                                    .padding(.vertical,9)
+                                    .padding(.vertical,9)
                                     .padding(.horizontal,15)
                                 
                                 HStack{
@@ -66,7 +69,6 @@ struct DetailDiaryView : View {
                                 .padding(.vertical,5)
                                 
                                 if Diary.isPublic == "N"{
-                                    
                                     VStack(alignment: .leading ,spacing: 15){
                                         HStack{
                                             VStack(alignment: .center,spacing: 5) {
@@ -128,9 +130,6 @@ struct DetailDiaryView : View {
                                     .padding(.horizontal,15)
                                     .padding(.vertical,10)
                                 }
-                                
-//                                TextTitleStyle(Title: Text("본문"))
-//                                    .padding(.vertical,7)
                                 
                                 TextContentStyle(content: Text(Diary.content))
                                     .padding(.bottom,10)
@@ -219,9 +218,7 @@ struct DetailDiaryView : View {
                         }
                     }
             }
-            //do : 대댓글 페이징 처리
             .navigationBarBackButtonHidden()
-//            .navigationTitle(Diary.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){

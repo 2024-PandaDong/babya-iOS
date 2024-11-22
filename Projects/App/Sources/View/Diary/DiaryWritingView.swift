@@ -276,8 +276,8 @@ struct DiaryWritingView : View {
         .onAppear {
             updateFormattedDate()
         }
-        .onChange(of: selectedDateTitle) { newValue in
-            if !newValue {
+        .onChange(of: selectedDateTitle) {
+            if !selectedDateTitle {
                 updateFormattedDate()
             }
         }

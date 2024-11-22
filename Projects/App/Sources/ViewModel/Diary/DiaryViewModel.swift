@@ -132,7 +132,7 @@ class DiaryViewModel: ObservableObject {
         } catch {
             print(error)
         }
-    }// Do : comment fetch 구현 페이징 처리 
+    }
     
     func fetchDiary(pageRequest : PageRequest) async {
         do {
@@ -177,9 +177,7 @@ class DiaryViewModel: ObservableObject {
         do {
             let response = try await diaryService.getSubComment(pageRequest: pageRequest, parentId: parentId)
             if let data = response.data {
-                //                subcomment = data.compactMap { $0 }
                 subcomment.append(contentsOf: data)
-//                subcomment.insert(contentsOf: data, at: 0)
                 subcommentcount += data.count
             } else {
                 subcomment = []

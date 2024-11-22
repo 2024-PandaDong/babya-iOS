@@ -81,12 +81,10 @@ struct DiaryView : View {
                                     }else {
                                         if vm.diaryList[count].isPublic == "N" {
                                             flow.push(DetailDiaryView(vm: DiaryViewModel(diaryService: RemoteDiaryService()), Diary: vm.diaryList[count]),animated: false)
-
                                         }
                                     }
-                                }label: {
-                                    if Diary {
-                                        if vm.diaryList[count].isPublic == "Y" {
+                                } label: {
+                                        if Diary ? vm.diaryList[count].isPublic == "Y": vm.diaryList[count].isPublic == "N" {
                                             DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
                                                 .padding(.vertical, 9)
                                                 .padding(.horizontal,10)
@@ -97,20 +95,6 @@ struct DiaryView : View {
                                                     }
                                                 }
                                         }
-                                    }
-                                    if Diary == false {
-                                        if vm.diaryList[count].isPublic == "N" {
-                                            DiaryCeil(ProfileImage:vm.diaryList[count].files.first??.url ?? "baseProfile", Title: vm.diaryList[count].title, UserName: vm.diaryList[count].nickname ?? "알수없는사용자",Date: vm.diaryList[count].writtenDt)
-                                                .padding(.vertical, 9)
-                                                .padding(.horizontal,10)
-                                                .onAppear{
-                                                    print("카운트 :: \(count)")
-                                                    if count % 10 == 9 {
-                                                        nowPage += 1
-                                                    }
-                                                }
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -122,7 +106,6 @@ struct DiaryView : View {
                                 .frame(width: 180)
                                 .padding(.top,50)
                             
-                            
                             Text("산모일기가 존재하지 않아요.")
                                 .font(.system(size: 20, weight: .bold))
                         }
@@ -131,17 +114,6 @@ struct DiaryView : View {
             }
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)
-            //                .toolbar{
-            //                    ToolbarItem(placement: .navigationBarLeading) {
-            //                        Button {
-            //                            self.presentationMode.wrappedValue.dismiss()
-            //                        } label: {
-            //                            Image("arrow")
-            //                                .resizable()
-            //                                .frame(width: 18,height: 18)
-            //                        }
-            //                    }
-            //                }
             VStack{
                 Spacer()
                 HStack{
@@ -150,7 +122,7 @@ struct DiaryView : View {
                         .padding()
                 }
             }
-            .onChange(of: Diary) { value in
+            .onChange(of: Diary) {
                 nowPage = 1
                 Task {
                     if Diary {
@@ -170,7 +142,7 @@ struct DiaryView : View {
                     await vm.getNDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
                 }
             }
-            .onChange(of: nowPage, perform: { value in
+            .onChange(of: nowPage){
                 if All {
                     Task{
                         await vm.fetchListDiary(pageRequest:PageRequest(page: nowPage, size: 10))
@@ -180,8 +152,8 @@ struct DiaryView : View {
                         await vm.fetchDiary(pageRequest:PageRequest(page: nowPage, size: 10))
                     }
                 }
-            })
-            .onChange(of: All, perform: { value in
+            }
+            .onChange(of: All){
                 nowPage = 1
                 Diary = true
                 Task{
@@ -191,7 +163,7 @@ struct DiaryView : View {
                         await vm.getDiary(pageRequest: PageRequest(page: nowPage, size: 10), email: LoginUserHashCache.shared.checkEmail() ?? "")
                     }
                 }
-            })
+            }
         }
         .navigationBarBackButtonHidden()
         .toolbar {
