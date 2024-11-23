@@ -30,9 +30,6 @@ final class RemoteCompanyService : CompanyService{
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request( ApiContent.url + url, method: .get,interceptor: MyRequestInterceptor(authService: RemoteAuthService()))
-                .responseJSON { json in
-                    print(json)
-                }
                 .responseDecodable(of: Response<[CompanyResponse]>.self) { response in
                     switch response.result {
                     case .success(let responseData):

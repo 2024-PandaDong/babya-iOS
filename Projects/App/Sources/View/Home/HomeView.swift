@@ -1,27 +1,25 @@
 import SwiftUI
 import FlowKit
+import CoreLocation
 
 struct HomeView: View {
     @StateObject var homeVM = HomeViewModel()
     @StateObject var policyVM = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
     @StateObject var companyVM: CompanyViewModel = .init(companyService: RemoteCompanyService())
+    @StateObject var locationManager = LocationManager.shared
     @Flow var flow
     
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 CustomPicker()
-                    .padding(.top,-20)
+                    .padding(.top, -20)
                 
                 Divider()
                     .padding(.top, -8)
                 
-                Button {
-                    flow.push(HospitalView(), animated: false)
-                } label: {
-                    Text("지도 보기")
-                }
+                HomeMap(userName: profileVM.model.data.nickname)
                 
                 HStack {
                     Text("인기 있는 회사")
@@ -101,6 +99,18 @@ struct HomeView: View {
             policyVM.model = []
             profileVM.getMyProfile()
             profileVM.getMyRegion()
+            
+            // 위치 권한 요청
+            locationManager.requestAuthorization()
+        }
+        .onChange(of: locationManager.authorizationStatus) { status in
+            // 위치 권한 상태가 변경되면 위치를 받아옴
+            if status == .authorizedWhenInUse || status == .authorizedAlways {
+                locationManager.manager.startUpdatingLocation()
+            }
+        }
+        .onChange(of: locationManager.currentLocation) { location in
+            // 위치가 변경되면 처리하는 로직 (필요시 추가)
         }
         .padding(.top, -40)
     }
