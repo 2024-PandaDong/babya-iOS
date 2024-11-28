@@ -11,7 +11,7 @@ struct HomeView: View {
     @StateObject var locationManager = LocationManager.shared
     @Flow var flow
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 37.5665, longitude: 126.9780), // 서울 시청
+        center: CLLocationCoordinate2D(latitude: 37.51187700748316, longitude: 127.05982257447918),
         span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     )
     
