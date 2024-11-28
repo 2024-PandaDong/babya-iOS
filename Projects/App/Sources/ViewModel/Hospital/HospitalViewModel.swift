@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 
 class HospitalViewModel: ObservableObject {
-    @Published var model = HospitalModel()
+    @Published var model = HospitalResponse()
     
     static let shared = HospitalViewModel()
     
@@ -36,7 +36,7 @@ class HospitalViewModel: ObservableObject {
             .responseJSON { json in
                 print(json)
             }
-            .responseDecodable(of: HospitalModel.self) { response in
+            .responseDecodable(of: HospitalResponse.self) { response in
                 switch response.result {
                 case .success(let data):
                     self.model = data
@@ -45,5 +45,4 @@ class HospitalViewModel: ObservableObject {
                 }
             }
     }
-
 }

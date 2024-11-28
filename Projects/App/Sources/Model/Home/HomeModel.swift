@@ -31,3 +31,4 @@ struct BannerImage: Codable {
     var `extension`: String = ""
     var url: String = ""
 }
+
