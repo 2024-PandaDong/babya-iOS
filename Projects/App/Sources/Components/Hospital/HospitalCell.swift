@@ -13,18 +13,26 @@ struct HospitalCell: View {
     let tel: String
     let distance: String
     let address: String
-    let id: String
+    let x: String
+    let y: String
+    @State var showAlert: Bool = false
     
     var body: some View {
         Button {
-            let url = URL(string: "kakaomap://place?id=\(id)")!
-            let appStoreURL = URL(string: "https://apps.apple.com/kr/app/%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%A7%B5-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD-no-1-%EC%A7%80%EB%8F%84%EC%95%B1/id304608425")!
-            
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url) // 카카오맵으로 이동
-            } else {
-                UIApplication.shared.open(appStoreURL) // 카카오맵 미설치 시 앱스토어로 이동
-            }
+            let encodedY = y.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                let encodedX = x.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                let kakaoURLString = "kakaomap://look?p=\(encodedY),\(encodedX)"
+                let appStoreURL = URL(string: "https://apps.apple.com/kr/app/%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%A7%B5-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD-no-1-%EC%A7%80%EB%8F%84%EC%95%B1/id304608425")
+
+                if let kakaoURL = URL(string: kakaoURLString) {
+                    if UIApplication.shared.canOpenURL(kakaoURL) {
+                        UIApplication.shared.open(kakaoURL)
+                    } else {
+                        self.showAlert = true
+                    }
+                } else {
+                    self.showAlert = true
+                }
         } label: {
             VStack(spacing: 0) {
                 Group {
@@ -63,7 +71,7 @@ struct HospitalCell: View {
                                 }
                                 
                                 HStack(spacing: 15) {
-                                    Text(convertMetersToKilometers(meters: Double(distance) ?? 0))
+                                    Text(distance == "" ? "알 수 없음" : convertMetersToKilometers(meters: Double(distance) ?? 0))
                                         .font(.system(size: 12, weight: .bold))
                                         .foregroundStyle(.black)
                                     
@@ -82,6 +90,11 @@ struct HospitalCell: View {
                 .padding(.horizontal, 25)
             }
         }
+        .alert("카카오맵을 설치해주세요.", isPresented: $showAlert) {
+            Button("확인", role: .cancel) {
+                
+            }
+        }
     }
     
     func convertMetersToKilometers(meters: Double) -> String {
@@ -91,5 +104,5 @@ struct HospitalCell: View {
 }
 
 #Preview {
-    HospitalCell(name: "병원", category: "산부인과", tel: "010-8262-2620", distance: "멀어요", address: "우리집", id: "ddd")
+    HospitalCell(name: "병원", category: "산부인과", tel: "010-8262-2620", distance: "멀어요", address: "우리집", x: "", y: "")
 }

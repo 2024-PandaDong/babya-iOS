@@ -1,6 +1,7 @@
 import Foundation
 import Alamofire
 import CoreLocation
+import MapKit
 
 class HospitalViewModel: ObservableObject {
     @Published var model = HospitalResponse()
@@ -19,20 +20,20 @@ class HospitalViewModel: ObservableObject {
         }
 
         let urlString = "https://dapi.kakao.com/v2/local/search/keyword.json"
+        let keyword = keyword
+        let radius = 5000
 
         let parameters: [String: Any] = [
             "query": keyword,
-            "x": "\(latitude)",
-            "y": "\(longitude)",
-            "radius": 5000,
+            "x": longitude,
+            "y": latitude,
+            "radius": radius,
             "sort": "distance"
         ]
 
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK \(apiKey)"
         ]
-        
-        print("Fetching hospitals at: Latitude \(latitude), Longitude \(longitude)")
 
         AF.request(urlString, method: .get, parameters: parameters, headers: headers)
             .responseJSON { json in

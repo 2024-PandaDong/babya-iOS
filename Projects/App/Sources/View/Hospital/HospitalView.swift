@@ -53,12 +53,6 @@ struct HospitalView: View {
                         }
                     }
                     .edgesIgnoringSafeArea(.all)
-                    .onAppear {
-                        if let location = locationManager.currentLocation {
-                            region.center = location.coordinate
-                        }
-                        viewModel.getHospital(latitude: region.center.latitude, longitude: region.center.longitude, keyword: "산부인과")
-                    }
                 }
             }
             .navigationBarBackButtonHidden()
@@ -82,8 +76,11 @@ struct HospitalView: View {
                     Button {
                         withAnimation {
                             self.currentTab = "산부인과"
-                            viewModel.getHospital(latitude: region.center.latitude, longitude: region.center.longitude, keyword: "산부인과")
                             self.showSheet = true
+                        }
+                        if let location = locationManager.currentLocation {
+                            region.center = location.coordinate
+                            viewModel.getHospital(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, keyword: "산부인과")
                         }
                     } label: {
                         Capsule()
@@ -111,8 +108,11 @@ struct HospitalView: View {
                     Button {
                         withAnimation {
                             self.currentTab = "응급실"
-                            viewModel.getHospital(latitude: region.center.latitude, longitude: region.center.longitude, keyword: "응급실 병원")
                             self.showSheet = true
+                        }
+                        if let location = locationManager.currentLocation {
+                            region.center = location.coordinate
+                            viewModel.getHospital(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, keyword: "응급실 병원")
                         }
                     } label: {
                         Capsule()
@@ -210,7 +210,8 @@ struct HospitalView: View {
                             tel: viewModel.model.documents?[index].phone ?? "알 수 없음",
                             distance: viewModel.model.documents?[index].distance ?? "알 수 없음",
                             address: viewModel.model.documents?[index].road_address_name ?? "알 수 없음",
-                            id: viewModel.model.documents?[index].id ?? "알 수 없음"
+                            x: viewModel.model.documents?[index].x ?? "",
+                            y: viewModel.model.documents?[index].y ?? ""
                         )
                     }
                 }
@@ -221,6 +222,16 @@ struct HospitalView: View {
             .presentationDetents([.medium, .large])
             .presentationBackgroundInteraction(.enabled)
         }
+        .onAppear {
+            locationManager.requestAuthorization()
+            if let location = locationManager.currentLocation {
+                region.center = location.coordinate
+            }
+        }
+    }
+    private func updateRegionAndHospital(location: CLLocation) {
+        region.center = location.coordinate
+        viewModel.getHospital(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, keyword: currentTab)
     }
 }
 

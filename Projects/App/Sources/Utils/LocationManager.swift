@@ -1,44 +1,43 @@
-import Foundation
 import CoreLocation
+import Combine
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    var manager: CLLocationManager
-    @Published var currentLocation: CLLocation?
-    @Published var authorizationStatus: CLAuthorizationStatus
-    
     static let shared = LocationManager()
     
+    let manager = CLLocationManager()
+    @Published var currentLocation: CLLocation?
+    @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
+
     override init() {
-        self.manager = CLLocationManager()
-        self.authorizationStatus = manager.authorizationStatus
         super.init()
-        self.manager.delegate = self
-        self.manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     func requestAuthorization() {
-        if CLLocationManager.locationServicesEnabled() {
-            DispatchQueue.main.async {
-                self.manager.requestWhenInUseAuthorization()
-            }
+        manager.requestWhenInUseAuthorization()
+    }
+    
+    func startUpdatingLocation() {
+        manager.startUpdatingLocation()
+    }
+    
+    func stopUpdatingLocation() {
+        manager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        authorizationStatus = status
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            manager.startUpdatingLocation()
+        } else {
+            manager.stopUpdatingLocation()
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let newLocation = locations.last else { return }
-        self.currentLocation = newLocation
-        print("New Location: \(newLocation)")
-    }
-
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error: \(error.localizedDescription)")
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        self.authorizationStatus = manager.authorizationStatus
-        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
-            manager.startUpdatingLocation()
+        if let location = locations.last {
+            currentLocation = location
         }
     }
 }

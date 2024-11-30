@@ -4,6 +4,7 @@ import CoreLocation
 import FlowKit
 
 struct HomeView: View {
+    @StateObject var hospitalVM = HospitalViewModel.shared
     @StateObject var homeVM = HomeViewModel.shared
     @StateObject var policyVM = PolicyViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
@@ -106,7 +107,6 @@ struct HomeView: View {
             await companyVM.getCompany(pageRequest: PageRequest(page: 1, size: 3))
         }
         .onAppear {
-            policyVM.model = []
             profileVM.getMyProfile()
             profileVM.getMyRegion()
             
@@ -130,7 +130,7 @@ struct HomeView: View {
     
     private func updateRegionAndHospital(location: CLLocation) {
         region.center = location.coordinate
-        homeVM.getHospital(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        hospitalVM.getHospital(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, keyword: "산부인과")
     }
 }
 
@@ -138,6 +138,7 @@ struct HospitalSection: View {
     @Binding var region: MKCoordinateRegion
     @StateObject var homeVM = HomeViewModel.shared
     @StateObject var profileVM = ProfileViewModel.shared
+    @StateObject var hospitalVM = HospitalViewModel.shared
     @Flow var flow
     
     var body: some View {
@@ -157,7 +158,7 @@ struct HospitalSection: View {
                         VStack {
                             Spacer()
                             HStack {
-                                Text(homeVM.hospitalResonse.documents?.first?.place_name ?? "불러오는 중...")
+                                Text(hospitalVM.model.documents?.first?.place_name ?? "불러오는 중...")
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 8)
